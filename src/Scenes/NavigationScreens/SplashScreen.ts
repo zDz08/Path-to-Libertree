@@ -36,7 +36,7 @@ export default class SplashScreen extends Scene {
         logo.scale.set(1,1);
         logo.position.copy(new Vec2(size.x, size.y-80));
         
-        let gameName = <Label>this.add.uiElement(UIElementType.LABEL, "SplashScreen", {position: new Vec2(size.x, size.y+108), text: "Path to Libertree"});
+        let gameName = <Label>this.add.uiElement(UIElementType.LABEL, "SplashScreen", {position: new Vec2(size.x, size.y+105), text: "Path to Libertree"});
         gameName.font = "BlackChancery";
         gameName.textColor = Color.WHITE;
         gameName.fontSize = 67;
@@ -44,7 +44,7 @@ export default class SplashScreen extends Scene {
         const buttonHeight = 50;
         let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create start button
-        let startBtn = buttonFactory.makeButton(this.add, "SplashScreen", new Vec2(size.x, size.y+183), "Begin Journey");
+        let startBtn = buttonFactory.makeButton(this.add, "SplashScreen", new Vec2(size.x, size.y+175), "Begin Journey");
 
         // Scene has started, so start playing music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
