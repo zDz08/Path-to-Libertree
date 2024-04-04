@@ -1,5 +1,6 @@
 import Game from "./Wolfie2D/Loop/Game";
 import MainMenu from "./Scenes/NavigationScreens/MainMenu";
+import SplashScreen from "./Scenes/NavigationScreens/SplashScreen";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
@@ -23,7 +24,7 @@ import MainMenu from "./Scenes/NavigationScreens/MainMenu";
     const game = new Game(options);
 
     // Start our game
-    game.start(MainMenu, {});
+    game.start(SplashScreen, {});
 })();
 
 function runTests(){};
