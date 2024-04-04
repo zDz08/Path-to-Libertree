@@ -1,10 +1,7 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
-import Color from "../../Wolfie2D/Utils/Color";
 import ButtonFactory from "./ButtonFactory";
 
 export default class MainMenu extends Scene {
@@ -16,7 +13,7 @@ export default class MainMenu extends Scene {
 
     startScene(): void {
         this.addUILayer("Main");
-        this.addLayer("MainBackground", 0);
+        this.addLayer("Background", 0);
 
         // Center the viewport
         let size = this.viewport.getHalfSize();
@@ -24,9 +21,9 @@ export default class MainMenu extends Scene {
 
         this.viewport.setZoomLevel(1);
 
-        let bg = <Label>this.add.uiElement(UIElementType.LABEL, "Main", {position: size, text: ""});
-        bg.size.set(size.x*2,size.y*2);
-        bg.backgroundColor = new Color(38, 70, 12);
+        let bg = this.add.sprite("screenBg", "Background");
+        bg.scale.set(2,2);
+        bg.position.copy(this.viewport.getCenter());
 
         const buttonWidth = 227;
         const buttonHeight = 50;

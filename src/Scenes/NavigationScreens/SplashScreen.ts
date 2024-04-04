@@ -6,6 +6,7 @@ import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import ButtonFactory from "./ButtonFactory";
+import MainMenu from "./MainMenu";
 
 export default class SplashScreen extends Scene {
 
@@ -45,13 +46,16 @@ export default class SplashScreen extends Scene {
         let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create start button
         let startBtn = buttonFactory.makeButton(this.add, "SplashScreen", new Vec2(size.x, size.y+175), "Begin Journey");
-
+        startBtn.onClick = () => {
+            this.sceneManager.changeToScene(MainMenu, {});
+        }
         // Scene has started, so start playing music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
     }
 
     unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
+        this.resourceManager.keepImage("screenBg");
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menu"});
     }
 }
