@@ -14,7 +14,7 @@ export default class Levels extends Scene {
     animatedSprite: AnimatedSprite;
 
     loadScene(): void {
-        // this.load.image("screenBg", "assets/sprites/screenBackground.png");
+        this.load.image("screenBg", "assets/sprites/screenBackground.png");
     }
 
     startScene(): void {
@@ -27,11 +27,11 @@ export default class Levels extends Scene {
 
         this.viewport.setZoomLevel(1);
 
-        // let bg = this.add.sprite("screenBg", "Background");
-        // bg.scale.set(2,2);
-        // bg.position.copy(this.viewport.getCenter());
+        let bg = this.add.sprite("screenBg", "Background");
+        bg.scale.set(2,2);
+        bg.position.copy(this.viewport.getCenter());
 
-        let levelsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "Levels", {position: new Vec2(size.x, size.y-180), text: "Levels"});
+        let levelsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "Levels", {position: new Vec2(size.x, size.y-190), text: "Levels"});
         levelsLabel.textColor = Color.WHITE;
         levelsLabel.fontSize = 64;
         levelsLabel.font = "BlackChancery";
@@ -49,7 +49,7 @@ export default class Levels extends Scene {
         let level4 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
         let level5 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
         let level6 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y+yspacing), "Six");
-        let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+180), "Return");
+        let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+190), "Return");
         returnBtn.onClick = () => {
             this.sceneManager.changeToScene(MainMenu, {});
         }
