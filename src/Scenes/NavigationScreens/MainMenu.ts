@@ -2,7 +2,7 @@ import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
-import ButtonFactory from "./ButtonFactory";
+import ButtonFactory from "../../UIElements/ButtonFactory";
 
 export default class MainMenu extends Scene {
 

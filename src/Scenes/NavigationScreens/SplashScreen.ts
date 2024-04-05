@@ -5,7 +5,7 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
-import ButtonFactory from "./ButtonFactory";
+import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 
 export default class SplashScreen extends Scene {
@@ -41,7 +41,7 @@ export default class SplashScreen extends Scene {
         gameName.font = "BlackChancery";
         gameName.textColor = Color.WHITE;
         gameName.fontSize = 67;
-        const buttonWidth = 227;
+        const buttonWidth = 223;
         const buttonHeight = 50;
         let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create start button
