@@ -25,7 +25,7 @@ import Levels from "./Scenes/NavigationScreens/Levels";
     const game = new Game(options);
 
     // Start our game
-    game.start(Levels, {});
+    game.start(SplashScreen, {});
 })();
 
 function runTests(){};
