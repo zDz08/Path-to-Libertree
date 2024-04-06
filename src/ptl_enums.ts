@@ -5,4 +5,6 @@ export enum PTL_Events {
     LEVEL_END = "LevelEnd",
     PLAYER_KILLED = "PlayerKilled",
     SUIT_COLOR_CHANGE = "SuitColorChange",
+    PLAYER_ON_PLATFORM = "PlayerOnPlatform",
+    SPAWN_PLATFORM = "SpawnPlatform"
 }

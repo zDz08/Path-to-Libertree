@@ -59,11 +59,12 @@ export default class Levels extends Scene {
 
             let sceneOptions = {
                 physics: {
-                    groupNames: ["ground", "player"],
+                    groupNames: ["ground", "player", "platform"],
                     collisions:
                     [
                         [0, 1, 1],
-                        [1, 0, 0]
+                        [1, 0, 1],
+                        [1, 1, 0]
                     ]
                 }
             }

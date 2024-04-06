@@ -14,6 +14,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
+import PlatformController from "../../Platforms/PlatformController";
 import { PTL_Color } from "../../ptl_color";
 import { PTL_Events } from "../../ptl_enums";
 import PTL_ParticleSystem from "../../ptl_ParticleSystem";
@@ -100,6 +101,17 @@ export default class GameLevel extends Scene {
             
             switch(event.type){
 
+                case PTL_Events.PLAYER_ON_PLATFORM:
+                    {
+                        this.player.onGround = true;
+                    }
+                    break;
+
+                case PTL_Events.SPAWN_PLATFORM:
+                    {
+                        this.addPlatform("basic", new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32), {color: PTL_Color.GREEN});
+                    }
+
                 case PTL_Events.LEVEL_START:
                     {
                         // Re-enable controls
@@ -113,12 +125,12 @@ export default class GameLevel extends Scene {
                         if(this.nextLevel){
                             let sceneOptions = {
                                 physics: {
-                                    groupNames: ["ground", "player", "balloon"],
+                                    groupNames: ["ground", "player", "platform"],
                                     collisions:
                                     [
                                         [0, 1, 1],
-                                        [1, 0, 0],
-                                        [1, 0, 0]
+                                        [1, 0, 1],
+                                        [1, 1, 0]
                                     ]
                                 }
                             }
@@ -152,6 +164,9 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
                 this.suitChangeTimer.start();
             }
+            if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM);
+            }
         }
     }
 
@@ -180,7 +195,9 @@ export default class GameLevel extends Scene {
         this.receiver.subscribe([
             PTL_Events.LEVEL_START,
             PTL_Events.LEVEL_END,
-            PTL_Events.PLAYER_KILLED
+            PTL_Events.PLAYER_KILLED,
+            PTL_Events.PLAYER_ON_PLATFORM,
+            PTL_Events.SPAWN_PLATFORM
         ]);
     }
 
@@ -213,6 +230,16 @@ export default class GameLevel extends Scene {
         this.player.setGroup("player");
 
         this.viewport.follow(this.player);
+    }
+
+    protected addPlatform(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
+        let platform = this.add.animatedSprite(spriteKey, "primary");
+        platform.position.set(tilePos.x*32, tilePos.y*32);
+        platform.scale.set(0.3, 0.3);
+        platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 6)));
+        platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
+        platform.addAI(PlatformController, aiOptions);
+        platform.setGroup("platform");
     }
 
     /**
