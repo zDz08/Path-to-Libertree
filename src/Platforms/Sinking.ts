@@ -15,7 +15,7 @@ export default class Sinking extends PlatformState {
 
         this.parent.velocity.x = this.parent.direction.x * this.parent.speed;
 
-		//this.owner.move(this.parent.velocity.scaled(deltaT));
+		this.owner.move(this.parent.velocity.scaled(deltaT));
 	}
 
 	onExit(): Record<string, any> {

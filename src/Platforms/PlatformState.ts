@@ -24,6 +24,7 @@ export default abstract class PlatformState extends State {
 
 	handleInput(event: GameEvent): void {
 		if (event.type == PTL_Events.SUIT_COLOR_CHANGE) {
+			/*
 			let new_color = event.data.get("color");
 			if (this.parent.color == new_color){
 				this.finished(PlatformStates.SINKING);
@@ -49,6 +50,7 @@ export default abstract class PlatformState extends State {
 					}
 				} 
 			}
+			*/
 		}
 		if (event.type == PTL_Events.PLAYER_MOVE) {
 			this.playerPos = event.data.get("position");

@@ -8,3 +8,8 @@ export enum PTL_Events {
     PLAYER_ON_PLATFORM = "PlayerOnPlatform",
     SPAWN_PLATFORM = "SpawnPlatform"
 }
+
+export enum PTL_PlatformType {
+    BASIC = "Basic",
+    BOUNCY = "Bouncy"
+}

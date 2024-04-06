@@ -4,7 +4,7 @@ import { EaseFunctionType } from "./Wolfie2D/Utils/EaseFunctions";
 import RandUtils from "./Wolfie2D/Utils/RandUtils";
 import MathUtils from "./Wolfie2D/Utils/MathUtils";
 
-export default class HW5_ParticleSystem extends ParticleSystem {
+export default class ptl_ParticleSystem extends ParticleSystem {
 
     setParticleAnimation(particle: Particle) {
         particle.vel = RandUtils.randVec(-50, 50, -100, 100);

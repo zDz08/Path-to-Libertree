@@ -23,12 +23,16 @@ export default class OnGround extends PlayerState {
 		// we're moving left or right
 		if(Input.isJustPressed("jump")){
 			this.finished("jump");
-			this.parent.velocity.y = -500;
+			this.parent.velocity.y = -400;
 			if(this.parent.velocity.x !== 0){
 				this.owner.tweens.play("flip");
 			}
 		} else if(!this.owner.onGround){
 			this.finished("fall");
+			if(this.parent.onBouncy)
+				this.parent.onBouncy = false;
+		} else if(this.parent.onBouncy) {
+			this.parent.velocity.y = -500;
 		}
 	}
 

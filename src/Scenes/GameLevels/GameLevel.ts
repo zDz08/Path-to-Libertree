@@ -16,7 +16,7 @@ import Color from "../../Wolfie2D/Utils/Color";
 import { EaseFunctionType } from "../../Wolfie2D/Utils/EaseFunctions";
 import PlatformController from "../../Platforms/PlatformController";
 import { PTL_Color } from "../../ptl_color";
-import { PTL_Events } from "../../ptl_enums";
+import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import PTL_ParticleSystem from "../../ptl_ParticleSystem";
 import PlayerController from "../../Player/PlayerController";
 import MainMenu from "../NavigationScreens/MainMenu";
@@ -56,6 +56,8 @@ export default class GameLevel extends Scene {
     protected totalSwitches: number;
     protected switchLabel: Label;
     protected switchesPressed: number;
+
+    protected currentPlatformType: string;
 
     startScene(): void {
         this.balloonsPopped = 0;
@@ -103,14 +105,25 @@ export default class GameLevel extends Scene {
 
                 case PTL_Events.PLAYER_ON_PLATFORM:
                     {
-                        this.player.onGround = true;
+                        let node = this.sceneGraph.getNode(event.data.get("node"));
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+
+                        if(node === this.player){
+                            // Node is player, other is balloon
+                            this.handlePlayerPlatformCollision(<AnimatedSprite>node, <AnimatedSprite>other);
+                        } else {
+                            // Other is player, node is balloon
+                            this.handlePlayerPlatformCollision(<AnimatedSprite>other,<AnimatedSprite>node);
+
+                        }
                     }
                     break;
 
                 case PTL_Events.SPAWN_PLATFORM:
                     {
-                        this.addPlatform("basic", new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32), {color: PTL_Color.GREEN});
+                        this.addPlatform(this.currentPlatformType, new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32), {type: event.data.get("type")});
                     }
+                    break;
 
                 case PTL_Events.LEVEL_START:
                     {
@@ -164,8 +177,20 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
                 this.suitChangeTimer.start();
             }
-            if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM);
+            if (Input.isKeyJustPressed("z")) {
+                this.currentPlatformType = "basic";
+                this.suitChangeTimer.start();
+            }
+            if (Input.isKeyJustPressed("x")) {
+                this.currentPlatformType = "bouncy";
+                this.suitChangeTimer.start();
+            }
+        }
+        if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
+            if(this.currentPlatformType == "basic") {
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type:PTL_PlatformType.BASIC});
+            }else if(this.currentPlatformType == "bouncy") {
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type:PTL_PlatformType.BOUNCY});
             }
         }
     }
@@ -240,6 +265,16 @@ export default class GameLevel extends Scene {
         platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
         platform.addAI(PlatformController, aiOptions);
         platform.setGroup("platform");
+    }
+
+    protected handlePlayerPlatformCollision(player: AnimatedSprite, platform: AnimatedSprite) {
+        if(platform) {
+            if((<PlatformController>platform.ai).type == PTL_PlatformType.BOUNCY) {
+                (<PlayerController>player.ai).onBouncy = true;
+            }else {
+                this.player.onGround = true;
+            }
+        }
     }
 
     /**

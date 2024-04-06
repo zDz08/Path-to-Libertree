@@ -38,6 +38,7 @@ export default class PlayerController extends StateMachineAI {
     suitColor: PTL_Color;
     tilePos: Vec2;
     tileIndex: number;
+    onBouncy: boolean;
 
     // HOMEWORK 5 - TODO
     /**
