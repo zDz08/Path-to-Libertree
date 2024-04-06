@@ -3,12 +3,16 @@ import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import ButtonFactory from "../../UIElements/ButtonFactory";
+import Levels from "./Levels";
+import Help from "./Help";
+import Controls from "./Controls";
 
 export default class MainMenu extends Scene {
 
     animatedSprite: AnimatedSprite;
 
     loadScene(): void {
+        this.load.image("screenBg", "assets/sprites/screenBackground.png");
     }
 
     startScene(): void {
@@ -58,6 +62,17 @@ export default class MainMenu extends Scene {
             // this.sceneManager.changeToScene(Level, {}, sceneOptions);
         }
 
+        selectLvlBtn.onClick = () => {
+            this.sceneManager.changeToScene(Levels, {});
+        }
+
+        helpBtn.onClick = () => {
+            this.sceneManager.changeToScene(Help, {});
+        }
+        
+        controlsBtn.onClick = () => {
+            this.sceneManager.changeToScene(Controls, {});
+        }
         // Scene has started, so start playing music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
     }
