@@ -6,6 +6,7 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
+import Level1 from "../GameLevels/Level1";
 
 export default class Levels extends Scene {
 
@@ -50,6 +51,21 @@ export default class Levels extends Scene {
         let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+190), "Return");
         returnBtn.onClick = () => {
             this.sceneManager.changeToScene(MainMenu, {});
+        }
+
+        level1.onClick = () => {
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
+            }
+            this.sceneManager.changeToScene(Level1, {}, sceneOptions);
         }
     }
 

@@ -6,6 +6,7 @@ import ButtonFactory from "../../UIElements/ButtonFactory";
 import Levels from "./Levels";
 import Help from "./Help";
 import Controls from "./Controls";
+import Level1 from "../GameLevels/Level1";
 
 export default class MainMenu extends Scene {
 
@@ -41,25 +42,18 @@ export default class MainMenu extends Scene {
     
         // When the play button is clicked, go to the next scene
         playBtn.onClick = () => {
-            /*
-                Init the next scene with physics collisions:
-
-                          ground  player  balloon 
-                ground    No      --      -- 
-                player    Yes      No      --  
-                balloon   Yes      No      No  
-
-                Each layer becomes a number. In this case, 4 bits matter for each
-
-                ground:  self - 000, collisions - 011
-                player:  self - 001, collisions - 100
-                balloon: self - 010, collisions - 000
-            */
-
             let sceneOptions = {
-
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
             }
-            // this.sceneManager.changeToScene(Level, {}, sceneOptions);
+            this.sceneManager.changeToScene(Level1, {}, sceneOptions);
         }
 
         selectLvlBtn.onClick = () => {
