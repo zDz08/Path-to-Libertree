@@ -1,5 +1,4 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
@@ -7,7 +6,6 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
-import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 export default class Levels extends Scene {
 

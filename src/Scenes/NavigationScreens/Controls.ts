@@ -1,13 +1,9 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import ButtonFactory from "../../UIElements/ButtonFactory";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
-import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
-import Color from "../../Wolfie2D/Utils/Color";
-import LabelFactory from "../../UIElements/LabelFactory";
 import MainMenu from "./MainMenu";
+import LabelFactory from "../../UIElements/LabelFactory";
 
 export default class Controls extends Scene {
 

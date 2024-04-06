@@ -49,14 +49,11 @@ export default class SplashScreen extends Scene {
         startBtn.onClick = () => {
             this.sceneManager.changeToScene(MainMenu, {});
         }
-        // Scene has started, so start playing music
-        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});
     }
 
     unloadScene(): void {
         // The scene is being destroyed, so we can stop playing the song
         this.resourceManager.keepImage("screenBg");
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "menu"});
     }
 }
 
