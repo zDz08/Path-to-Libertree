@@ -62,6 +62,7 @@ export default abstract class PlatformState extends State {
 		// Do gravity
 		this.parent.velocity.y += this.gravity * deltaT;
 
+		/*
 		if (this.owner.onWall) {
 			// Flip around
 			this.parent.direction.x *= -1;
@@ -79,5 +80,6 @@ export default abstract class PlatformState extends State {
 					(Math.sign(-this.parent.velocity.y) * MathUtils.clamp(Math.abs(this.parent.velocity.y), 0, this.parent.ySpeed));
 			}
 		}
+		*/
 	}
 }

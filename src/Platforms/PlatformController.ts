@@ -7,12 +7,14 @@ import Rising from "./Rising";
 import ZeroGravity from "./ZeroGravity";
 import Rigid from "./Rigid";
 import { PTL_Color } from "../ptl_color";
+import Moving from "./Moving";
 
 export enum PlatformStates {
 	SINKING = "sinking",
 	RISING = "rising",
 	ZEROGRAVITY = "zero_gravity",
-	RIGID = "rigid"
+	RIGID = "rigid",
+	MOVING = "moving"
 }
 
 export default class PlatformController extends StateMachineAI {
@@ -39,10 +41,12 @@ export default class PlatformController extends StateMachineAI {
 		this.addState(PlatformStates.ZEROGRAVITY, zerogravity);
 		let rigid = new Rigid(this, owner);
 		this.addState(PlatformStates.RIGID, rigid);
+		let moving = new Moving(this, owner);
+		this.addState(PlatformStates.MOVING, moving);
 
 		this.color = options.color;
 		this.type = options.type;
-		this.direction = new Vec2(-1, 0);
+		this.direction = new Vec2(1, 0);
 
 		this.initialize(PlatformStates.RIGID);
 	}

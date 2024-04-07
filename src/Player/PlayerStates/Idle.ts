@@ -3,6 +3,7 @@ import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import { PTL_Color } from "../../ptl_color";
 import { PlayerStates } from "../PlayerController";
 import OnGround from "./OnGround";
+import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
 
 export default class Idle extends OnGround {
 	owner: AnimatedSprite;
@@ -29,6 +30,11 @@ export default class Idle extends OnGround {
 
 		let dir = this.getInputDirection();
 
+		if(this.parent.onMoving) {
+			let v = new Vec2 (this.parent.pos, 0);
+			this.owner.position.add(v.scaled(deltaT));
+			this.parent.onMoving = false;
+		}
 		if(!dir.isZero() && dir.y === 0){
 			if(Input.isPressed("run")){
 				this.finished(PlayerStates.RUN);

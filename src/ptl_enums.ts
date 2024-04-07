@@ -11,5 +11,6 @@ export enum PTL_Events {
 
 export enum PTL_PlatformType {
     BASIC = "Basic",
-    BOUNCY = "Bouncy"
+    BOUNCY = "Bouncy",
+    MOVING = "Moving"
 }

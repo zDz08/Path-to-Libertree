@@ -23,7 +23,7 @@ import SplashScreen from "./Scenes/NavigationScreens/SplashScreen";
     const game = new Game(options);
 
     // Start our game
-    game.start(Levels, {});
+    game.start(SplashScreen, {});
 })();
 
 function runTests(){};

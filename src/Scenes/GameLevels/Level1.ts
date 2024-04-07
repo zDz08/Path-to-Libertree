@@ -15,6 +15,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
+        this.load.spritesheet("moving", "assets/sprites/movingPlatform.json")
     }
 
     unloadScene(){

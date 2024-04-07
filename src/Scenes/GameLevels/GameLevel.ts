@@ -87,7 +87,7 @@ export default class GameLevel extends Scene {
         });
 
         // 3 second cooldown for changing suits
-        this.suitChangeTimer = new Timer(3000);
+        this.suitChangeTimer = new Timer(1000);
 
         // Initially disable player movement
         Input.disableInput();
@@ -109,10 +109,10 @@ export default class GameLevel extends Scene {
                         let other = this.sceneGraph.getNode(event.data.get("other"));
 
                         if(node === this.player){
-                            // Node is player, other is balloon
+                            // Node is player, other is platform
                             this.handlePlayerPlatformCollision(<AnimatedSprite>node, <AnimatedSprite>other);
                         } else {
-                            // Other is player, node is balloon
+                            // Other is player, node is platform
                             this.handlePlayerPlatformCollision(<AnimatedSprite>other,<AnimatedSprite>node);
 
                         }
@@ -121,7 +121,8 @@ export default class GameLevel extends Scene {
 
                 case PTL_Events.SPAWN_PLATFORM:
                     {
-                        this.addPlatform(this.currentPlatformType, new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32), {type: event.data.get("type")});
+                        let pos = new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32);
+                        this.addPlatform(this.currentPlatformType, pos, {type: event.data.get("type"), location: pos});
                     }
                     break;
 
@@ -185,12 +186,18 @@ export default class GameLevel extends Scene {
                 this.currentPlatformType = "bouncy";
                 this.suitChangeTimer.start();
             }
+            if (Input.isKeyJustPressed("c")) {
+                this.currentPlatformType = "moving";
+                this.suitChangeTimer.start();
+            }
         }
         if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
             if(this.currentPlatformType == "basic") {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type:PTL_PlatformType.BASIC});
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
             }else if(this.currentPlatformType == "bouncy") {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type:PTL_PlatformType.BOUNCY});
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
+            }else if(this.currentPlatformType ==  "moving") {
+                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
             }
         }
     }
@@ -271,6 +278,10 @@ export default class GameLevel extends Scene {
         if(platform) {
             if((<PlatformController>platform.ai).type == PTL_PlatformType.BOUNCY) {
                 (<PlayerController>player.ai).onBouncy = true;
+            }else if((<PlatformController>platform.ai).type == PTL_PlatformType.MOVING){
+                if(!(<PlatformController>platform.ai).owner.onWall)
+                    (<PlayerController>player.ai).onMoving = true;
+                (<PlayerController>player.ai).pos = (<PlatformController>platform.ai).velocity.x;
             }else {
                 this.player.onGround = true;
             }

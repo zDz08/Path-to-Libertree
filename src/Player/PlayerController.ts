@@ -39,6 +39,8 @@ export default class PlayerController extends StateMachineAI {
     tilePos: Vec2;
     tileIndex: number;
     onBouncy: boolean;
+    onMoving: boolean;
+    pos: number;
 
     // HOMEWORK 5 - TODO
     /**
@@ -124,13 +126,14 @@ export default class PlayerController extends StateMachineAI {
 
     update(deltaT: number): void {
 		super.update(deltaT);
-
+        /*
         this.tilePos = this.tilemap.getColRowAt(new Vec2(this.owner.position.x, this.owner.position.y+16));
         this.tileIndex = this.tilemap.getTileAtRowCol(this.tilePos);
         if(this.tileIndex === 8) {
             this.tilemap.setTileAtRowCol(this.tilePos, 9);
             //this.emitter.fireEvent(PTL_Events.PLAYER_HIT_SWITCH);
         }
+        */
 
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");
