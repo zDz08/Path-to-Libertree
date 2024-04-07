@@ -1,0 +1,79 @@
+{
+    "name": "stanfordTree",
+    "spriteSheetImage": "stanfordTree.png",
+    "spriteWidth": 128,
+    "spriteHeight": 128,
+    "columns": 15,
+    "rows": 11,
+    "durationType": "time",
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 540} ]
+        },
+        {
+            "name": "WALK",
+            "frames": [ {"index": 0, "duration": 16}, {"index": 1, "duration": 16}, {"index": 2, "duration": 16}, {"index": 3, "duration": 16} ]
+        },
+        {
+            "name": "JUMP",
+            "frames":[ {"index": 1, "duration": 32}]
+        },
+        {
+            "name": "FALL",
+            "frames":[ {"index": 1, "duration": 32}]
+        },
+
+        { 
+            "name": "RED_IDLE",
+            "frames": [ {"index": 5, "duration": 16}, {"index": 6, "duration": 16}, {"index": 7, "duration": 16}, {"index": 8, "duration": 16}, {"index": 9, "duration": 16} ]
+        },
+        {
+            "name": "RED_WALK",
+            "frames": [ {"index": 35, "duration": 16}, {"index": 36, "duration": 16}, {"index": 37, "duration": 16}, {"index": 38, "duration": 16}, {"index": 39, "duration": 16} ]
+        },
+        {
+            "name": "RED_JUMP",
+            "frames":[ {"index": 65, "duration": 16}, {"index": 66, "duration": 16}, {"index": 67, "duration": 16}, {"index": 68, "duration": 16}, {"index": 69, "duration": 16}]
+        },
+        {
+            "name": "RED_FALL",
+            "frames":[ {"index": 95, "duration": 5}, {"index": 96, "duration": 5}, {"index": 97, "duration": 5}, {"index": 98, "duration": 5}, {"index": 99, "duration": 5}]
+        },
+
+        { 
+            "name": "GREEN_IDLE",
+            "frames": [ {"index": 0, "duration": 16}, {"index": 1, "duration": 16}, {"index": 2, "duration": 16}, {"index": 3, "duration": 16}, {"index": 4, "duration": 16} ]
+        },
+        {
+            "name": "GREEN_WALK",
+            "frames": [ {"index": 30, "duration": 16}, {"index": 31, "duration": 16}, {"index": 32, "duration": 16}, {"index": 33, "duration": 16}, {"index": 34, "duration": 16} ]
+        },
+        {
+            "name": "GREEN_JUMP",
+            "frames":[ {"index": 60, "duration": 16}, {"index": 61, "duration": 16}, {"index": 62, "duration": 16}, {"index": 63, "duration": 16}, {"index": 64, "duration": 16}]
+        },
+        {
+            "name": "GREEN_FALL",
+            "frames":[ {"index": 90, "duration": 5}, {"index": 91, "duration": 5}, {"index": 92, "duration": 5}, {"index": 93, "duration": 5}, {"index": 94, "duration": 5}]
+        },
+
+        { 
+            "name": "BLUE_IDLE",
+            "frames": [ {"index": 10, "duration": 16}, {"index": 11, "duration": 16}, {"index": 12, "duration": 16}, {"index": 13, "duration": 16}, {"index": 14, "duration": 16} ]
+        },
+        {
+            "name": "BLUE_WALK",
+            "frames": [ {"index": 40, "duration": 16}, {"index": 41, "duration": 16}, {"index": 42, "duration": 16}, {"index": 43, "duration": 16}, {"index": 44, "duration": 16} ]
+        },
+        {
+            "name": "BLUE_JUMP",
+            "frames":[ {"index": 70, "duration": 16}, {"index": 71, "duration": 16}, {"index": 72, "duration": 16}, {"index": 73, "duration": 16}, {"index": 74, "duration": 16}]
+        },
+        {
+            "name": "BLUE_FALL",
+            "frames":[ {"index": 100, "duration": 5}, {"index": 101, "duration": 5}, {"index": 102, "duration": 5}, {"index": 103, "duration": 5}, {"index": 104, "duration": 5}]
+        }
+
+    ]
+}

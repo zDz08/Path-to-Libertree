@@ -1,0 +1,18 @@
+{
+    "name": "TrapDoorPlatform",
+    "spriteSheetImage": "trapDoorPlatform.png",
+    "spriteWidth": 256,
+    "spriteHeight": 32,
+    "columns": 1,
+    "rows": 1,
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 540} ]
+        },
+        {
+            "name": "CRASH",
+            "frames": [ {"index": 0, "duration": 80}, {"index": 1, "duration": 80}, {"index": 2, "duration": 80}, {"index": 3, "duration": 80}, {"index": 4, "duration": 80} ]
+        }
+    ]
+}
