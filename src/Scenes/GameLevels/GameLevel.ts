@@ -46,11 +46,13 @@ export default class GameLevel extends Scene {
 
     // Cooldown timer for changing suits
     protected suitChangeTimer: Timer;
+    protected delayTimer: Timer;
 
-    // Total ballons and amount currently popped
-    protected totalBalloons: number;
+    // The remaining number of platforms
+    protected totalZs: number;
+    protected totalXs: number;
+    protected totalCs: number;
     protected balloonLabel: Label;
-    protected balloonsPopped: number;
 
     // Total switches and amount currently pressed
     protected totalSwitches: number;
@@ -60,7 +62,6 @@ export default class GameLevel extends Scene {
     protected currentPlatformType: string;
 
     startScene(): void {
-        this.balloonsPopped = 0;
         this.switchesPressed = 0;
 
         // Do the game level standard initializations
@@ -88,6 +89,9 @@ export default class GameLevel extends Scene {
 
         // 1 second cooldown for changing suits
         this.suitChangeTimer = new Timer(1000);
+        this.delayTimer = new Timer(1700, () => {
+            this.respawnPlayer();
+        });
 
         // Initially disable player movement
         Input.disableInput();
@@ -154,7 +158,9 @@ export default class GameLevel extends Scene {
                     break;
                 case PTL_Events.PLAYER_KILLED:
                     {
-                        this.respawnPlayer();
+                        if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
+                            this.delayTimer.start();
+                        }
                     }
 
             }
@@ -192,12 +198,15 @@ export default class GameLevel extends Scene {
             }
         }
         if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
-            if(this.currentPlatformType == "basic") {
+            if(this.currentPlatformType == "basic" && this.totalZs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
-            }else if(this.currentPlatformType == "bouncy") {
+                this.totalZs--;
+            }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
-            }else if(this.currentPlatformType ==  "moving") {
+                this.totalXs--;
+            }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
+                this.totalCs--;
             }
         }
     }
@@ -268,8 +277,16 @@ export default class GameLevel extends Scene {
     protected addPlatform(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
         let platform = this.add.animatedSprite(spriteKey, "primary");
         platform.position.set(tilePos.x*32, tilePos.y*32);
-        platform.scale.set(0.3, 0.3);
-        platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 6)));
+        if(spriteKey == "h_deadly") {
+            platform.scale.set(0.25, 0.3);
+            platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 14)));
+        }else if(spriteKey == "v_deadly") {
+            platform.scale.set(0.3, 0.25);
+            platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 32)));
+        }else {
+            platform.scale.set(0.25, 0.3);
+            platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 6)));
+        }
         platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
         platform.addAI(PlatformController, aiOptions);
         platform.setGroup("platform");
@@ -287,6 +304,11 @@ export default class GameLevel extends Scene {
                 if((<PlatformController>platform.ai).type == PTL_PlatformType.TRAPDOOR) {
                     (<PlatformController>platform.ai).trap = true;
                     (<PlatformController>platform.ai).system = this.system;
+                }
+                if((<PlatformController>platform.ai).type == PTL_PlatformType.DEADLY) {
+                    Input.disableInput();
+                    (<PlayerController>player.ai).onDeadly = true;
+                    this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
                 }
                 this.player.onGround = true;
             }
@@ -312,8 +334,8 @@ export default class GameLevel extends Scene {
      * Returns the player to spawn
      */
     protected respawnPlayer(): void {
-        GameLevel.livesCount = 3;
-        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
+        //GameLevel.livesCount = 3;
+        //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
         this.sceneManager.changeToScene(MainMenu, {});
         Input.enableInput();
         this.system.stopSystem();

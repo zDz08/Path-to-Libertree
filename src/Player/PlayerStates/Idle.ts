@@ -15,13 +15,22 @@ export default class Idle extends OnGround {
 	
 	updateSuit() {
 		if (this.parent.suitColor == PTL_Color.RED){ 
-			this.owner.animation.playIfNotAlready("RED_IDLE", true);
+			if(this.parent.onDeadly)
+				this.owner.animation.playIfNotAlready("RED_DYING", true);
+			else
+				this.owner.animation.playIfNotAlready("RED_IDLE", true);
 		}
 		else if (this.parent.suitColor == PTL_Color.GREEN){
-			this.owner.animation.playIfNotAlready("GREEN_IDLE", true);
+			if(this.parent.onDeadly)
+				this.owner.animation.playIfNotAlready("GREEN_DYING", true);
+			else
+				this.owner.animation.playIfNotAlready("GREEN_IDLE", true);
 		}
 		else if (this.parent.suitColor == PTL_Color.BLUE){
-			this.owner.animation.playIfNotAlready("BLUE_IDLE", true);
+			if(this.parent.onDeadly)
+				this.owner.animation.playIfNotAlready("BLUE_DYING", true);
+			else
+				this.owner.animation.playIfNotAlready("BLUE_IDLE", true);
 		}
 	}
 

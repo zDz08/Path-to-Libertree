@@ -14,5 +14,6 @@ export enum PTL_PlatformType {
     BOUNCY = "Bouncy",
     MOVING = "Moving",
     COLORED = "Colored",
-    TRAPDOOR = "TrapDoor"
+    TRAPDOOR = "TrapDoor",
+    DEADLY = "Deadly"
 }
