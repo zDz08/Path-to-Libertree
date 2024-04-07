@@ -7,7 +7,7 @@ import MathUtils from "./Wolfie2D/Utils/MathUtils";
 export default class ptl_ParticleSystem extends ParticleSystem {
 
     setParticleAnimation(particle: Particle) {
-        particle.vel = RandUtils.randVec(-50, 50, -100, 100);
+        particle.vel = RandUtils.randVec(-100, 100, -60, -20);
         particle.velY += 100 * particle.mass;
         particle.velY = Math.sign(particle.velY) * MathUtils.clamp(Math.abs(particle.velY), 0, 700);
 

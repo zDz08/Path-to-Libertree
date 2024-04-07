@@ -2,19 +2,16 @@ import GameNode from "../Wolfie2D/Nodes/GameNode";
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import StateMachineAI from "../Wolfie2D/AI/StateMachineAI";
 import { PTL_Events, PTL_PlatformType } from "../ptl_enums";
-import Sinking from "./Sinking";
-import Rising from "./Rising";
-import ZeroGravity from "./ZeroGravity";
 import Rigid from "./Rigid";
 import { PTL_Color } from "../ptl_color";
 import Moving from "./Moving";
+import Crash from "./Crash";
+import ptl_ParticleSystem from "../ptl_ParticleSystem";
 
 export enum PlatformStates {
-	SINKING = "sinking",
-	RISING = "rising",
-	ZEROGRAVITY = "zero_gravity",
 	RIGID = "rigid",
-	MOVING = "moving"
+	MOVING = "moving",
+	CRASH = "Crash"
 }
 
 export default class PlatformController extends StateMachineAI {
@@ -26,6 +23,8 @@ export default class PlatformController extends StateMachineAI {
 	gravity: number = 1000;
 	color: PTL_Color;
 	type: PTL_PlatformType;
+	trap: boolean;
+	system: ptl_ParticleSystem;
 
 	initializeAI(owner: GameNode, options: Record<string, any>){
 		this.owner = owner;
@@ -33,16 +32,12 @@ export default class PlatformController extends StateMachineAI {
 		this.receiver.subscribe(PTL_Events.PLAYER_MOVE);
 		this.receiver.subscribe(PTL_Events.SUIT_COLOR_CHANGE);
 
-		let sinking = new Sinking(this, owner);
-		this.addState(PlatformStates.SINKING, sinking);
-		let rising = new Rising(this, owner);
-		this.addState(PlatformStates.RISING, rising);
-		let zerogravity = new ZeroGravity(this, owner);
-		this.addState(PlatformStates.ZEROGRAVITY, zerogravity);
 		let rigid = new Rigid(this, owner);
 		this.addState(PlatformStates.RIGID, rigid);
 		let moving = new Moving(this, owner);
 		this.addState(PlatformStates.MOVING, moving);
+		let crash = new Crash(this, owner);
+		this.addState(PlatformStates.CRASH, crash);
 
 		this.color = options.color;
 		this.type = options.type;

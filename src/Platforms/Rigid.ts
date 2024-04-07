@@ -12,6 +12,9 @@ export default class Rigid extends PlatformState {
 
 	update(deltaT: number): void {
 		super.update(deltaT);
+		if(this.parent.trap) {
+			this.finished(PlatformStates.CRASH);
+		}
 		if(this.parent.type == PTL_PlatformType.MOVING) {
 			this.finished(PlatformStates.MOVING);
 		}

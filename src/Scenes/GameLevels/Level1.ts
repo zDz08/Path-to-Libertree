@@ -3,6 +3,7 @@ import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
+import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
 
 export default class Level1 extends GameLevel {
@@ -19,6 +20,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("red", "assets/sprites/redPlatform.json");
         this.load.spritesheet("blue", "assets/sprites/bluePlatform.json");
         this.load.spritesheet("green", "assets/sprites/greenPlatform.json");
+        this.load.spritesheet("trap", "assets/sprites/trapDoorPlatform.json");
     }
 
     unloadScene(){
@@ -35,9 +37,13 @@ export default class Level1 extends GameLevel {
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED});
-        this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE});
-        this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN});
+        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
+        this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
+        this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
+        this.addPlatform("trap", new Vec2 (12, 16), {type: PTL_PlatformType.TRAPDOOR});
+        this.addPlatform("trap", new Vec2 (34, 13), {type: PTL_PlatformType.TRAPDOOR});
+        this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
+
     }
 
     updateScene(deltaT: number): void {

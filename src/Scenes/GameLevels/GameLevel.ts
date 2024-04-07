@@ -86,7 +86,7 @@ export default class GameLevel extends Scene {
            // this.levelTransitionScreen.tweens.play("fadeIn");
         });
 
-        // 3 second cooldown for changing suits
+        // 1 second cooldown for changing suits
         this.suitChangeTimer = new Timer(1000);
 
         // Initially disable player movement
@@ -241,6 +241,7 @@ export default class GameLevel extends Scene {
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
         this.system.initializePool(this, "primary");
+        this.system.changeColor(new Color(128, 124, 124));
     }
 
     /**
@@ -283,6 +284,10 @@ export default class GameLevel extends Scene {
                     (<PlayerController>player.ai).onMoving = true;
                 (<PlayerController>player.ai).pos = (<PlatformController>platform.ai).velocity.x;
             }else {
+                if((<PlatformController>platform.ai).type == PTL_PlatformType.TRAPDOOR) {
+                    (<PlatformController>platform.ai).trap = true;
+                    (<PlatformController>platform.ai).system = this.system;
+                }
                 this.player.onGround = true;
             }
         }
