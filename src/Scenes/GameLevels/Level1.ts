@@ -15,7 +15,10 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
-        this.load.spritesheet("moving", "assets/sprites/movingPlatform.json")
+        this.load.spritesheet("moving", "assets/sprites/movingPlatform.json");
+        this.load.spritesheet("red", "assets/sprites/redPlatform.json");
+        this.load.spritesheet("blue", "assets/sprites/bluePlatform.json");
+        this.load.spritesheet("green", "assets/sprites/greenPlatform.json");
     }
 
     unloadScene(){
@@ -32,6 +35,9 @@ export default class Level1 extends GameLevel {
         // Do generic setup for a GameLevel
         super.startScene();
 
+        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED});
+        this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE});
+        this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN});
     }
 
     updateScene(deltaT: number): void {

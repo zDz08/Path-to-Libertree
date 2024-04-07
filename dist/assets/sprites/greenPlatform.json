@@ -1,0 +1,14 @@
+{
+    "name": "GreenPlatform",
+    "spriteSheetImage": "greenPlatform.png",
+    "spriteWidth": 256,
+    "spriteHeight": 32,
+    "columns": 1,
+    "rows": 1,
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 540} ]
+        }
+    ]
+}

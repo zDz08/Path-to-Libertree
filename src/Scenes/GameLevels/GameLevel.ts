@@ -122,7 +122,7 @@ export default class GameLevel extends Scene {
                 case PTL_Events.SPAWN_PLATFORM:
                     {
                         let pos = new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32);
-                        this.addPlatform(this.currentPlatformType, pos, {type: event.data.get("type"), location: pos});
+                        this.addPlatform(this.currentPlatformType, pos, {type: event.data.get("type")});
                     }
                     break;
 

@@ -24,33 +24,13 @@ export default abstract class PlatformState extends State {
 
 	handleInput(event: GameEvent): void {
 		if (event.type == PTL_Events.SUIT_COLOR_CHANGE) {
-			/*
 			let new_color = event.data.get("color");
 			if (this.parent.color == new_color){
-				this.finished(PlatformStates.SINKING);
+				this.owner.disablePhysics();
 			}
 			else {
-				if (this.parent.color == PTL_Color.RED) {
-					if (new_color == PTL_Color.BLUE) {
-						this.finished(PlatformStates.ZEROGRAVITY);
-					} else {
-						this.finished(PlatformStates.RISING);
-					}
-				} else if (this.parent.color == PTL_Color.BLUE) {
-					if (new_color == PTL_Color.RED) {
-						this.finished(PlatformStates.ZEROGRAVITY);
-					} else {
-						this.finished(PlatformStates.RISING);
-					}
-				} else if (this.parent.color == PTL_Color.GREEN) {
-					if (new_color == PTL_Color.RED) {
-						this.finished(PlatformStates.RISING);
-					} else {
-						this.finished(PlatformStates.ZEROGRAVITY);
-					}
-				} 
+				this.owner.enablePhysics();
 			}
-			*/
 		}
 		if (event.type == PTL_Events.PLAYER_MOVE) {
 			this.playerPos = event.data.get("position");
