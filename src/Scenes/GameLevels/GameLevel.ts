@@ -184,19 +184,19 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
                 this.suitChangeTimer.start();
             }
-            if (Input.isKeyJustPressed("z")) {
-                this.currentPlatformType = "basic";
-                this.suitChangeTimer.start();
-            }
-            if (Input.isKeyJustPressed("x")) {
-                this.currentPlatformType = "bouncy";
-                this.suitChangeTimer.start();
-            }
-            if (Input.isKeyJustPressed("c")) {
-                this.currentPlatformType = "moving";
-                this.suitChangeTimer.start();
-            }
         }
+        
+        if (Input.isKeyJustPressed("z")) {
+            this.currentPlatformType = "basic";
+            this.suitChangeTimer.start();
+        }else if (Input.isKeyJustPressed("x")) {
+            this.currentPlatformType = "bouncy";
+            this.suitChangeTimer.start();
+        }else if (Input.isKeyJustPressed("c")) {
+            this.currentPlatformType = "moving";
+            this.suitChangeTimer.start();
+        }
+
         if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
             if(this.currentPlatformType == "basic" && this.totalZs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
@@ -294,23 +294,22 @@ export default class GameLevel extends Scene {
 
     protected handlePlayerPlatformCollision(player: AnimatedSprite, platform: AnimatedSprite) {
         if(platform) {
-            if((<PlatformController>platform.ai).type == PTL_PlatformType.BOUNCY) {
-                (<PlayerController>player.ai).onBouncy = true;
-            }else if((<PlatformController>platform.ai).type == PTL_PlatformType.MOVING){
-                if(!(<PlatformController>platform.ai).owner.onWall)
-                    (<PlayerController>player.ai).onMoving = true;
-                (<PlayerController>player.ai).pos = (<PlatformController>platform.ai).velocity.x;
-            }else {
-                if((<PlatformController>platform.ai).type == PTL_PlatformType.TRAPDOOR) {
-                    (<PlatformController>platform.ai).trap = true;
-                    (<PlatformController>platform.ai).system = this.system;
-                }
-                if((<PlatformController>platform.ai).type == PTL_PlatformType.DEADLY) {
-                    Input.disableInput();
-                    (<PlayerController>player.ai).onDeadly = true;
-                    this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
-                }
-                this.player.onGround = true;
+            let platformAI = <PlatformController>platform.ai;
+            let playerAI = (<PlayerController>player.ai);
+            let a = platformAI.owner.position.y > this.player.position.y;
+            if(platformAI.type == PTL_PlatformType.BOUNCY && a) {
+                playerAI.onBouncy = true;
+            }else if(platformAI.type == PTL_PlatformType.MOVING && a){
+                if(!platformAI.owner.onWall)
+                    playerAI.onMoving = true;
+                playerAI.pos = platformAI.velocity.x;
+            }else if(platformAI.type == PTL_PlatformType.TRAPDOOR && a) {
+                platformAI.trap = true;
+                platformAI.system = this.system;
+            }else if(platformAI.type == PTL_PlatformType.DEADLY) {
+                Input.disableInput();
+                playerAI.onDeadly = true;
+                this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
             }
         }
     }
