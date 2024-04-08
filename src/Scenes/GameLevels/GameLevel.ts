@@ -20,6 +20,7 @@ import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import PTL_ParticleSystem from "../../ptl_ParticleSystem";
 import PlayerController from "../../Player/PlayerController";
 import MainMenu from "../NavigationScreens/MainMenu";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -63,9 +64,13 @@ export default class GameLevel extends Scene {
     protected xBox: Label;
     protected cBox: Label;
 
+    protected pause1: Button;
+    protected pause2: Button;
     protected theme_dark_green: Color = new Color(38, 70, 12);
+    protected theme_lighter_green: Color = new Color(179, 191, 164);
     protected theme_light_green: Color = new Color(94, 121, 60);
     
+    protected keyNum: Number = 0;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -183,7 +188,12 @@ export default class GameLevel extends Scene {
                             this.delayTimer.start();
                         }
                     }
-
+                case PTL_Events.LEVEL_PAUSE:
+                    {
+                        console.log("PAUSING UI");
+                        this.pauseUI();
+                        break;
+                    }
             }
         }
 
@@ -208,23 +218,26 @@ export default class GameLevel extends Scene {
             if (Input.isKeyJustPressed("z")) {
                 this.currentPlatformType = "basic";
                 this.zBox.borderColor = this.theme_dark_green;
-                this.xBox.borderColor = this.theme_light_green;
-                this.cBox.borderColor = this.theme_light_green;
+                this.xBox.borderColor = this.theme_lighter_green;
+                this.cBox.borderColor = this.theme_lighter_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("x")) {
                 this.currentPlatformType = "bouncy";
-                this.zBox.borderColor = this.theme_light_green;
+                this.zBox.borderColor = this.theme_lighter_green;
                 this.xBox.borderColor = this.theme_dark_green;
-                this.cBox.borderColor = this.theme_light_green;
+                this.cBox.borderColor = this.theme_lighter_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("c")) {
                 this.currentPlatformType = "moving";
-                this.zBox.borderColor = this.theme_light_green;
-                this.xBox.borderColor = this.theme_light_green;
+                this.zBox.borderColor = this.theme_lighter_green;
+                this.xBox.borderColor = this.theme_lighter_green;
                 this.cBox.borderColor = this.theme_dark_green;
                 this.suitChangeTimer.start();
+            }
+            if (Input.isKeyJustPressed("p")){
+                this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE, {});
             }
         }
         if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
@@ -242,6 +255,7 @@ export default class GameLevel extends Scene {
                 this.cLabel.text = this.totalCs.toString();
             }
         }
+
     }
 
     /**
@@ -283,12 +297,12 @@ export default class GameLevel extends Scene {
      */
     protected addUI(){
         // In-game labels
-        const startPosX = 20;
-        const startPosY = 20;
+        const startPosX = 7;
+        const startPosY = 10;
         const boxWidth = 100;
         const boxHeight = 24;
         const fontSize = 20;
-        const borderWidth = 3;
+        const borderWidth = 2.5;
         const letterLabels = ["Z", "X", "C"];
         const platformIcons = ["basic_icon", "bouncy_icon", "moving_icon"]
         const counts = [this.totalZs, this.totalXs, this.totalCs];
@@ -299,7 +313,7 @@ export default class GameLevel extends Scene {
             let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+boxWidth/2, startPosY+boxHeight*i+borderWidth*2), text: ""});
             box.size.set(boxWidth*2, boxHeight*2-borderWidth);
             box.backgroundColor = new Color(217,217,217,1);
-            box.borderColor = this.theme_light_green;
+            box.borderColor = this.theme_lighter_green;
             box.borderWidth = borderWidth;
             box.fontSize = boxHeight;
             boxes.push(box);
@@ -328,13 +342,39 @@ export default class GameLevel extends Scene {
         this.xBox = boxes[1];
         this.cBox = boxes[2];
 
-        console.log(this.load);
+        const halfSize = this.viewport.getHalfSize();
+        this.pause1 = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(halfSize.x*2-20, boxHeight/2), text: ""});
+        this.pause2 = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(halfSize.x*2-10, boxHeight/2), text: ""});
+        this.pause1.size.set(10, boxHeight+5);
+        this.pause1.backgroundColor = Color.WHITE;
+        this.pause1.borderRadius = 3;
+        this.pause1.borderColor = this.theme_dark_green;
+        this.pause1.borderWidth = 2;
+        this.pause2.size.set(10, boxHeight+5);
+        this.pause2.backgroundColor = Color.WHITE;
+        this.pause2.borderRadius = 3;
+        this.pause2.borderColor = this.theme_dark_green;
+        this.pause2.borderWidth = 2;
+
+        this.pause1.onClick = () => {this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE)};
+        this.pause2.onClick = () => {this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE)};
+
+        let key = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
+        key.font = "Bungee";
+        key.fontSize = fontSize;
+        key.textColor = Color.BLACK;
+
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
         this.system.initializePool(this, "primary");
         this.system.changeColor(new Color(128, 124, 124));
     }
 
+    protected pauseUI(){
+        let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: this.viewport.getCenter(), text: ""});
+        this.pause1.backgroundColor = this.theme_dark_green;
+        this.pause2.backgroundColor = this.theme_dark_green;
+    }
     /**
      * Initializes the player
      */

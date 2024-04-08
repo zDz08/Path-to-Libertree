@@ -3,6 +3,7 @@ export enum PTL_Events {
     PLAYER_JUMP = "PlayerJump",
     LEVEL_START = "LevelStart",
     LEVEL_END = "LevelEnd",
+    LEVEL_PAUSE = "LevelPause",
     PLAYER_KILLED = "PlayerKilled",
     SUIT_COLOR_CHANGE = "SuitColorChange",
     PLAYER_ON_PLATFORM = "PlayerOnPlatform",
