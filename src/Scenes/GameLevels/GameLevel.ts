@@ -208,15 +208,21 @@ export default class GameLevel extends Scene {
             if (Input.isKeyJustPressed("z")) {
                 this.currentPlatformType = "basic";
                 this.zBox.borderColor = this.theme_dark_green;
+                this.xBox.borderColor = this.theme_light_green;
+                this.cBox.borderColor = this.theme_light_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("x")) {
                 this.currentPlatformType = "bouncy";
+                this.zBox.borderColor = this.theme_light_green;
                 this.xBox.borderColor = this.theme_dark_green;
+                this.cBox.borderColor = this.theme_light_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("c")) {
                 this.currentPlatformType = "moving";
+                this.zBox.borderColor = this.theme_light_green;
+                this.xBox.borderColor = this.theme_light_green;
                 this.cBox.borderColor = this.theme_dark_green;
                 this.suitChangeTimer.start();
             }
@@ -282,28 +288,28 @@ export default class GameLevel extends Scene {
         const boxWidth = 100;
         const boxHeight = 24;
         const fontSize = 20;
-        const borderRadius = 2;
-        const letterLabels = ["Z", "W", "C"];
+        const borderWidth = 3;
+        const letterLabels = ["Z", "X", "C"];
         const platformIcons = ["basic_icon", "bouncy_icon", "moving_icon"]
         const counts = [this.totalZs, this.totalXs, this.totalCs];
 
         let boxes = []
         let labels = []
         for(let i = 0; i < 3; i++){
-            let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+boxWidth/2, startPosY+boxHeight*i+borderRadius*2), text: ""});
-            box.size.set(boxWidth*2, boxHeight*2-borderRadius);
+            let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+boxWidth/2, startPosY+boxHeight*i+borderWidth*2), text: ""});
+            box.size.set(boxWidth*2, boxHeight*2-borderWidth);
             box.backgroundColor = new Color(217,217,217,1);
             box.borderColor = this.theme_light_green;
-            box.borderRadius = borderRadius;
+            box.borderWidth = borderWidth;
             box.fontSize = boxHeight;
             boxes.push(box);
 
-            let letter = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+5, startPosY+boxHeight*(i+1)-fontSize+2), text: letterLabels[i]});
+            let letter = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+5, startPosY+boxHeight*(i+1)+borderWidth*2-fontSize+2), text: letterLabels[i]});
             letter.fontSize = fontSize;
             letter.font = "Bungee";
             letter.textColor = Color.BLACK;
 
-            let count = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX + boxWidth- 5, startPosY+boxHeight*(i+1)-fontSize+2), text: counts[i].toString()});
+            let count = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX + boxWidth- 5, startPosY+boxHeight*(i+1)+borderWidth*2-fontSize+2), text: counts[i].toString()});
             count.fontSize = fontSize;
             count.font = "Bungee";
             count.textColor = this.theme_light_green;
@@ -311,7 +317,7 @@ export default class GameLevel extends Scene {
 
             let icon = this.add.sprite(platformIcons[i], "UI");
             icon.scale.set(.25,.25);
-            icon.position.copy(new Vec2(startPosX+boxWidth/2,startPosY+boxHeight*i));
+            icon.position.copy(new Vec2(startPosX+boxWidth/2,startPosY+boxHeight*i+borderWidth*2));
         }
 
         this.zLabel = labels[0];
