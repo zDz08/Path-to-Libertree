@@ -21,6 +21,8 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("blue", "assets/sprites/bluePlatform.json");
         this.load.spritesheet("green", "assets/sprites/greenPlatform.json");
         this.load.spritesheet("trap", "assets/sprites/trapDoorPlatform.json");
+        this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
+        this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
     }
 
     unloadScene(){
@@ -34,16 +36,21 @@ export default class Level1 extends GameLevel {
 
         this.playerSpawn = new Vec2(5*32, 14*32);
 
+        this.totalZs = 3;
+        this.totalXs = 3;
+        this.totalCs = 3;
+
         // Do generic setup for a GameLevel
         super.startScene();
 
         this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
         this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
         this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
-        this.addPlatform("trap", new Vec2 (12, 16), {type: PTL_PlatformType.TRAPDOOR});
+        this.addPlatform("trap", new Vec2 (11.5, 16), {type: PTL_PlatformType.TRAPDOOR});
         this.addPlatform("trap", new Vec2 (34, 13), {type: PTL_PlatformType.TRAPDOOR});
         this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
-
+        this.addPlatform("h_deadly", new Vec2 (11.5, 18), {type: PTL_PlatformType.DEADLY});
+        this.addPlatform("v_deadly", new Vec2 (14, 15), {type: PTL_PlatformType.DEADLY});
     }
 
     updateScene(deltaT: number): void {

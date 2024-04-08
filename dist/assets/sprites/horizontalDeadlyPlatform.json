@@ -1,0 +1,14 @@
+{
+    "name": "HorizontalDeadlyPlatform",
+    "spriteSheetImage": "horizontalDeadlyPlatform.png",
+    "spriteWidth": 256,
+    "spriteHeight": 107,
+    "columns": 1,
+    "rows": 2,
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 16}, {"index": 1, "duration": 16} ]
+        }
+    ]
+}

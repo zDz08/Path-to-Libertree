@@ -40,6 +40,7 @@ export default class PlayerController extends StateMachineAI {
     tileIndex: number;
     onBouncy: boolean;
     onMoving: boolean;
+    onDeadly: boolean;
     pos: number;
 
     // HOMEWORK 5 - TODO

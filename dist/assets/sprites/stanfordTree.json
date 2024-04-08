@@ -40,6 +40,10 @@
             "name": "RED_FALL",
             "frames":[ {"index": 95, "duration": 5}, {"index": 96, "duration": 5}, {"index": 97, "duration": 5}, {"index": 98, "duration": 5}, {"index": 99, "duration": 5}]
         },
+        {
+            "name": "RED_DYING",
+            "frames":[ {"index": 155, "duration": 60}, {"index": 156, "duration": 60}, {"index": 157, "duration": 60}, {"index": 158, "duration": 60}, {"index": 159, "duration": 60}]
+        },
 
         { 
             "name": "GREEN_IDLE",
@@ -57,6 +61,10 @@
             "name": "GREEN_FALL",
             "frames":[ {"index": 90, "duration": 5}, {"index": 91, "duration": 5}, {"index": 92, "duration": 5}, {"index": 93, "duration": 5}, {"index": 94, "duration": 5}]
         },
+        {
+            "name": "GREEN_DYING",
+            "frames":[ {"index": 150, "duration": 60}, {"index": 151, "duration": 60}, {"index": 152, "duration": 60}, {"index": 153, "duration": 60}, {"index": 154, "duration": 60}]
+        },
 
         { 
             "name": "BLUE_IDLE",
@@ -73,6 +81,10 @@
         {
             "name": "BLUE_FALL",
             "frames":[ {"index": 100, "duration": 5}, {"index": 101, "duration": 5}, {"index": 102, "duration": 5}, {"index": 103, "duration": 5}, {"index": 104, "duration": 5}]
+        },
+        {
+            "name": "BLUE_DYING",
+            "frames":[ {"index": 160, "duration": 60}, {"index": 161, "duration": 60}, {"index": 162, "duration": 60}, {"index": 163, "duration": 60}, {"index": 164, "duration": 60}]
         }
 
     ]
