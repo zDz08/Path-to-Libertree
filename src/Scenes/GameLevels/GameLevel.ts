@@ -8,7 +8,7 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Point from "../../Wolfie2D/Nodes/Graphics/Point";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import Label, { HAlign } from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
@@ -52,6 +52,20 @@ export default class GameLevel extends Scene {
     protected totalZs: number;
     protected totalXs: number;
     protected totalCs: number;
+
+    // for counting the number of platforms
+    protected zLabel: Label;
+    protected xLabel: Label;
+    protected cLabel: Label;
+
+    // for highlighting selected platforms
+    protected zBox: Label;
+    protected xBox: Label;
+    protected cBox: Label;
+
+    protected theme_dark_green: Color = new Color(38, 70, 12);
+    protected theme_light_green: Color = new Color(94, 121, 60);
+    
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -60,6 +74,12 @@ export default class GameLevel extends Scene {
     protected switchesPressed: number;
 
     protected currentPlatformType: string;
+
+    loadScene(): void {
+        this.load.image("basic_icon", "assets/sprites/basicPlatform.png");
+        this.load.image("bouncy_icon", "assets/sprites/bouncyPlatform.png");
+        this.load.image("moving_icon", "assets/sprites/movingPlatform.png");
+    }
 
     startScene(): void {
         this.switchesPressed = 0;
@@ -97,6 +117,7 @@ export default class GameLevel extends Scene {
         Input.disableInput();
         this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
         Input.enableInput();
+
     }
 
 
@@ -186,14 +207,17 @@ export default class GameLevel extends Scene {
             }
             if (Input.isKeyJustPressed("z")) {
                 this.currentPlatformType = "basic";
+                this.zBox.borderColor = this.theme_dark_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("x")) {
                 this.currentPlatformType = "bouncy";
+                this.xBox.borderColor = this.theme_dark_green;
                 this.suitChangeTimer.start();
             }
             if (Input.isKeyJustPressed("c")) {
                 this.currentPlatformType = "moving";
+                this.cBox.borderColor = this.theme_dark_green;
                 this.suitChangeTimer.start();
             }
         }
@@ -201,12 +225,15 @@ export default class GameLevel extends Scene {
             if(this.currentPlatformType == "basic" && this.totalZs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
                 this.totalZs--;
+                this.zLabel.text = this.totalZs.toString();
             }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
                 this.totalXs--;
+                this.xLabel.text = this.totalXs.toString();
             }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
                 this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
                 this.totalCs--;
+                this.cLabel.text = this.totalCs.toString();
             }
         }
     }
@@ -220,6 +247,9 @@ export default class GameLevel extends Scene {
 
         // Add a layer for players and enemies
         this.addLayer("primary", 1);
+
+        // add a layer for platform icons
+        this.addLayer("platform_icons", 0)
     }
 
     /**
@@ -246,7 +276,53 @@ export default class GameLevel extends Scene {
      * Adds in any necessary UI to the game
      */
     protected addUI(){
+        // In-game labels
+        const startPosX = 20;
+        const startPosY = 20;
+        const boxWidth = 100;
+        const boxHeight = 24;
+        const fontSize = 20;
+        const borderRadius = 2;
+        const letterLabels = ["Z", "W", "C"];
+        const platformIcons = ["basic_icon", "bouncy_icon", "moving_icon"]
+        const counts = [this.totalZs, this.totalXs, this.totalCs];
 
+        let boxes = []
+        let labels = []
+        for(let i = 0; i < 3; i++){
+            let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+boxWidth/2, startPosY+boxHeight*i+borderRadius*2), text: ""});
+            box.size.set(boxWidth*2, boxHeight*2-borderRadius);
+            box.backgroundColor = new Color(217,217,217,1);
+            box.borderColor = this.theme_light_green;
+            box.borderRadius = borderRadius;
+            box.fontSize = boxHeight;
+            boxes.push(box);
+
+            let letter = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+5, startPosY+boxHeight*(i+1)-fontSize+2), text: letterLabels[i]});
+            letter.fontSize = fontSize;
+            letter.font = "Bungee";
+            letter.textColor = Color.BLACK;
+
+            let count = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX + boxWidth- 5, startPosY+boxHeight*(i+1)-fontSize+2), text: counts[i].toString()});
+            count.fontSize = fontSize;
+            count.font = "Bungee";
+            count.textColor = this.theme_light_green;
+            labels.push(count);
+
+            let icon = this.add.sprite(platformIcons[i], "UI");
+            icon.scale.set(.25,.25);
+            icon.position.copy(new Vec2(startPosX+boxWidth/2,startPosY+boxHeight*i));
+        }
+
+        this.zLabel = labels[0];
+        this.xLabel = labels[1];
+        this.cLabel = labels[2];
+
+        this.zBox = boxes[0];
+        this.xBox = boxes[1];
+        this.cBox = boxes[2];
+
+        console.log(this.load);
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
         this.system.initializePool(this, "primary");

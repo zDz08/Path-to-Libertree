@@ -23,6 +23,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("trap", "assets/sprites/trapDoorPlatform.json");
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
+        super.loadScene();
     }
 
     unloadScene(){

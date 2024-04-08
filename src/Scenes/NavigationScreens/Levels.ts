@@ -43,10 +43,10 @@ export default class Levels extends Scene {
         let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create main buttons
         let level1 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y-yspacing), "One");
-        let level2 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
-        let level3 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y), "Three");
-        let level4 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
-        let level5 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
+        let level2 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
+        let level3 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y), "Three");
+        let level4 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
+        let level5 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
         let level6 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y+yspacing), "Six");
         let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+190), "Return");
         returnBtn.onClick = () => {
