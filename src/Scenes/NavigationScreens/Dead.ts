@@ -4,15 +4,21 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import LabelFactory from "../../UIElements/LabelFactory";
+import GameLevel from "../GameLevels/GameLevel";
 
 export default class Dead extends Scene {
 
     animatedSprite: AnimatedSprite;
-
+    protected failedLevel: new (...args: any) => GameLevel;
+    
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
         this.load.image("dead_tree", "assets/sprites/dead_tree.png");
 
+    }
+
+    initScene(init: Record<string, any>): void {
+        this.failedLevel = init.failedLevel;
     }
 
     startScene(): void {
@@ -49,6 +55,21 @@ export default class Dead extends Scene {
             this.sceneManager.changeToScene(MainMenu, {});
         }
         
+        restartBtn.onClick = () => {
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
+            }
+            console.log(this.failedLevel);
+            this.sceneManager.changeToScene(this.failedLevel, {}, sceneOptions)
+        }
     }
 
     unloadScene(): void {

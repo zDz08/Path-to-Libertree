@@ -23,6 +23,7 @@ import MainMenu from "../NavigationScreens/MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import Level1 from "./Level1";
+import Dead from "../NavigationScreens/Dead";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -74,6 +75,9 @@ export default class GameLevel extends Scene {
     
     protected isPaused: boolean;
     protected keyNum: Number = 0;
+
+    //for restarting
+    protected currentLevel: new (...args: any) => GameLevel;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -434,7 +438,7 @@ export default class GameLevel extends Scene {
                             ]
                         }
                     }
-                    this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+                    this.sceneManager.changeToScene(this.currentLevel, {}, sceneOptions);
                 }
             }
         }
@@ -527,7 +531,7 @@ export default class GameLevel extends Scene {
     protected respawnPlayer(): void {
         //GameLevel.livesCount = 3;
         //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
-        this.sceneManager.changeToScene(MainMenu, {});
+        this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
         Input.enableInput();
         this.system.stopSystem();
     }
