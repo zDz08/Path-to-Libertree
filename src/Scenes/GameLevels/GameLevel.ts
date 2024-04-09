@@ -78,6 +78,7 @@ export default class GameLevel extends Scene {
 
     //for restarting
     protected currentLevel: new (...args: any) => GameLevel;
+    protected keyLabel: Label;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -233,14 +234,14 @@ export default class GameLevel extends Scene {
                     this.cBox.borderColor = this.theme_lighter_green;
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("x")) {
+                else if (Input.isKeyJustPressed("x")) {
                     this.currentPlatformType = "bouncy";
                     this.zBox.borderColor = this.theme_lighter_green;
                     this.xBox.borderColor = this.theme_dark_green;
                     this.cBox.borderColor = this.theme_lighter_green;
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("c")) {
+                else if (Input.isKeyJustPressed("c")) {
                     this.currentPlatformType = "moving";
                     this.zBox.borderColor = this.theme_lighter_green;
                     this.xBox.borderColor = this.theme_lighter_green;
@@ -378,11 +379,11 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
             }
         }
-        console.log(pauseButton);
-        let key = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
-        key.font = "Bungee";
-        key.fontSize = fontSize;
-        key.textColor = Color.BLACK;
+
+        this.keyLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
+        this.keyLabel.font = "Bungee";
+        this.keyLabel.fontSize = fontSize;
+        this.keyLabel.textColor = Color.BLACK;
 
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
@@ -489,23 +490,22 @@ export default class GameLevel extends Scene {
 
     protected handlePlayerPlatformCollision(player: AnimatedSprite, platform: AnimatedSprite) {
         if(platform) {
-            if((<PlatformController>platform.ai).type == PTL_PlatformType.BOUNCY) {
-                (<PlayerController>player.ai).onBouncy = true;
-            }else if((<PlatformController>platform.ai).type == PTL_PlatformType.MOVING){
-                if(!(<PlatformController>platform.ai).owner.onWall)
-                    (<PlayerController>player.ai).onMoving = true;
-                (<PlayerController>player.ai).pos = (<PlatformController>platform.ai).velocity.x;
-            }else {
-                if((<PlatformController>platform.ai).type == PTL_PlatformType.TRAPDOOR) {
-                    (<PlatformController>platform.ai).trap = true;
-                    (<PlatformController>platform.ai).system = this.system;
-                }
-                if((<PlatformController>platform.ai).type == PTL_PlatformType.DEADLY) {
-                    Input.disableInput();
-                    (<PlayerController>player.ai).onDeadly = true;
-                    this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
-                }
-                this.player.onGround = true;
+            let platformAI = <PlatformController>platform.ai;
+            let playerAI = (<PlayerController>player.ai);
+            let a = platformAI.owner.position.y > this.player.position.y;
+            if(platformAI.type == PTL_PlatformType.BOUNCY && a) {
+                playerAI.onBouncy = true;
+            }else if(platformAI.type == PTL_PlatformType.MOVING && a){
+                if(!platformAI.owner.onWall)
+                    playerAI.onMoving = true;
+                playerAI.pos = platformAI.velocity.x;
+            }else if(platformAI.type == PTL_PlatformType.TRAPDOOR && a) {
+                platformAI.trap = true;
+                platformAI.system = this.system;
+            }else if(platformAI.type == PTL_PlatformType.DEADLY) {
+                Input.disableInput();
+                playerAI.onDeadly = true;
+                this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
             }
         }
     }
