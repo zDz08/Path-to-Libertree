@@ -227,14 +227,14 @@ export default class GameLevel extends Scene {
                     this.cBox.borderColor = this.theme_lighter_green;
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("x")) {
+                else if (Input.isKeyJustPressed("x")) {
                     this.currentPlatformType = "bouncy";
                     this.zBox.borderColor = this.theme_lighter_green;
                     this.xBox.borderColor = this.theme_dark_green;
                     this.cBox.borderColor = this.theme_lighter_green;
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("c")) {
+                else if (Input.isKeyJustPressed("c")) {
                     this.currentPlatformType = "moving";
                     this.zBox.borderColor = this.theme_lighter_green;
                     this.xBox.borderColor = this.theme_lighter_green;
