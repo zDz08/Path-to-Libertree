@@ -52,6 +52,7 @@ export default class Level1 extends GameLevel {
         // this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
         this.addPlatform("h_deadly", new Vec2 (17, 30), {type: PTL_PlatformType.DEADLY});
         this.addPlatform("v_deadly", new Vec2 (14, 15), {type: PTL_PlatformType.DEADLY});
+        this.currentLevel = Level1;
     }
 
     updateScene(deltaT: number): void {

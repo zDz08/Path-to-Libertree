@@ -4,21 +4,27 @@ import Scene from "../../Wolfie2D/Scene/Scene";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import LabelFactory from "../../UIElements/LabelFactory";
+import GameLevel from "../GameLevels/GameLevel";
 
 export default class Dead extends Scene {
 
     animatedSprite: AnimatedSprite;
-
+    protected failedLevel: new (...args: any) => GameLevel;
+    
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
         this.load.image("dead_tree", "assets/sprites/dead_tree.png");
 
     }
 
+    initScene(init: Record<string, any>): void {
+        this.failedLevel = init.failedLevel;
+    }
+
     startScene(): void {
         this.addUILayer("Dead");
-        this.addLayer("Background", 0);
-        this.addLayer("Icon", 1);
+        this.addLayer("Background", 1);
+        this.addLayer("Icon", 0);
 
         // Center the viewport
         let size = this.viewport.getHalfSize();
@@ -32,9 +38,9 @@ export default class Dead extends Scene {
 
         let headings = new LabelFactory("BlackChancery", 64);
 
-        let controlsLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You Are Dead");
+        let deadLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You Are Dead");
 
-        let dead_tree = this.add.sprite("dead_tree", "Icon");
+        let dead_tree = this.add.sprite("dead_tree", "Dead");
         dead_tree.scale.set(1,1);
         dead_tree.position.copy(new Vec2(size.x, size.y-64));
 
@@ -49,6 +55,21 @@ export default class Dead extends Scene {
             this.sceneManager.changeToScene(MainMenu, {});
         }
         
+        restartBtn.onClick = () => {
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
+            }
+            console.log(this.failedLevel);
+            this.sceneManager.changeToScene(this.failedLevel, {}, sceneOptions)
+        }
     }
 
     unloadScene(): void {
