@@ -26,7 +26,7 @@ import MainMenu from "./Scenes/NavigationScreens/MainMenu";
     const game = new Game(options);
 
     // Start our game
-    game.start(MainMenu, {});
+    game.start(SplashScreen, {});
 })();
 
 function runTests(){};
