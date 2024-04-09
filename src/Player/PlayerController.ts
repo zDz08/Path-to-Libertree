@@ -36,8 +36,18 @@ export default class PlayerController extends StateMachineAI {
     MAX_SPEED: number = 300;
     tilemap: OrthogonalTilemap;
     suitColor: PTL_Color;
-    tilePos: Vec2;
-    tileIndex: number;
+    tilePos1: Vec2;
+    tilePos2: Vec2;
+    tilePos3: Vec2;
+    tilePos4: Vec2;
+    tilePos5: Vec2;
+    tilePos6: Vec2;
+    tileIndex1: number;
+    tileIndex2: number;
+    tileIndex3: number;
+    tileIndex4: number;
+    tileIndex5: number;
+    tileIndex6: number;
     onBouncy: boolean;
     onMoving: boolean;
     onDeadly: boolean;
@@ -127,14 +137,40 @@ export default class PlayerController extends StateMachineAI {
 
     update(deltaT: number): void {
 		super.update(deltaT);
-        /*
-        this.tilePos = this.tilemap.getColRowAt(new Vec2(this.owner.position.x, this.owner.position.y+16));
-        this.tileIndex = this.tilemap.getTileAtRowCol(this.tilePos);
-        if(this.tileIndex === 8) {
-            this.tilemap.setTileAtRowCol(this.tilePos, 9);
-            //this.emitter.fireEvent(PTL_Events.PLAYER_HIT_SWITCH);
+        
+
+        this.tilePos1 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x-16, this.owner.position.y+16));
+        this.tilePos2 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x+16, this.owner.position.y+16));
+        this.tilePos3 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x+16, this.owner.position.y-16));
+        this.tilePos4 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x-16, this.owner.position.y-16));
+        this.tilePos5 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x, this.owner.position.y+16));
+        this.tilePos6 = this.tilemap.getColRowAt(new Vec2(this.owner.position.x, this.owner.position.y-16));
+        this.tileIndex1 = this.tilemap.getTileAtRowCol(this.tilePos1);
+        this.tileIndex2 = this.tilemap.getTileAtRowCol(this.tilePos2);
+        this.tileIndex3 = this.tilemap.getTileAtRowCol(this.tilePos3);
+        this.tileIndex4 = this.tilemap.getTileAtRowCol(this.tilePos4);
+        this.tileIndex5 = this.tilemap.getTileAtRowCol(this.tilePos5);
+        this.tileIndex6 = this.tilemap.getTileAtRowCol(this.tilePos6);
+        if(this.tileIndex1 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos1, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
+        }else if(this.tileIndex2 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos2, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
+        }else if(this.tileIndex3 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos3, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
+        }else if(this.tileIndex4 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos4, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
+        }else if(this.tileIndex5 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos5, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
+        }else if(this.tileIndex6 == 1) {
+            this.tilemap.setTileAtRowCol(this.tilePos6, 0);
+            this.emitter.fireEvent(PTL_Events.PLAYER_OBTAINED_KEY);
         }
-        */
+        
 
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");

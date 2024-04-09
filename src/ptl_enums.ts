@@ -7,7 +7,8 @@ export enum PTL_Events {
     PLAYER_KILLED = "PlayerKilled",
     SUIT_COLOR_CHANGE = "SuitColorChange",
     PLAYER_ON_PLATFORM = "PlayerOnPlatform",
-    SPAWN_PLATFORM = "SpawnPlatform"
+    SPAWN_PLATFORM = "SpawnPlatform",
+    PLAYER_OBTAINED_KEY = "PlayerObtainedKey"
 }
 
 export enum PTL_PlatformType {

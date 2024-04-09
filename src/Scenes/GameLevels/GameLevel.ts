@@ -73,7 +73,7 @@ export default class GameLevel extends Scene {
     protected theme_light_green: Color = new Color(94, 121, 60);
     
     protected isPaused: boolean;
-    protected keyNum: Number = 0;
+    protected keyNum: number;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -158,6 +158,12 @@ export default class GameLevel extends Scene {
                     {
                         let pos = new Vec2(this.player.position.x / 32, (this.player.position.y+32) / 32);
                         this.addPlatform(this.currentPlatformType, pos, {type: event.data.get("type")});
+                    }
+                    break;
+                
+                case PTL_Events.PLAYER_OBTAINED_KEY:
+                    {
+                        this.keyNum--;
                     }
                     break;
 
@@ -295,7 +301,8 @@ export default class GameLevel extends Scene {
             PTL_Events.LEVEL_PAUSE,
             PTL_Events.PLAYER_KILLED,
             PTL_Events.PLAYER_ON_PLATFORM,
-            PTL_Events.SPAWN_PLATFORM
+            PTL_Events.SPAWN_PLATFORM,
+            PTL_Events.PLAYER_OBTAINED_KEY
         ]);
     }
 
@@ -456,7 +463,7 @@ export default class GameLevel extends Scene {
         this.player.position.copy(this.playerSpawn);
         this.player.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 14)));
         this.player.colliderOffset.set(0, 2);
-        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main", color: PTL_Color.GREEN});
+        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Collidable", color: PTL_Color.GREEN});
 
         this.player.setGroup("player");
 

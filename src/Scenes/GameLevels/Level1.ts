@@ -39,6 +39,7 @@ export default class Level1 extends GameLevel {
         this.totalZs = 3;
         this.totalXs = 3;
         this.totalCs = 3;
+        this.keyNum = 4;
 
         // Do generic setup for a GameLevel
         super.startScene();
