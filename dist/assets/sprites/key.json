@@ -1,0 +1,14 @@
+{
+    "name": "Key",
+    "spriteSheetImage": "key.png",
+    "spriteWidth": 32,
+    "spriteHeight": 32,
+    "columns": 2,
+    "rows": 2,
+    "animations": [
+        { 
+            "name": "IDLE",
+            "frames": [ {"index": 0, "duration": 16}, {"index": 0, "duration": 16} ]
+        }
+    ]
+}
