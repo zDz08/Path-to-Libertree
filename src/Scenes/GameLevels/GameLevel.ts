@@ -193,6 +193,7 @@ export default class GameLevel extends Scene {
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
                         }
+                        break;
                     }
                 case PTL_Events.LEVEL_PAUSE:
                     {
