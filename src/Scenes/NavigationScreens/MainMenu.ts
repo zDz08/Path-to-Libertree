@@ -27,7 +27,7 @@ export default class MainMenu extends Scene {
         this.viewport.setZoomLevel(1);
 
         let bg = this.add.sprite("screenBg", "Background");
-        bg.scale.set(2,2);
+        bg.scale.set(10,10);
         bg.position.copy(this.viewport.getCenter());
 
         const buttonWidth = 227;

@@ -199,8 +199,8 @@ export default class GameLevel extends Scene {
                     {
                         this.isPaused = true;
                         this.pauseUI();
-                        break;
                     }
+                    break;
             }
         }
         if (!this.isPaused){
