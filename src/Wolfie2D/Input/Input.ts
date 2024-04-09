@@ -321,7 +321,7 @@ export default class Input {
 	 */
 	static disableInput(): void {
 		Input.keysDisabled = true;
-		Input.mouseDisabled = true;
+		// Input.mouseDisabled = true;
 	}
 
 	/**

@@ -25,7 +25,7 @@ export default class Controls extends Scene {
         this.viewport.setZoomLevel(1);
 
         let bg = this.add.sprite("screenBg", "Background");
-        bg.scale.set(2,2);
+        bg.scale.set(10,10);
         bg.position.copy(this.viewport.getCenter());
 
         let headings = new LabelFactory("BlackChancery", 48);

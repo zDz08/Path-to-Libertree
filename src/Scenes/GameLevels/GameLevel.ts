@@ -132,6 +132,7 @@ export default class GameLevel extends Scene {
     updateScene(deltaT: number){
         // Handle events and update the UI if needed
         if (this.isPaused){
+            Input.disableInput();
             this.receiver.ignoreEvents();
         }
         while(this.receiver.hasNextEvent()){
@@ -192,13 +193,14 @@ export default class GameLevel extends Scene {
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
                         }
+                        break;
                     }
                 case PTL_Events.LEVEL_PAUSE:
                     {
                         this.isPaused = true;
                         this.pauseUI();
-                        break;
                     }
+                    break;
             }
         }
         if (!this.isPaused){
