@@ -74,6 +74,7 @@ export default class GameLevel extends Scene {
     
     protected isPaused: boolean;
     protected keyNum: Number = 0;
+    protected keyLabel: Label;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -374,11 +375,11 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
             }
         }
-        console.log(pauseButton);
-        let key = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
-        key.font = "Bungee";
-        key.fontSize = fontSize;
-        key.textColor = Color.BLACK;
+
+        this.keyLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
+        this.keyLabel.font = "Bungee";
+        this.keyLabel.fontSize = fontSize;
+        this.keyLabel.textColor = Color.BLACK;
 
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
