@@ -47,7 +47,7 @@ export default class SplashScreen extends Scene {
         // Create start button
         let startBtn = buttonFactory.makeButton(this.add, "SplashScreen", new Vec2(size.x, size.y+175), "Begin Journey");
         startBtn.onClick = () => {
-            this.sceneManager.changeToScene(MainMenu, {});
+            this.sceneManager.changeToScene(MainMenu, {}, {completedLevels: {}});
         }
     }
 

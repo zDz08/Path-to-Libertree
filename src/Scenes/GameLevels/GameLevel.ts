@@ -8,7 +8,7 @@ import { GraphicType } from "../../Wolfie2D/Nodes/Graphics/GraphicTypes";
 import Point from "../../Wolfie2D/Nodes/Graphics/Point";
 import Rect from "../../Wolfie2D/Nodes/Graphics/Rect";
 import AnimatedSprite from "../../Wolfie2D/Nodes/Sprites/AnimatedSprite";
-import Label from "../../Wolfie2D/Nodes/UIElements/Label";
+import Label, { HAlign } from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Timer from "../../Wolfie2D/Timing/Timer";
@@ -20,6 +20,9 @@ import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import PTL_ParticleSystem from "../../ptl_ParticleSystem";
 import PlayerController from "../../Player/PlayerController";
 import MainMenu from "../NavigationScreens/MainMenu";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import ButtonFactory from "../../UIElements/ButtonFactory";
+import Level1 from "./Level1";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -52,6 +55,25 @@ export default class GameLevel extends Scene {
     protected totalZs: number;
     protected totalXs: number;
     protected totalCs: number;
+
+    // for counting the number of platforms
+    protected zLabel: Label;
+    protected xLabel: Label;
+    protected cLabel: Label;
+
+    // for highlighting selected platforms
+    protected zBox: Label;
+    protected xBox: Label;
+    protected cBox: Label;
+
+    protected pause1: Button;
+    protected pause2: Button;
+    protected theme_dark_green: Color = new Color(38, 70, 12);
+    protected theme_lighter_green: Color = new Color(179, 191, 164);
+    protected theme_light_green: Color = new Color(94, 121, 60);
+    
+    protected isPaused: boolean;
+    protected keyNum: Number = 0;
     protected balloonLabel: Label;
 
     // Total switches and amount currently pressed
@@ -60,6 +82,12 @@ export default class GameLevel extends Scene {
     protected switchesPressed: number;
 
     protected currentPlatformType: string;
+
+    loadScene(): void {
+        this.load.image("basic_icon", "assets/sprites/basicPlatform.png");
+        this.load.image("bouncy_icon", "assets/sprites/bouncyPlatform.png");
+        this.load.image("moving_icon", "assets/sprites/movingPlatform.png");
+    }
 
     startScene(): void {
         this.switchesPressed = 0;
@@ -97,14 +125,17 @@ export default class GameLevel extends Scene {
         Input.disableInput();
         this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
         Input.enableInput();
+
     }
 
 
     updateScene(deltaT: number){
         // Handle events and update the UI if needed
+        if (this.isPaused){
+            this.receiver.ignoreEvents();
+        }
         while(this.receiver.hasNextEvent()){
             let event = this.receiver.getNextEvent();
-            
             switch(event.type){
 
                 case PTL_Events.PLAYER_ON_PLATFORM:
@@ -162,53 +193,75 @@ export default class GameLevel extends Scene {
                             this.delayTimer.start();
                         }
                     }
-
+                case PTL_Events.LEVEL_PAUSE:
+                    {
+                        this.isPaused = true;
+                        this.pauseUI();
+                        break;
+                    }
             }
         }
-
+        if (!this.isPaused){
         /**
          * Pressing 1 switches our suit to RED
          * Pressing 2 switches our suit to BLUE
          * Pressing 3 switches our suit to GREEN
          */
-        if (this.suitChangeTimer.isStopped()) {
-            if (Input.isKeyJustPressed("1")) {
-                this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
-                this.suitChangeTimer.start();
+            if (this.suitChangeTimer.isStopped()) {
+                if (Input.isKeyJustPressed("1")) {
+                    this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("2")) {
+                    this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.RED});
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("3")) {
+                    this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("z")) {
+                    this.currentPlatformType = "basic";
+                    this.zBox.borderColor = this.theme_dark_green;
+                    this.xBox.borderColor = this.theme_lighter_green;
+                    this.cBox.borderColor = this.theme_lighter_green;
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("x")) {
+                    this.currentPlatformType = "bouncy";
+                    this.zBox.borderColor = this.theme_lighter_green;
+                    this.xBox.borderColor = this.theme_dark_green;
+                    this.cBox.borderColor = this.theme_lighter_green;
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("c")) {
+                    this.currentPlatformType = "moving";
+                    this.zBox.borderColor = this.theme_lighter_green;
+                    this.xBox.borderColor = this.theme_lighter_green;
+                    this.cBox.borderColor = this.theme_dark_green;
+                    this.suitChangeTimer.start();
+                }
+                if (Input.isKeyJustPressed("p")){
+                    this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
+                }
             }
-            if (Input.isKeyJustPressed("2")) {
-                this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.RED});
-                this.suitChangeTimer.start();
+            if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
+                if(this.currentPlatformType == "basic" && this.totalZs > 0) {
+                    this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
+                    this.totalZs--;
+                    this.zLabel.text = this.totalZs.toString();
+                }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
+                    this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
+                    this.totalXs--;
+                    this.xLabel.text = this.totalXs.toString();
+                }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
+                    this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
+                    this.totalCs--;
+                    this.cLabel.text = this.totalCs.toString();
+                }
             }
-            if (Input.isKeyJustPressed("3")) {
-                this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
-                this.suitChangeTimer.start();
-            }
-        }
-        
-        if (Input.isKeyJustPressed("z")) {
-            this.currentPlatformType = "basic";
-            this.suitChangeTimer.start();
-        }else if (Input.isKeyJustPressed("x")) {
-            this.currentPlatformType = "bouncy";
-            this.suitChangeTimer.start();
-        }else if (Input.isKeyJustPressed("c")) {
-            this.currentPlatformType = "moving";
-            this.suitChangeTimer.start();
         }
 
-        if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
-            if(this.currentPlatformType == "basic" && this.totalZs > 0) {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
-                this.totalZs--;
-            }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
-                this.totalXs--;
-            }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
-                this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
-                this.totalCs--;
-            }
-        }
     }
 
     /**
@@ -220,6 +273,9 @@ export default class GameLevel extends Scene {
 
         // Add a layer for players and enemies
         this.addLayer("primary", 1);
+
+        // add a layer for platform icons
+        this.addLayer("platform_icons", 0)
     }
 
     /**
@@ -236,6 +292,7 @@ export default class GameLevel extends Scene {
         this.receiver.subscribe([
             PTL_Events.LEVEL_START,
             PTL_Events.LEVEL_END,
+            PTL_Events.LEVEL_PAUSE,
             PTL_Events.PLAYER_KILLED,
             PTL_Events.PLAYER_ON_PLATFORM,
             PTL_Events.SPAWN_PLATFORM
@@ -246,6 +303,80 @@ export default class GameLevel extends Scene {
      * Adds in any necessary UI to the game
      */
     protected addUI(){
+        // In-game labels
+        const startPosX = 7;
+        const startPosY = 10;
+        const boxWidth = 100;
+        const boxHeight = 24;
+        const fontSize = 20;
+        const borderWidth = 2.5;
+        const letterLabels = ["Z", "X", "C"];
+        const platformIcons = ["basic_icon", "bouncy_icon", "moving_icon"]
+        const counts = [this.totalZs, this.totalXs, this.totalCs];
+
+        let boxes = []
+        let labels = []
+        for(let i = 0; i < 3; i++){
+            let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+boxWidth/2, startPosY+boxHeight*i+borderWidth*2), text: ""});
+            box.size.set(boxWidth*2, boxHeight*2-borderWidth);
+            box.backgroundColor = new Color(217,217,217,1);
+            box.borderColor = this.theme_lighter_green;
+            box.borderWidth = borderWidth;
+            box.fontSize = boxHeight;
+            boxes.push(box);
+
+            let letter = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX+5, startPosY+boxHeight*(i+1)+borderWidth*2-fontSize+2), text: letterLabels[i]});
+            letter.fontSize = fontSize;
+            letter.font = "Bungee";
+            letter.textColor = Color.BLACK;
+
+            let count = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(startPosX + boxWidth- 5, startPosY+boxHeight*(i+1)+borderWidth*2-fontSize+2), text: counts[i].toString()});
+            count.fontSize = fontSize;
+            count.font = "Bungee";
+            count.textColor = this.theme_light_green;
+            labels.push(count);
+
+            let icon = this.add.sprite(platformIcons[i], "UI");
+            icon.scale.set(.25,.25);
+            icon.position.copy(new Vec2(startPosX+boxWidth/2,startPosY+boxHeight*i+borderWidth*2));
+        }
+
+        this.zLabel = labels[0];
+        this.xLabel = labels[1];
+        this.cLabel = labels[2];
+
+        this.zBox = boxes[0];
+        this.xBox = boxes[1];
+        this.cBox = boxes[2];
+
+        const halfSize = this.viewport.getHalfSize();
+        this.pause1 = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-20, boxHeight/2), text: ""});
+        this.pause2 = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-10, boxHeight/2), text: ""});
+        this.pause1.size.set(10, boxHeight+5);
+        this.pause1.backgroundColor = Color.WHITE;
+        this.pause1.borderRadius = 3;
+        this.pause1.borderColor = this.theme_dark_green;
+        this.pause1.borderWidth = 2;
+        this.pause2.size.set(10, boxHeight+5);
+        this.pause2.backgroundColor =  Color.WHITE;
+        this.pause2.borderRadius = 3;
+        this.pause2.borderColor = this.theme_dark_green;
+        this.pause2.borderWidth = 2;
+
+        let pauseButton = <Button>this.add.uiElement(UIElementType.BUTTON, "UI", {position: new Vec2(halfSize.x*2-15, boxHeight/2), text: ""});
+        pauseButton.size.set(30, boxHeight+5);
+        pauseButton.backgroundColor = Color.TRANSPARENT;
+        pauseButton.borderColor = Color.TRANSPARENT;
+        pauseButton.onEnter = () => {
+            if(Input.isMouseJustPressed(0)) {
+                this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
+            }
+        }
+        console.log(pauseButton);
+        let key = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
+        key.font = "Bungee";
+        key.fontSize = fontSize;
+        key.textColor = Color.BLACK;
 
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
@@ -253,6 +384,64 @@ export default class GameLevel extends Scene {
         this.system.changeColor(new Color(128, 124, 124));
     }
 
+    protected pauseUI(){
+        this.pause1.backgroundColor = this.theme_dark_green;
+        this.pause2.backgroundColor = this.theme_dark_green;
+        const halfSize = this.viewport.getHalfSize()
+        const buttonHeight = 40;
+        const startPosY = halfSize.y-60;
+        let box = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: halfSize, text: ""});
+        box.size.copy(halfSize).scale(2);
+        box.backgroundColor = this.theme_dark_green;
+        box.borderRadius = 15;
+        let pauseLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x, startPosY), text: "Paused"});
+        pauseLabel.textColor = Color.WHITE;
+        pauseLabel.fontSize = 48;
+        pauseLabel.font = "BlackChancery";
+        let buttonFactory = new ButtonFactory(260, 50);
+        let resume = buttonFactory.makeButton(this.add, "UI", new Vec2(halfSize.x, startPosY+buttonHeight), "Resume");
+        let restart = buttonFactory.makeButton(this.add, "UI", new Vec2(halfSize.x, startPosY+2*(buttonHeight)), "Restart");
+        let main = buttonFactory.makeButton(this.add, "UI", new Vec2(halfSize.x, startPosY+3*(buttonHeight)), "Back to Main Menu");
+        resume.onEnter = () => {
+            if(Input.isMouseJustPressed(0)) {
+                this.isPaused = false;
+                box.destroy();
+                pauseLabel.destroy();
+                resume.destroy();
+                restart.destroy();
+                main.destroy();
+                this.pause1.backgroundColor = Color.WHITE;
+                this.pause2.backgroundColor = Color.WHITE;
+                this.emitter.fireEvent(PTL_Events.LEVEL_START)
+            }
+        }
+        restart.onEnter = () => {
+            if(Input.isMouseJustPressed(0)) {
+                this.isPaused = false;
+                if(Input.isMouseJustPressed(0)) {
+                    this.pause1.backgroundColor = Color.WHITE;
+                    this.pause2.backgroundColor = Color.WHITE;
+                    let sceneOptions = {
+                        physics: {
+                            groupNames: ["ground", "player", "platform"],
+                            collisions:
+                            [
+                                [0, 1, 1],
+                                [1, 0, 1],
+                                [1, 1, 0]
+                            ]
+                        }
+                    }
+                    this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+                }
+            }
+        }
+        main.onEnter = () => {
+            if(Input.isMouseJustPressed(0)) {
+                this.sceneManager.changeToScene(MainMenu, {});
+            }
+        }
+    }
     /**
      * Initializes the player
      */

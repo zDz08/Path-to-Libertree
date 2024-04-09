@@ -1,5 +1,8 @@
 import Game from "./Wolfie2D/Loop/Game";
 import SplashScreen from "./Scenes/NavigationScreens/SplashScreen";
+import Dead from "./Scenes/NavigationScreens/Dead";
+import Free from "./Scenes/NavigationScreens/Free";
+import MainMenu from "./Scenes/NavigationScreens/MainMenu";
 
 // The main function is your entrypoint into Wolfie2D. Specify your first scene and any options here.
 (function main(){
