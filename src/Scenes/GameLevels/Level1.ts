@@ -33,10 +33,9 @@ export default class Level1 extends GameLevel {
     startScene(): void {
         // Add the level 1 tilemap
         this.add.tilemap("level1", new Vec2(2, 2));
-        this.viewport.setBounds(0, 0, 64*32, 20*32);
-
-        this.playerSpawn = new Vec2(5*32, 14*32);
-
+        this.viewport.setBounds(0, 0, 1024, 1024);
+        this.playerSpawn = new Vec2(128, 824);
+        
         this.totalZs = 3;
         this.totalXs = 3;
         this.totalCs = 3;
