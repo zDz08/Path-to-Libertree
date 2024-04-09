@@ -132,6 +132,7 @@ export default class GameLevel extends Scene {
     updateScene(deltaT: number){
         // Handle events and update the UI if needed
         if (this.isPaused){
+            Input.disableInput();
             this.receiver.ignoreEvents();
         }
         while(this.receiver.hasNextEvent()){
