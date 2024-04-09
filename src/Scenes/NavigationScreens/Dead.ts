@@ -23,8 +23,8 @@ export default class Dead extends Scene {
 
     startScene(): void {
         this.addUILayer("Dead");
-        this.addLayer("Background", 0);
-        this.addLayer("Icon", 1);
+        this.addLayer("Background", 1);
+        this.addLayer("Icon", 0);
 
         // Center the viewport
         let size = this.viewport.getHalfSize();
@@ -38,9 +38,9 @@ export default class Dead extends Scene {
 
         let headings = new LabelFactory("BlackChancery", 64);
 
-        let controlsLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You Are Dead");
+        let deadLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You Are Dead");
 
-        let dead_tree = this.add.sprite("dead_tree", "Icon");
+        let dead_tree = this.add.sprite("dead_tree", "Dead");
         dead_tree.scale.set(1,1);
         dead_tree.position.copy(new Vec2(size.x, size.y-64));
 
