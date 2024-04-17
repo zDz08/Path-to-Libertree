@@ -32,11 +32,10 @@ export default class Controls extends Scene {
         let text = new LabelFactory("CrimsonText", 24);
         
         const story = 
-        `Mr. Tree is a huge tree enthusiast. Every day in the wintertime, he dresses up as a Christmas tree and
-        performs for the local townspeople.The only problem is that Mr. Tree lives in relative isolation from
-        the nearby town, meaning he would normally have to trek by foot to reach\town; however, he possesses
-        magic platforms! These platforms exhibit strange and varying behaviors, but they help him get to and
-        from home, making this journey each and every day to spread his passion with those he cares about.`;
+        `In the wintertime, Twinklefern, tree enthusiast and philanthropist, dresses up as a Christmas tree to
+        perform for and give presents to the citizens of Christmassachussetts. Unfortunately for Mr. Tree, he lives
+        quite far, meaning he would have to trek many miles by foot. Luckily, he possesses magic platforms that 
+        exhibit strange and varying behaviors to help him get there just in time to make a jolly entrance!`;
 
         const creators = "Developed by Elizabeth Sham, Thomas Traube, and Zhendong Zeng";
 
