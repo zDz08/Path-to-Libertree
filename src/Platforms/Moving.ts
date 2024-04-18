@@ -9,6 +9,9 @@ export default class Moving extends PlatformState {
 
 		(<AnimatedSprite>this.owner).animation.play("IDLE", true);
 
+		let x = this.getInputXDirection()
+		if(x != 0)
+			this.parent.direction.x = x;
 		this.parent.velocity.x = this.parent.direction.x * this.parent.speed;
 	}
 
