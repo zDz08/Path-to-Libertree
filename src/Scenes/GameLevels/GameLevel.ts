@@ -120,8 +120,8 @@ export default class GameLevel extends Scene {
            // this.levelTransitionScreen.tweens.play("fadeIn");
         });
 
-        // 1 second cooldown for changing suits
-        this.suitChangeTimer = new Timer(1000);
+        // .1 second cooldown for changing suits
+        this.suitChangeTimer = new Timer(100);
         this.delayTimer = new Timer(1700, () => {
             this.respawnPlayer();
         });

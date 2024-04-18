@@ -38,7 +38,7 @@ export default class Dead extends Scene {
 
         let headings = new LabelFactory("BlackChancery", 64);
 
-        let deadLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You Are Dead");
+        let deadLabel = headings.makeLabel(this.add, "Dead", new Vec2(size.x, size.y-160), "You've Died");
 
         let dead_tree = this.add.sprite("dead_tree", "Dead");
         dead_tree.scale.set(1,1);
