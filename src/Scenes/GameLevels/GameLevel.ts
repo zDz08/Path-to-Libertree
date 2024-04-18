@@ -169,6 +169,8 @@ export default class GameLevel extends Scene {
                 
                 case PTL_Events.PLAYER_OBTAINED_KEY:
                     {
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+                        other.destroy();
                         this.keyNum--;
                         this.keyLabel.text = "KEY: " + this.keyNum;
                     }
@@ -494,6 +496,16 @@ export default class GameLevel extends Scene {
         platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
         platform.addAI(PlatformController, aiOptions);
         platform.setGroup("platform");
+    }
+
+    protected addKey(spriteKey: string, tilePos: Vec2): void {
+        let key = this.add.animatedSprite(spriteKey, "primary");
+        key.position.set(tilePos.x*32, tilePos.y*32);
+        key.scale.set(0.1, 0.1);
+        key.addPhysics();
+        key.setTrigger("player", PTL_Events.PLAYER_OBTAINED_KEY, null);
+        key.setGroup("key");
+        key.animation.play("IDLE", true);
     }
 
     protected handlePlayerPlatformCollision(player: AnimatedSprite, platform: AnimatedSprite) {

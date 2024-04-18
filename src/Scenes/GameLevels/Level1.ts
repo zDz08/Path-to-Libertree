@@ -23,6 +23,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("trap", "assets/sprites/trapDoorPlatform.json");
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
+        this.load.spritesheet("key","assets/sprites/key.json");
         super.loadScene();
     }
 
@@ -52,6 +53,10 @@ export default class Level1 extends GameLevel {
         // this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
         this.addPlatform("h_deadly", new Vec2 (17, 30), {type: PTL_PlatformType.DEADLY});
         this.addPlatform("v_deadly", new Vec2 (14, 15), {type: PTL_PlatformType.DEADLY});
+        this.addKey("key", new Vec2(17, 27));
+        this.addKey("key", new Vec2(28, 28));
+        this.addKey("key", new Vec2(20, 6));
+        this.addKey("key", new Vec2(4, 1));
         this.currentLevel = Level1;
     }
 
