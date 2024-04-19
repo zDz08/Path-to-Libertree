@@ -8,7 +8,8 @@ export enum PTL_Events {
     SUIT_COLOR_CHANGE = "SuitColorChange",
     PLAYER_ON_PLATFORM = "PlayerOnPlatform",
     SPAWN_PLATFORM = "SpawnPlatform",
-    PLAYER_OBTAINED_KEY = "PlayerObtainedKey"
+    PLAYER_OBTAINED_KEY = "PlayerObtainedKey",
+    PLAYER_ENTERED_LEVEL_END = "PlayerEnteredLevelEnd"
 }
 
 export enum PTL_PlatformType {

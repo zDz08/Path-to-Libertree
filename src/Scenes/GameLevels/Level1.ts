@@ -24,6 +24,7 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
         this.load.spritesheet("key","assets/sprites/key.json");
+        this.load.spritesheet("door","assets/sprites/door.json");
         super.loadScene();
     }
 
@@ -45,6 +46,7 @@ export default class Level1 extends GameLevel {
         // Do generic setup for a GameLevel
         super.startScene();
 
+        this.addLevelEnd("door", new Vec2(30, 27.5));
         this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
         // this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
         // this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
@@ -58,6 +60,7 @@ export default class Level1 extends GameLevel {
         this.addKey("key", new Vec2(20, 6));
         this.addKey("key", new Vec2(4, 1));
         this.currentLevel = Level1;
+        this.nextLevel = Level1;
     }
 
     updateScene(deltaT: number): void {

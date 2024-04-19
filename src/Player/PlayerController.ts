@@ -87,17 +87,10 @@ export default class PlayerController extends StateMachineAI {
             ]
         });
 
-        owner.tweens.add("death", {
+        owner.tweens.add("fade", {
             startDelay: 0,
             duration: 1500,
-            onEnd: "PlayerKilled",
             effects: [
-                {
-                    property: "rotation",
-                    start: 0,
-                    end: 6*Math.PI,
-                    ease: EaseFunctionType.IN_OUT_QUAD
-                },
                 {
                     property: "alpha",
                     start: 1,
