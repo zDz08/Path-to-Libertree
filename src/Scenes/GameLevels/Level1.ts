@@ -47,7 +47,7 @@ export default class Level1 extends GameLevel {
         super.startScene();
 
         this.addLevelEnd("door", new Vec2(30, 27.5));
-        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
+        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
         // this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
         // this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
         // this.addPlatform("trap", new Vec2 (11.5, 16), {type: PTL_PlatformType.TRAPDOOR});

@@ -27,10 +27,10 @@ export default abstract class PlatformState extends State {
 		if (event.type == PTL_Events.SUIT_COLOR_CHANGE) {
 			let new_color = event.data.get("color");
 			if (this.parent.color == new_color){
-				this.owner.disablePhysics();
-			}
-			else {
 				this.owner.enablePhysics();
+			}
+			else if(this.parent.color) {
+				this.owner.disablePhysics();
 			}
 		}
 		if (event.type == PTL_Events.PLAYER_MOVE) {
