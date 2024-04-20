@@ -7,6 +7,7 @@ import Color from "../../Wolfie2D/Utils/Color";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import Level1 from "../GameLevels/Level1";
+import Level4 from "../GameLevels/Level4";
 
 export default class Levels extends Scene {
 
@@ -45,7 +46,7 @@ export default class Levels extends Scene {
         let level1 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y-yspacing), "One");
         let level2 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
         let level3 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y), "Three");
-        let level4 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
+        let level4 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
         let level5 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
         let level6 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y+yspacing), "Six");
         let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+190), "Return");
@@ -66,6 +67,21 @@ export default class Levels extends Scene {
                 }
             }
             this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+        }
+
+        level4.onClick = () => {
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
+            }
+            this.sceneManager.changeToScene(Level4, {}, sceneOptions);
         }
     }
 
