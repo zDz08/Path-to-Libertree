@@ -5,6 +5,7 @@ import { PTL_Events } from "../ptl_enums";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
 import WalkOpposite from "./EnemyStates/WalkOpposite";
 import KillPlayer from "./EnemyStates/KillPlayer";
+import Input from "../Wolfie2D/Input/Input";
 
 
 export enum EnemyStates {
@@ -48,6 +49,7 @@ export default class EnemyController extends StateMachineAI {
             if (Math.abs(this.playerPos.x - this.owner.position.x) < 30 && 
                 Math.abs(this.playerPos.y - this.owner.position.y) < 30) {
                     this.changeState(EnemyStates.KILL_PLAYER);
+                    Input.disableInput();
                     this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
             }
         }
