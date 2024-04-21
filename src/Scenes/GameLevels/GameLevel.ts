@@ -24,6 +24,7 @@ import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import Level1 from "./Level1";
 import Dead from "../NavigationScreens/Dead";
+import EnemyController from "../../Enemies/EnemyController";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -656,5 +657,14 @@ export default class GameLevel extends Scene {
         this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
         Input.enableInput();
         this.system.stopSystem();
+    }
+
+    protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
+        let enemy = this.add.animatedSprite(spriteKey, "primary");
+        enemy.position.set(tilePos.x*32, tilePos.y*32);
+        enemy.scale.set(.2, .2);
+        enemy.addPhysics();
+        enemy.addAI(EnemyController, aiOptions);
+        enemy.setGroup("balloon");
     }
 }
