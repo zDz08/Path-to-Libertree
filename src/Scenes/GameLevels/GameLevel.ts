@@ -462,7 +462,7 @@ export default class GameLevel extends Scene {
         this.system.changeColor(new Color(128, 124, 124));
 
         this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});
-        this.levelTransitionScreen.color = this.theme_dark_green;
+        this.levelTransitionScreen.color = new Color(38, 70, 12);
         this.levelTransitionScreen.alpha = 1;
 
         this.levelTransitionScreen.tweens.add("fadeIn", {
