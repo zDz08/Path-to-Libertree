@@ -583,7 +583,7 @@ export default class GameLevel extends Scene {
             platform.scale.set(0.3, 0.25);
             platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 32)));
         }else {
-            platform.scale.set(0.25, 0.3);
+            platform.scale.set(0.25, 0.305);
             platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 6)));
         }
         platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
