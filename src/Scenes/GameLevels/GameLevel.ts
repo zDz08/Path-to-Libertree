@@ -228,6 +228,9 @@ export default class GameLevel extends Scene {
                     break;
                 case PTL_Events.PLAYER_KILLED:
                     {
+                        Input.disableInput();
+                        let playerAI = (<PlayerController>this.player.ai);
+                        playerAI.onDeadly = true;
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
                         }
@@ -626,8 +629,8 @@ export default class GameLevel extends Scene {
                 platformAI.trap = true;
                 platformAI.system = this.system;
             }else if(platformAI.type == PTL_PlatformType.DEADLY) {
-                Input.disableInput();
-                playerAI.onDeadly = true;
+                // Input.disableInput();
+                // playerAI.onDeadly = true;
                 this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
             }
         }

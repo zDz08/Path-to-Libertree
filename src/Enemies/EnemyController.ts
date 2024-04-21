@@ -46,10 +46,10 @@ export default class EnemyController extends StateMachineAI {
         super.handleEvent(event);
 		if (event.type == PTL_Events.PLAYER_MOVE) {
 			this.playerPos = event.data.get("position");
+            // detecting collision here for state changes
             if (Math.abs(this.playerPos.x - this.owner.position.x) < 30 && 
                 Math.abs(this.playerPos.y - this.owner.position.y) < 30) {
                     this.changeState(EnemyStates.KILL_PLAYER);
-                    Input.disableInput();
                     this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
             }
         }
