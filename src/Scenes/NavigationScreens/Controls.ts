@@ -38,9 +38,9 @@ export default class Controls extends Scene {
         X - Select Platform 2
         C - Select Platform 3
         Left-Click - Spawn Platform
-        1 - Select Suit Color
-        2 - Select Suit Color
-        3 - Select Suit Color`;
+        J - Select Green Suit Color
+        K - Select Red Suit Color
+        L - Select Blue Suit Color`;
 
         let controlsLabel = headings.makeLabel(this.add, "Controls", new Vec2(size.x, size.y-260), "Controls");
         let controlsText = text.makeParagraph(this.add, "Controls", new Vec2(size.x, size.y-190), controls.split('\n'));

@@ -23,6 +23,7 @@ import MainMenu from "../NavigationScreens/MainMenu";
 import Button from "../../Wolfie2D/Nodes/UIElements/Button";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import Level1 from "./Level1";
+import Level4 from "./Level4";
 import Dead from "../NavigationScreens/Dead";
 
 export default class GameLevel extends Scene {
@@ -86,8 +87,11 @@ export default class GameLevel extends Scene {
     protected totalSwitches: number;
     protected switchLabel: Label;
     protected switchesPressed: number;
-
     protected currentPlatformType: string;
+
+    // Cheats
+    protected isInvincible: boolean = false;
+    protected unlimitedMode: boolean = false;
 
     loadScene(): void {
         this.load.image("basic_icon", "assets/sprites/basicPlatform.png");
@@ -176,7 +180,7 @@ export default class GameLevel extends Scene {
                         let other = this.sceneGraph.getNode(event.data.get("other"));
                         other.destroy();
                         this.keyNum--;
-                        this.keyLabel.text = "KEY: " + this.keyNum;
+                        this.keyLabel.text = "KEYS LEFT: " + this.keyNum;
                         if(this.keyNum === 0)
                             this.levelEndArea.enablePhysics();
                     }
@@ -242,20 +246,20 @@ export default class GameLevel extends Scene {
         }
         if (!this.isPaused){
         /**
-         * Pressing 1 switches our suit to RED
-         * Pressing 2 switches our suit to BLUE
-         * Pressing 3 switches our suit to GREEN
+         * Pressing j switches our suit to RED
+         * Pressing k switches our suit to BLUE
+         * Pressing l switches our suit to GREEN
          */
             if (this.suitChangeTimer.isStopped()) {
-                if (Input.isKeyJustPressed("1")) {
+                if (Input.isKeyJustPressed("j")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("2")) {
+                if (Input.isKeyJustPressed("k")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.RED});
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("3")) {
+                if (Input.isKeyJustPressed("l")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
                     this.suitChangeTimer.start();
                 }
@@ -287,18 +291,68 @@ export default class GameLevel extends Scene {
             if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
                 if(this.currentPlatformType == "basic" && this.totalZs > 0) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
-                    this.totalZs--;
-                    this.zLabel.text = this.totalZs.toString();
+                    if (!this.unlimitedMode) {
+                        this.totalZs--;
+                        this.zLabel.text = this.totalZs.toString();
+                    }
                 }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
-                    this.totalXs--;
-                    this.xLabel.text = this.totalXs.toString();
+                    if (!this.unlimitedMode) {
+                        this.totalXs--;
+                        this.xLabel.text = this.totalXs.toString();
+                    }
                 }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
-                    this.totalCs--;
-                    this.cLabel.text = this.totalCs.toString();
+                    if (!this.unlimitedMode) {
+                        this.totalCs--;
+                        this.cLabel.text = this.totalCs.toString();
+                    }
                 }
             }
+
+            // De/activate cheats
+            if (Input.isKeyJustPressed("i"))
+                this.isInvincible = !this.isInvincible;
+            if (Input.isKeyJustPressed("u"))
+                this.unlimitedMode = !this.unlimitedMode;
+
+            /* 
+                Switch to desired level 
+                TODO: add other levels when finished
+            */
+            if (Input.isKeyJustPressed("1")) {
+                this.currentLevel = Level1;
+                this.nextLevel = Level1;
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player", "platform"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]
+                        ]
+                    }
+                }
+                this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+            }
+            // if (Input.isKeyJustPressed("4")) {
+            //     console.log(Level4);
+            //     this.currentLevel = Level4;
+            //     this.nextLevel = Level4;
+            //     let sceneOptions = {
+            //         physics: {
+            //             groupNames: ["ground", "player", "platform"],
+            //             collisions:
+            //             [
+            //                 [0, 1, 1],
+            //                 [1, 0, 1],
+            //                 [1, 1, 0]
+            //             ]
+            //         }
+            //     }
+            //     this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+            // }
         }
 
     }
@@ -414,7 +468,7 @@ export default class GameLevel extends Scene {
             }
         }
 
-        this.keyLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-24, boxHeight/2+20), text: "KEY : " + this.keyNum});
+        this.keyLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-40, boxHeight/2+20), text: "KEYS LEFT: " + this.keyNum});
         this.keyLabel.font = "Bungee";
         this.keyLabel.fontSize = fontSize;
         this.keyLabel.textColor = Color.BLACK;
@@ -624,7 +678,7 @@ export default class GameLevel extends Scene {
             }else if(platformAI.type == PTL_PlatformType.TRAPDOOR && a) {
                 platformAI.trap = true;
                 platformAI.system = this.system;
-            }else if(platformAI.type == PTL_PlatformType.DEADLY) {
+            }else if(platformAI.type == PTL_PlatformType.DEADLY && !this.isInvincible) {
                 Input.disableInput();
                 playerAI.onDeadly = true;
                 this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
