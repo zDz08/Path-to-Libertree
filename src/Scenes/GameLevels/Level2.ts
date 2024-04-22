@@ -6,7 +6,7 @@ import { PTL_Color } from "../../ptl_color";
 import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
 
-export default class Level1 extends GameLevel {
+export default class Level2 extends GameLevel {
     protected levelEndAreaIsSet: boolean = false;
     protected timer: Timer;
     
@@ -46,31 +46,26 @@ export default class Level1 extends GameLevel {
         this.add.tilemap("level2collidable", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 1024, 1024);
         this.playerSpawn = new Vec2(128, 824);
-        
+
         this.totalZs = 3;
-        this.totalXs = 3;
-        this.totalCs = 3;
-        this.keyNum = 4;
+        this.totalXs = 2;
+        this.totalCs = 2;
+        this.keyNum = 3;
 
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addLevelEnd("door", new Vec2(30, 27.5));
-        this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("trap", new Vec2 (11.5, 16), {type: PTL_PlatformType.TRAPDOOR});
-        // this.addPlatform("trap", new Vec2 (34, 13), {type: PTL_PlatformType.TRAPDOOR});
-        // this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
-        this.addPlatform("h_deadly", new Vec2 (17, 30), {type: PTL_PlatformType.DEADLY});
-        this.addPlatform("v_deadly", new Vec2 (14, 15), {type: PTL_PlatformType.DEADLY});
-        this.addKey("key", new Vec2(17, 27));
-        this.addKey("key", new Vec2(28, 28));
-        this.addKey("key", new Vec2(20, 6));
-        this.addKey("key", new Vec2(4, 1));
-        this.addEnemy("enemy", new Vec2(10, 29.5), {tilemap: "Collidable"})
-        this.currentLevel = Level1;
-        this.nextLevel = Level1;
+        this.addEnemy("enemy", new Vec2(6, 27), {tilemap: "Collidable"})
+        this.addEnemy("enemy", new Vec2(15, 24), {tilemap: "Collidable"})
+        this.addPlatform("trap", new Vec2 (12, 26.5), {type: PTL_PlatformType.TRAPDOOR});
+        this.addPlatform("trap", new Vec2 (21, 23.5), {type: PTL_PlatformType.TRAPDOOR});
+        this.addPlatform("v_deadly", new Vec2 (24, 4.5), {type: PTL_PlatformType.DEADLY});
+        this.addKey("key", new Vec2(9.5, 14.5));
+        this.addKey("key", new Vec2(14, 7.5));
+        this.addKey("key", new Vec2(31, 31));
+        this.addLevelEnd("door", new Vec2(27, 4.5));
+        this.currentLevel = Level2;
+        this.nextLevel = Level2;
     }
 
     updateScene(deltaT: number): void {
