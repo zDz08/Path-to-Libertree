@@ -36,10 +36,11 @@ export default class GameLevel extends Scene {
     protected livesCountLabel: Label;
 
     // Stuff to end the level and go to the next level
-    protected levelEndArea: Rect;
+    protected levelEndArea: AnimatedSprite;
     protected nextLevel: new (...args: any) => GameLevel;
     protected levelEndTimer: Timer;
-    protected levelEndLabel: Label;
+    protected levelEndLabel1: Label;
+    protected levelEndLabel2: Label;
     
     // Screen fade in/out for level start and end
     protected levelTransitionTimer: Timer;
@@ -74,7 +75,7 @@ export default class GameLevel extends Scene {
     protected theme_light_green: Color = new Color(94, 121, 60);
     
     protected isPaused: boolean;
-    protected keyNum: Number = 0;
+    protected keyNum: number;
 
     //for restarting
     protected currentLevel: new (...args: any) => GameLevel;
@@ -117,8 +118,11 @@ export default class GameLevel extends Scene {
         this.levelTransitionTimer = new Timer(500);
         this.levelEndTimer = new Timer(3000, () => {
             // After the level end timer ends, fade to black and then go to the next scene
-           // this.levelTransitionScreen.tweens.play("fadeIn");
+            this.levelTransitionScreen.tweens.play("fadeIn");
         });
+
+        // Start the black screen fade out
+        this.levelTransitionScreen.tweens.play("fadeOut");
 
         // .1 second cooldown for changing suits
         this.suitChangeTimer = new Timer(100);
@@ -166,6 +170,17 @@ export default class GameLevel extends Scene {
                         this.addPlatform(this.currentPlatformType, pos, {type: event.data.get("type")});
                     }
                     break;
+                
+                case PTL_Events.PLAYER_OBTAINED_KEY:
+                    {
+                        let other = this.sceneGraph.getNode(event.data.get("other"));
+                        other.destroy();
+                        this.keyNum--;
+                        this.keyLabel.text = "KEY: " + this.keyNum;
+                        if(this.keyNum === 0)
+                            this.levelEndArea.enablePhysics();
+                    }
+                    break;
 
                 case PTL_Events.LEVEL_START:
                     {
@@ -174,6 +189,23 @@ export default class GameLevel extends Scene {
                     }
                     break;
                 
+                case PTL_Events.PLAYER_ENTERED_LEVEL_END:
+                    {
+                        //Check if the player has pressed all the switches and popped all of the balloons
+                        if (this.keyNum === 0){
+                            if(!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()){
+                                // The player has reached the end of the level
+                                //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
+                                this.levelEndTimer.start();
+                                this.levelEndLabel1.tweens.play("slideIn");
+                                this.levelEndLabel2.tweens.play("slideIn");
+                                this.player.tweens.play("fade");
+                                Input.disableInput();
+                            }
+                        }
+                    }
+                    break;
+                    
                 case PTL_Events.LEVEL_END:
                     {
                         // Go to the next level
@@ -302,7 +334,9 @@ export default class GameLevel extends Scene {
             PTL_Events.LEVEL_PAUSE,
             PTL_Events.PLAYER_KILLED,
             PTL_Events.PLAYER_ON_PLATFORM,
-            PTL_Events.SPAWN_PLATFORM
+            PTL_Events.SPAWN_PLATFORM,
+            PTL_Events.PLAYER_OBTAINED_KEY,
+            PTL_Events.PLAYER_ENTERED_LEVEL_END
         ]);
     }
 
@@ -385,10 +419,79 @@ export default class GameLevel extends Scene {
         this.keyLabel.fontSize = fontSize;
         this.keyLabel.textColor = Color.BLACK;
 
+        // End of level labels (start off screen)
+        this.levelEndLabel1 = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-400, 200), text: "Level"});
+        this.levelEndLabel1.textColor = Color.BLACK;
+        this.levelEndLabel1.fontSize = 120;
+        this.levelEndLabel1.font = "Bungee";
+        
+        this.levelEndLabel1.tweens.add("slideIn", {
+            startDelay: 0,
+            duration: 1000,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: -375,
+                    end: 125,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ]
+        });
+
+        this.levelEndLabel2 = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(900, 200), text: "Complete"});
+        this.levelEndLabel2.textColor = Color.BLACK;
+        this.levelEndLabel2.fontSize = 120;
+        this.levelEndLabel2.font = "Bungee";
+        
+        this.levelEndLabel2.tweens.add("slideIn", {
+            startDelay: 0,
+            duration: 1000,
+            effects: [
+                {
+                    property: TweenableProperties.posX,
+                    start: 905,
+                    end: 405,
+                    ease: EaseFunctionType.OUT_SINE
+                }
+            ]
+        });
+
         // Create our particle system and initialize the pool
         this.system = new PTL_ParticleSystem(100, new Vec2((5 * 32), (10 * 32)), 2000, 3, 1, 100);
         this.system.initializePool(this, "primary");
         this.system.changeColor(new Color(128, 124, 124));
+
+        this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});
+        this.levelTransitionScreen.color = this.theme_dark_green;
+        this.levelTransitionScreen.alpha = 1;
+
+        this.levelTransitionScreen.tweens.add("fadeIn", {
+            startDelay: 0,
+            duration: 1000,
+            effects: [
+                {
+                    property: TweenableProperties.alpha,
+                    start: 0,
+                    end: 1,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+            ],
+            onEnd: PTL_Events.LEVEL_END
+        });
+
+        this.levelTransitionScreen.tweens.add("fadeOut", {
+            startDelay: 0,
+            duration: 1000,
+            effects: [
+                {
+                    property: TweenableProperties.alpha,
+                    start: 1,
+                    end: 0,
+                    ease: EaseFunctionType.IN_OUT_QUAD
+                }
+            ],
+            onEnd: PTL_Events.LEVEL_START
+        });
     }
 
     protected pauseUI(){
@@ -463,7 +566,7 @@ export default class GameLevel extends Scene {
         this.player.position.copy(this.playerSpawn);
         this.player.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 14)));
         this.player.colliderOffset.set(0, 2);
-        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Main", color: PTL_Color.GREEN});
+        this.player.addAI(PlayerController, {playerType: "platformer", tilemap: "Collidable", color: PTL_Color.GREEN});
 
         this.player.setGroup("player");
 
@@ -480,12 +583,31 @@ export default class GameLevel extends Scene {
             platform.scale.set(0.3, 0.25);
             platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(14, 32)));
         }else {
-            platform.scale.set(0.25, 0.3);
+            platform.scale.set(0.25, 0.305);
             platform.addPhysics(new AABB(Vec2.ZERO, new Vec2(32, 6)));
         }
         platform.setTrigger("player", PTL_Events.PLAYER_ON_PLATFORM, null);
         platform.addAI(PlatformController, aiOptions);
         platform.setGroup("platform");
+    }
+
+    protected addKey(spriteKey: string, tilePos: Vec2): void {
+        let key = this.add.animatedSprite(spriteKey, "primary");
+        key.position.set(tilePos.x*32, tilePos.y*32);
+        key.scale.set(0.08, 0.08);
+        key.addPhysics();
+        key.setTrigger("player", PTL_Events.PLAYER_OBTAINED_KEY, null);
+        key.setGroup("key");
+        key.animation.play("IDLE", true);
+    }
+
+    protected addLevelEnd(spriteKey: string, tilePos: Vec2): void {
+        this.levelEndArea = this.add.animatedSprite(spriteKey, "platform_icons");
+        this.levelEndArea.position.set(tilePos.x*32, tilePos.y*32);
+        this.levelEndArea.scale.set(0.1, 0.1);
+        this.levelEndArea.addPhysics(undefined, undefined, false, true);
+        this.levelEndArea.setTrigger("player", PTL_Events.PLAYER_ENTERED_LEVEL_END, null);
+        this.levelEndArea.disablePhysics();
     }
 
     protected handlePlayerPlatformCollision(player: AnimatedSprite, platform: AnimatedSprite) {

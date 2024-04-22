@@ -47,6 +47,8 @@ export default abstract class PlayerState extends State {
 	}
 
 	update(deltaT: number): void {
+		if(this.owner.position.y >= 1024)
+			this.emitter.fireEvent(PTL_Events.PLAYER_KILLED);
 		// Do gravity
 		this.updateSuit();
 		if (this.positionTimer.isStopped()){

@@ -36,8 +36,18 @@ export default class PlayerController extends StateMachineAI {
     MAX_SPEED: number = 300;
     tilemap: OrthogonalTilemap;
     suitColor: PTL_Color;
-    tilePos: Vec2;
-    tileIndex: number;
+    tilePos1: Vec2;
+    tilePos2: Vec2;
+    tilePos3: Vec2;
+    tilePos4: Vec2;
+    tilePos5: Vec2;
+    tilePos6: Vec2;
+    tileIndex1: number;
+    tileIndex2: number;
+    tileIndex3: number;
+    tileIndex4: number;
+    tileIndex5: number;
+    tileIndex6: number;
     onBouncy: boolean;
     onMoving: boolean;
     onDeadly: boolean;
@@ -77,17 +87,10 @@ export default class PlayerController extends StateMachineAI {
             ]
         });
 
-        owner.tweens.add("death", {
+        owner.tweens.add("fade", {
             startDelay: 0,
             duration: 1500,
-            onEnd: "PlayerKilled",
             effects: [
-                {
-                    property: "rotation",
-                    start: 0,
-                    end: 6*Math.PI,
-                    ease: EaseFunctionType.IN_OUT_QUAD
-                },
                 {
                     property: "alpha",
                     start: 1,
@@ -127,14 +130,6 @@ export default class PlayerController extends StateMachineAI {
 
     update(deltaT: number): void {
 		super.update(deltaT);
-        /*
-        this.tilePos = this.tilemap.getColRowAt(new Vec2(this.owner.position.x, this.owner.position.y+16));
-        this.tileIndex = this.tilemap.getTileAtRowCol(this.tilePos);
-        if(this.tileIndex === 8) {
-            this.tilemap.setTileAtRowCol(this.tilePos, 9);
-            //this.emitter.fireEvent(PTL_Events.PLAYER_HIT_SWITCH);
-        }
-        */
 
 		if(this.currentState instanceof Jump){
 			Debug.log("playerstate", "Player State: Jump");

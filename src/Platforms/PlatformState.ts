@@ -2,6 +2,7 @@ import State from "../Wolfie2D/DataTypes/State/State";
 import StateMachine from "../Wolfie2D/DataTypes/State/StateMachine";
 import Vec2 from "../Wolfie2D/DataTypes/Vec2";
 import GameEvent from "../Wolfie2D/Events/GameEvent";
+import Input from "../Wolfie2D/Input/Input";
 import GameNode from "../Wolfie2D/Nodes/GameNode";
 import AnimatedSprite from "../Wolfie2D/Nodes/Sprites/AnimatedSprite";
 import MathUtils from "../Wolfie2D/Utils/MathUtils";
@@ -26,10 +27,10 @@ export default abstract class PlatformState extends State {
 		if (event.type == PTL_Events.SUIT_COLOR_CHANGE) {
 			let new_color = event.data.get("color");
 			if (this.parent.color == new_color){
-				this.owner.disablePhysics();
-			}
-			else {
 				this.owner.enablePhysics();
+			}
+			else if(this.parent.color) {
+				this.owner.disablePhysics();
 			}
 		}
 		if (event.type == PTL_Events.PLAYER_MOVE) {
@@ -37,6 +38,11 @@ export default abstract class PlatformState extends State {
 			this.distanceToPlayer = this.owner.position.distanceTo(this.playerPos);
 		}
 	}
+
+		getInputXDirection(): number {
+			let x = (Input.isPressed("left") ? -1 : 0) + (Input.isPressed("right") ? 1 : 0);
+			return x;
+		}
 
 	update(deltaT: number): void {
 		// Do gravity
