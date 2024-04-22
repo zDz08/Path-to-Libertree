@@ -78,11 +78,15 @@ export default class TilemapFactory {
             let sceneLayer;
             let isParallaxLayer = false;
             let depth = 0;
+            let speedX = 1;
+            let speedY = 1;
             
             if(layer.properties){
                 for(let prop of layer.properties){
                     if(prop.name === "Parallax"){
                         isParallaxLayer = prop.value;
+                        speedX = prop.value[1];
+                        speedY = prop.value[2];
                     } else if(prop.name === "Depth") {
                         depth = prop.value;
                     }
@@ -90,7 +94,7 @@ export default class TilemapFactory {
             }
 
             if(isParallaxLayer){
-                sceneLayer = this.scene.addParallaxLayer(layer.name, new Vec2(1, 1), depth);
+                sceneLayer = this.scene.addParallaxLayer(layer.name, new Vec2(speedX, speedY), depth);
             } else {
                 sceneLayer = this.scene.addLayer(layer.name, depth);
             }

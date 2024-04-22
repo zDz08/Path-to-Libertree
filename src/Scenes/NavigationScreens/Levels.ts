@@ -8,6 +8,7 @@ import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import Level1 from "../GameLevels/Level1";
 import Level4 from "../GameLevels/Level4";
+import Level2 from "../GameLevels/Level2";
 
 export default class Levels extends Scene {
 
@@ -44,7 +45,7 @@ export default class Levels extends Scene {
         let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create main buttons
         let level1 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y-yspacing), "One");
-        let level2 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
+        let level2 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
         let level3 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y), "Three");
         let level4 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
         let level5 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
@@ -67,6 +68,21 @@ export default class Levels extends Scene {
                 }
             }
             this.sceneManager.changeToScene(Level1, {}, sceneOptions);
+        }
+
+        level2.onClick = () => {
+            let sceneOptions = {
+                physics: {
+                    groupNames: ["ground", "player", "platform"],
+                    collisions:
+                    [
+                        [0, 1, 1],
+                        [1, 0, 1],
+                        [1, 1, 0]
+                    ]
+                }
+            }
+            this.sceneManager.changeToScene(Level2, {}, sceneOptions);
         }
 
         level4.onClick = () => {
