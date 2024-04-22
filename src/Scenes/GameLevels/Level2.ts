@@ -12,7 +12,10 @@ export default class Level1 extends GameLevel {
     
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level2", "assets/tilemaps/level2.json");
+        this.load.tilemap("level2", "assets/tilemaps/level2/level2.json");
+        this.load.tilemap("level2parallax", "assets/tilemaps/level2/level2parallax.json");
+        this.load.tilemap("level2collidable", "assets/tilemaps/level2/level2collidable.json");
+
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
@@ -33,9 +36,14 @@ export default class Level1 extends GameLevel {
         // Keep resources - this is up to you
     }
 
+    protected initLayers(): void {
+        super.initLayers();
+    }
     startScene(): void {
         // Add the level 1 tilemap
         this.add.tilemap("level2", new Vec2(2, 2));
+        this.add.tilemap("level2parallax", new Vec2(2, 2));
+        this.add.tilemap("level2collidable", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 1024, 1024);
         this.playerSpawn = new Vec2(128, 824);
         
