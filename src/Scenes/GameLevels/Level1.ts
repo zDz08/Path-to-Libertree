@@ -5,6 +5,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
 import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
+import Level2 from "./Level2";
 
 export default class Level1 extends GameLevel {
     protected levelEndAreaIsSet: boolean = false;
@@ -62,7 +63,7 @@ export default class Level1 extends GameLevel {
         this.addKey("key", new Vec2(4, 1));
         this.addEnemy("enemy", new Vec2(10, 29.5), {tilemap: "Collidable"})
         this.currentLevel = Level1;
-        this.nextLevel = Level1;
+        this.nextLevel = Level2;
     }
 
     updateScene(deltaT: number): void {
