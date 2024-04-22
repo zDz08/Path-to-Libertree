@@ -138,7 +138,6 @@ export default class GameLevel extends Scene {
         Input.disableInput();
         this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
         Input.enableInput();
-
     }
 
 
@@ -183,6 +182,7 @@ export default class GameLevel extends Scene {
                         this.keyLabel.text = "KEYS LEFT: " + this.keyNum;
                         if(this.keyNum === 0)
                             this.levelEndArea.enablePhysics();
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "key_collect_sound", loop: false, holdReference: true});
                     }
                     break;
 
@@ -199,7 +199,8 @@ export default class GameLevel extends Scene {
                         if (this.keyNum === 0){
                             if(!this.levelEndTimer.hasRun() && this.levelEndTimer.isStopped()){
                                 // The player has reached the end of the level
-                                //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
+                                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_complete"});
+                                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                                 this.levelEndTimer.start();
                                 this.levelEndLabel1.tweens.play("slideIn");
                                 this.levelEndLabel2.tweens.play("slideIn");
@@ -234,6 +235,7 @@ export default class GameLevel extends Scene {
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
                         }
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
                         break;
                     }
                 case PTL_Events.LEVEL_PAUSE:
@@ -310,6 +312,9 @@ export default class GameLevel extends Scene {
                 }
             }
 
+            if ((Input.isKeyJustPressed("w") || Input.isKeyJustPressed("space")) && this.player.onGround) 
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump_sound", loop: false, holdReference: true});
+
             // De/activate cheats
             if (Input.isKeyJustPressed("i"))
                 this.isInvincible = !this.isInvincible;
@@ -321,6 +326,7 @@ export default class GameLevel extends Scene {
                 TODO: add other levels when finished
             */
             if (Input.isKeyJustPressed("1")) {
+                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                 this.currentLevel = Level1;
                 this.nextLevel = Level1;
                 let sceneOptions = {
@@ -671,6 +677,7 @@ export default class GameLevel extends Scene {
             let a = platformAI.owner.position.y > this.player.position.y;
             if(platformAI.type == PTL_PlatformType.BOUNCY && a) {
                 playerAI.onBouncy = true;
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "bouncy_sound", loop: false, holdReference: false});
             }else if(platformAI.type == PTL_PlatformType.MOVING && a){
                 if(!platformAI.owner.onWall)
                     playerAI.onMoving = true;
@@ -696,7 +703,7 @@ export default class GameLevel extends Scene {
         if (GameLevel.livesCount == 0){
             Input.disableInput();
             this.player.disablePhysics();
-            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "player_death", loop: false, holdReference: false});
+            // this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
             this.player.tweens.play("death");
         }
     }
@@ -706,7 +713,7 @@ export default class GameLevel extends Scene {
      */
     protected respawnPlayer(): void {
         //GameLevel.livesCount = 3;
-        //this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
+        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
         this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
         Input.enableInput();
         this.system.stopSystem();

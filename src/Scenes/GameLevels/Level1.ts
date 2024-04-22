@@ -25,6 +25,12 @@ export default class Level1 extends GameLevel {
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
         this.load.spritesheet("key","assets/sprites/key.json");
         this.load.spritesheet("door","assets/sprites/door.json");
+        this.load.audio("level_music", "/dist/assets/music/easy_level_music.wav");
+        this.load.audio("jump_sound", "/dist/assets/sounds/jump_sound.wav");
+        this.load.audio("bouncy_sound", "/dist/assets/sounds/bouncy_sound.wav");
+        this.load.audio("key_collect_sound", "/dist/assets/sounds/key_collect_sound.wav");
+        this.load.audio("death_sound2", "/dist/assets/sounds/death_sound2.wav");
+        this.load.audio("level_complete", "/dist/assets/sounds/level_complete.wav");
         super.loadScene();
     }
 
@@ -45,14 +51,8 @@ export default class Level1 extends GameLevel {
 
         // Do generic setup for a GameLevel
         super.startScene();
-
         this.addLevelEnd("door", new Vec2(30, 27.5));
         this.addPlatform("red", new Vec2 (16, 10), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("blue", new Vec2 (20, 10), {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("green", new Vec2 (24, 10), {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
-        // this.addPlatform("trap", new Vec2 (11.5, 16), {type: PTL_PlatformType.TRAPDOOR});
-        // this.addPlatform("trap", new Vec2 (34, 13), {type: PTL_PlatformType.TRAPDOOR});
-        // this.addPlatform("trap", new Vec2 (38, 13), {type: PTL_PlatformType.TRAPDOOR});
         this.addPlatform("h_deadly", new Vec2 (17, 30), {type: PTL_PlatformType.DEADLY});
         this.addPlatform("v_deadly", new Vec2 (14, 15), {type: PTL_PlatformType.DEADLY});
         this.addKey("key", new Vec2(17, 27));
@@ -61,6 +61,7 @@ export default class Level1 extends GameLevel {
         this.addKey("key", new Vec2(4, 1));
         this.currentLevel = Level1;
         this.nextLevel = Level1;
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {

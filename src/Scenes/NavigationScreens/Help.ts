@@ -40,8 +40,8 @@ export default class Controls extends Scene {
         const creators = "Developed by Elizabeth Sham, Thomas Traube, and Zhendong Zeng";
 
         const cheatCodes = 
-        `I: Toggle Invincibility
-        U: Unlimited Platforms
+        `I - Toggle Invincibility\n
+        U - Unlimited Platforms\n
         1-6: Select Level`;
 
         let storyLabel = headings.makeLabel(this.add, "Help", new Vec2(size.x, size.y-300), "Story");
@@ -49,8 +49,7 @@ export default class Controls extends Scene {
         let creatorsLabel = headings.makeLabel(this.add, "Help", new Vec2(size.x, size.y+150), "Creators");
 
         let storyText = text.makeParagraph(this.add, "Help", new Vec2(size.x, size.y-250), story.split('\n'));
-        // TODO: make split work
-        let cheatCodesText = text.makeLabel(this.add, "Help", new Vec2(size.x, size.y-30), cheatCodes/*.split('\n')*/);
+        let cheatCodesText = text.makeParagraph(this.add, "Help", new Vec2(size.x, size.y-30), cheatCodes.split('\n'));
         let creatorsText = text.makeLabel(this.add, "Help", new Vec2(size.x, size.y+200), creators);
 
 
