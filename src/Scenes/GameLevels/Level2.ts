@@ -5,6 +5,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
 import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
+import Level4 from "./Level4";
 
 export default class Level2 extends GameLevel {
     protected levelEndAreaIsSet: boolean = false;
@@ -29,6 +30,12 @@ export default class Level2 extends GameLevel {
         this.load.spritesheet("key","assets/sprites/key.json");
         this.load.spritesheet("door","assets/sprites/door.json");
         this.load.spritesheet("enemy", "assets/sprites/beholder/beholder.json");
+        this.load.audio("level_music", "/dist/assets/music/easy_level_music.wav");
+        this.load.audio("jump_sound", "/dist/assets/sounds/jump_sound.wav");
+        this.load.audio("bouncy_sound", "/dist/assets/sounds/bouncy_sound.wav");
+        this.load.audio("key_collect_sound", "/dist/assets/sounds/key_collect_sound.wav");
+        this.load.audio("death_sound2", "/dist/assets/sounds/death_sound2.wav");
+        this.load.audio("level_complete", "/dist/assets/sounds/level_complete.wav");
         super.loadScene();
     }
 
@@ -65,7 +72,8 @@ export default class Level2 extends GameLevel {
         this.addKey("key", new Vec2(31, 31));
         this.addLevelEnd("door", new Vec2(27, 4.5));
         this.currentLevel = Level2;
-        this.nextLevel = Level2;
+        this.nextLevel = Level4;
+        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
     updateScene(deltaT: number): void {
