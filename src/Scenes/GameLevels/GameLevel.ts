@@ -25,6 +25,7 @@ import ButtonFactory from "../../UIElements/ButtonFactory";
 import Level1 from "./Level1";
 import Level4 from "./Level4";
 import Dead from "../NavigationScreens/Dead";
+import EnemyController from "../../Enemies/EnemyController";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -232,6 +233,9 @@ export default class GameLevel extends Scene {
                     break;
                 case PTL_Events.PLAYER_KILLED:
                     {
+                        Input.disableInput();
+                        let playerAI = (<PlayerController>this.player.ai);
+                        playerAI.onDeadly = true;
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
                         }
@@ -522,7 +526,7 @@ export default class GameLevel extends Scene {
         this.system.changeColor(new Color(128, 124, 124));
 
         this.levelTransitionScreen = <Rect>this.add.graphic(GraphicType.RECT, "UI", {position: new Vec2(300, 200), size: new Vec2(600, 400)});
-        this.levelTransitionScreen.color = this.theme_dark_green;
+        this.levelTransitionScreen.color = new Color(38, 70, 12);
         this.levelTransitionScreen.alpha = 1;
 
         this.levelTransitionScreen.tweens.add("fadeIn", {
@@ -717,5 +721,14 @@ export default class GameLevel extends Scene {
         this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
         Input.enableInput();
         this.system.stopSystem();
+    }
+
+    protected addEnemy(spriteKey: string, tilePos: Vec2, aiOptions: Record<string, any>): void {
+        let enemy = this.add.animatedSprite(spriteKey, "primary");
+        enemy.position.set(tilePos.x*32, tilePos.y*32);
+        enemy.scale.set(.2, .2);
+        enemy.addPhysics();
+        enemy.addAI(EnemyController, aiOptions);
+        enemy.setGroup("balloon");
     }
 }
