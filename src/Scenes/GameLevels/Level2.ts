@@ -30,12 +30,12 @@ export default class Level2 extends GameLevel {
         this.load.spritesheet("key","assets/sprites/key.json");
         this.load.spritesheet("door","assets/sprites/door.json");
         this.load.spritesheet("enemy", "assets/sprites/beholder/beholder.json");
-        this.load.audio("level_music", "/dist/assets/music/easy_level_music.wav");
-        this.load.audio("jump_sound", "/dist/assets/sounds/jump_sound.wav");
-        this.load.audio("bouncy_sound", "/dist/assets/sounds/bouncy_sound.wav");
-        this.load.audio("key_collect_sound", "/dist/assets/sounds/key_collect_sound.wav");
-        this.load.audio("death_sound2", "/dist/assets/sounds/death_sound2.wav");
-        this.load.audio("level_complete", "/dist/assets/sounds/level_complete.wav");
+        this.load.audio("level_music", "assets/music/easy_level_music.wav");
+        this.load.audio("jump_sound", "assets/sounds/jump_sound.wav");
+        this.load.audio("bouncy_sound", "assets/sounds/bouncy_sound.wav");
+        this.load.audio("key_collect_sound", "assets/sounds/key_collect_sound.wav");
+        this.load.audio("death_sound2", "assets/sounds/death_sound2.wav");
+        this.load.audio("level_complete", "assets/sounds/level_complete.wav");
         super.loadScene();
     }
 
