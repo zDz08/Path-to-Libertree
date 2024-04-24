@@ -238,8 +238,8 @@ export default class GameLevel extends Scene {
                         playerAI.onDeadly = true;
                         if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
                             this.delayTimer.start();
+                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
                         }
-                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
                         break;
                     }
                 case PTL_Events.LEVEL_PAUSE:
