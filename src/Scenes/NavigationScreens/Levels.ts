@@ -4,6 +4,8 @@ import Label from "../../Wolfie2D/Nodes/UIElements/Label";
 import { UIElementType } from "../../Wolfie2D/Nodes/UIElements/UIElementTypes";
 import Scene from "../../Wolfie2D/Scene/Scene";
 import Color from "../../Wolfie2D/Utils/Color";
+import Button from "../../Wolfie2D/Nodes/UIElements/Button";
+import Input from "../../Wolfie2D/Input/Input";
 import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import Level1 from "../GameLevels/Level1";
@@ -13,6 +15,19 @@ import Level2 from "../GameLevels/Level2";
 export default class Levels extends Scene {
 
     animatedSprite: AnimatedSprite;
+    protected size = this.viewport.getHalfSize();
+    protected buttonWidth = 227;
+    protected buttonHeight = 50;
+    protected buttonsPadding = 20;
+    protected xspacing = this.buttonWidth/2 + this.buttonsPadding;
+    protected yspacing = this.buttonHeight + 50;
+    buttonFactory: ButtonFactory = new ButtonFactory(this.buttonWidth, this.buttonHeight);
+    level1: Button;
+    level2: Button;
+    level3: Button;
+    level4: Button;
+    level5: Button;
+    level6: Button;
 
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
@@ -23,8 +38,7 @@ export default class Levels extends Scene {
         this.addLayer("Background", 0);
 
         // Center the viewport
-        let size = this.viewport.getHalfSize();
-        this.viewport.setFocus(size);
+        this.viewport.setFocus(this.size);
 
         this.viewport.setZoomLevel(1);
 
@@ -32,30 +46,24 @@ export default class Levels extends Scene {
         bg.scale.set(10,10);
         bg.position.copy(this.viewport.getCenter());
 
-        let levelsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "Levels", {position: new Vec2(size.x, size.y-190), text: "Levels"});
+        let levelsLabel = <Label>this.add.uiElement(UIElementType.LABEL, "Levels", {position: new Vec2(this.size.x, this.size.y-190), text: "Levels"});
         levelsLabel.textColor = Color.WHITE;
         levelsLabel.fontSize = 64;
         levelsLabel.font = "BlackChancery";
         
-        const buttonWidth = 227;
-        const buttonHeight = 50;
-        const buttonsPadding = 20;
-        const xspacing = buttonWidth/2 + buttonsPadding;
-        const yspacing = buttonHeight + 50;
-        let buttonFactory = new ButtonFactory(buttonWidth, buttonHeight);
         // Create main buttons
-        let level1 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y-yspacing), "One");
-        let level2 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y-yspacing), "Two");
-        let level3 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y), "Three");
-        let level4 = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y), "Four");
-        let level5 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x-xspacing, size.y+yspacing), "Five");
-        let level6 = buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(size.x+xspacing, size.y+yspacing), "Six");
-        let returnBtn = buttonFactory.makeButton(this.add, "Levels", new Vec2(size.x, size.y+190), "Return");
+        this.level1 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x-this.xspacing, this.size.y-this.yspacing), "One");
+        this.level2 = this.buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y-this.yspacing), "Two");
+        this.level3 = this.buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(this.size.x-this.xspacing, this.size.y), "Three");
+        this.level4 = this.buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y), "Four");
+        this.level5 = this.buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(this.size.x-this.xspacing, this.size.y+this.yspacing), "Five");
+        this.level6 = this.buttonFactory.makeDisabledButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y+this.yspacing), "Six");
+        let returnBtn = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x, this.size.y+190), "Return");
         returnBtn.onClick = () => {
             this.sceneManager.changeToScene(MainMenu, {});
         }
 
-        level1.onClick = () => {
+        this.level1.onClick = () => {
             let sceneOptions = {
                 physics: {
                     groupNames: ["ground", "player", "platform"],
@@ -70,34 +78,44 @@ export default class Levels extends Scene {
             this.sceneManager.changeToScene(Level1, {}, sceneOptions);
         }
 
-        level2.onClick = () => {
-            let sceneOptions = {
-                physics: {
-                    groupNames: ["ground", "player", "platform"],
-                    collisions:
-                    [
-                        [0, 1, 1],
-                        [1, 0, 1],
-                        [1, 1, 0]
-                    ]
-                }
-            }
-            this.sceneManager.changeToScene(Level2, {}, sceneOptions);
-        }
+    }
 
-        level4.onClick = () => {
-            let sceneOptions = {
-                physics: {
-                    groupNames: ["ground", "player", "platform"],
-                    collisions:
-                    [
-                        [0, 1, 1],
-                        [1, 0, 1],
-                        [1, 1, 0]
-                    ]
+    updateScene(deltaT: number) {
+        if (Input.isKeyJustPressed("o")) {
+            this.level2 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y-this.yspacing), "Two");
+            this.level4 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y), "Four");
+        }
+        if(!this.level2.frozen) {
+            this.level2.onClick = () => {
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player", "platform"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]
+                        ]
+                    }
                 }
+                this.sceneManager.changeToScene(Level2, {}, sceneOptions);
             }
-            this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+        }
+        if(!this.level4.frozen) {
+            this.level4.onClick = () => {
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player", "platform"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]
+                        ]
+                    }
+                }
+                this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+            }
         }
     }
 

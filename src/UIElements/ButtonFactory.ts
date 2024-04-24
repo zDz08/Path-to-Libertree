@@ -27,6 +27,7 @@ export default class ButtonFactory {
         btn.textColor = Color.WHITE;
         btn.font = this.font;
         btn.fontSize = this.fontSize;
+        btn.frozen = false;
         return btn;
     }
 
@@ -39,6 +40,7 @@ export default class ButtonFactory {
         btn.borderRadius = this.borderRadius;
         btn.font = this.font;
         btn.fontSize = this.fontSize;
+        btn.frozen = true;
         return btn;
     }
 }

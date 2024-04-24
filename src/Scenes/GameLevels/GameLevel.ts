@@ -257,15 +257,15 @@ export default class GameLevel extends Scene {
          * Pressing l switches our suit to GREEN
          */
             if (this.suitChangeTimer.isStopped()) {
-                if (Input.isKeyJustPressed("j")) {
+                if (Input.isKeyJustPressed("1")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.GREEN});
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("k")) {
+                if (Input.isKeyJustPressed("2")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.RED});
                     this.suitChangeTimer.start();
                 }
-                if (Input.isKeyJustPressed("l")) {
+                if (Input.isKeyJustPressed("3")) {
                     this.emitter.fireEvent(PTL_Events.SUIT_COLOR_CHANGE, {color: PTL_Color.BLUE});
                     this.suitChangeTimer.start();
                 }
@@ -329,7 +329,7 @@ export default class GameLevel extends Scene {
             /* 
                 Switch to desired level 
                 TODO: add other levels when finished
-            */
+            
             if (Input.isKeyJustPressed("1")) {
                 this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                 this.currentLevel = Level1;
@@ -347,23 +347,24 @@ export default class GameLevel extends Scene {
                 }
                 this.sceneManager.changeToScene(Level1, {}, sceneOptions);
             }
-            // if (Input.isKeyJustPressed("4")) {
-            //     console.log(Level4);
-            //     this.currentLevel = Level4;
-            //     this.nextLevel = Level4;
-            //     let sceneOptions = {
-            //         physics: {
-            //             groupNames: ["ground", "player", "platform"],
-            //             collisions:
-            //             [
-            //                 [0, 1, 1],
-            //                 [1, 0, 1],
-            //                 [1, 1, 0]
-            //             ]
-            //         }
-            //     }
-            //     this.sceneManager.changeToScene(Level4, {}, sceneOptions);
-            // }
+             if (Input.isKeyJustPressed("4")) {
+                 console.log(Level4);
+                 this.currentLevel = Level4;
+                 this.nextLevel = Level4;
+                 let sceneOptions = {
+                     physics: {
+                         groupNames: ["ground", "player", "platform"],
+                         collisions:
+                         [
+                             [0, 1, 1],
+                             [1, 0, 1],
+                             [1, 1, 0]
+                         ]
+                     }
+                 }
+                 this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+             }
+             */
         }
 
     }

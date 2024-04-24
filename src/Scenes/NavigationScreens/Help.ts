@@ -42,7 +42,7 @@ export default class Controls extends Scene {
         const cheatCodes = 
         `I - Toggle Invincibility\n
         U - Unlimited Platforms\n
-        1-6: Select Level`;
+        O - Unlock All Levels`;
 
         let storyLabel = headings.makeLabel(this.add, "Help", new Vec2(size.x, size.y-300), "Story");
         let cheatCodesLabel = headings.makeLabel(this.add, "Help", new Vec2(size.x, size.y-80), "Cheat Codes");
