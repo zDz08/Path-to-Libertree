@@ -292,6 +292,7 @@ export default class GameLevel extends Scene {
                 }
                 if (Input.isKeyJustPressed("p")){
                     this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
+                    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                 }
             }
             if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
@@ -586,7 +587,8 @@ export default class GameLevel extends Scene {
                 main.destroy();
                 this.pause1.backgroundColor = Color.WHITE;
                 this.pause2.backgroundColor = Color.WHITE;
-                this.emitter.fireEvent(PTL_Events.LEVEL_START)
+                this.emitter.fireEvent(PTL_Events.LEVEL_START);
+                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
             }
         }
         restart.onEnter = () => {
