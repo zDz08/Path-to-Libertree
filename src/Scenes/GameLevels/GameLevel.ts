@@ -296,19 +296,19 @@ export default class GameLevel extends Scene {
                 }
             }
             if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
-                if(this.currentPlatformType == "basic" && this.totalZs > 0) {
+                if(this.currentPlatformType == "basic" && (this.totalZs > 0 || this.unlimitedMode)) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BASIC});
                     if (!this.unlimitedMode) {
                         this.totalZs--;
                         this.zLabel.text = this.totalZs.toString();
                     }
-                }else if(this.currentPlatformType == "bouncy" && this.totalXs > 0) {
+                }else if(this.currentPlatformType == "bouncy" && (this.totalXs > 0 || this.unlimitedMode)) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.BOUNCY});
                     if (!this.unlimitedMode) {
                         this.totalXs--;
                         this.xLabel.text = this.totalXs.toString();
                     }
-                }else if(this.currentPlatformType ==  "moving" && this.totalCs > 0) {
+                }else if(this.currentPlatformType ==  "moving" && (this.totalCs > 0 || this.unlimitedMode)) {
                     this.emitter.fireEvent(PTL_Events.SPAWN_PLATFORM, {type: PTL_PlatformType.MOVING});
                     if (!this.unlimitedMode) {
                         this.totalCs--;
