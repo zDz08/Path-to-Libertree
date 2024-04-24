@@ -77,7 +77,7 @@ export default class Levels extends Scene {
             }
             this.sceneManager.changeToScene(Level1, {}, sceneOptions);
         }
-
+        Input.enableInput();
     }
 
     updateScene(deltaT: number) {
@@ -98,6 +98,7 @@ export default class Levels extends Scene {
                         ]
                     }
                 }
+                Input.disableInput();
                 this.sceneManager.changeToScene(Level2, {}, sceneOptions);
             }
         }
@@ -114,6 +115,7 @@ export default class Levels extends Scene {
                         ]
                     }
                 }
+                Input.disableInput();
                 this.sceneManager.changeToScene(Level4, {}, sceneOptions);
             }
         }
