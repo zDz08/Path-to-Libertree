@@ -325,48 +325,7 @@ export default class GameLevel extends Scene {
                 this.isInvincible = !this.isInvincible;
             if (Input.isKeyJustPressed("u"))
                 this.unlimitedMode = !this.unlimitedMode;
-
-            /* 
-                Switch to desired level 
-                TODO: add other levels when finished
-            
-            if (Input.isKeyJustPressed("1")) {
-                this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
-                this.currentLevel = Level1;
-                this.nextLevel = Level1;
-                let sceneOptions = {
-                    physics: {
-                        groupNames: ["ground", "player", "platform"],
-                        collisions:
-                        [
-                            [0, 1, 1],
-                            [1, 0, 1],
-                            [1, 1, 0]
-                        ]
-                    }
-                }
-                this.sceneManager.changeToScene(Level1, {}, sceneOptions);
-            }
-             if (Input.isKeyJustPressed("4")) {
-                 console.log(Level4);
-                 this.currentLevel = Level4;
-                 this.nextLevel = Level4;
-                 let sceneOptions = {
-                     physics: {
-                         groupNames: ["ground", "player", "platform"],
-                         collisions:
-                         [
-                             [0, 1, 1],
-                             [1, 0, 1],
-                             [1, 1, 0]
-                         ]
-                     }
-                 }
-                 this.sceneManager.changeToScene(Level4, {}, sceneOptions);
-             }
-             */
         }
-
     }
 
     /**
@@ -610,6 +569,7 @@ export default class GameLevel extends Scene {
                         }
                     }
                     this.sceneManager.changeToScene(this.currentLevel, {}, sceneOptions);
+                    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                 }
             }
         }
