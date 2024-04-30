@@ -48,7 +48,7 @@ export default class Level4 extends GameLevel {
         this.totalZs = 2;
         this.totalXs = 3;
         this.totalCs = 2;
-        this.keyNum = 8;
+        this.keyNum = 7;
 
         // Do generic setup for a GameLevel
         super.startScene();
@@ -79,7 +79,7 @@ export default class Level4 extends GameLevel {
         }
         for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30, 26), 
                         new Vec2(22, 19), new Vec2(21, 13), new Vec2(5.5, 4), 
-                        new Vec2(23, 4), new Vec2(23, 1.5)]) {
+                        new Vec2(23, 1.5)]) {
             this.addKey("key", pos);
         }
         this.addEnemy("enemy", new Vec2(18, 13), {tilemap: "Collidable"})
