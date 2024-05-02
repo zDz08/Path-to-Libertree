@@ -33,7 +33,7 @@ export default class Controls extends Scene {
         
         const story = 
         `In the wintertime, Twinklefern, tree enthusiast and philanthropist, dresses up as a Christmas tree to
-        perform for and give presents to the citizens of Christmassachussetts. Unfortunately for Mr. Tree, he lives
+        perform for and give presents to the citizens of Christmassachussetts. Unfortunately for Twinklefern, he lives
         quite far, meaning he would have to trek many miles by foot. Luckily, he possesses magic platforms that 
         exhibit strange and varying behaviors to help him get there just in time to make a jolly entrance!`;
 
