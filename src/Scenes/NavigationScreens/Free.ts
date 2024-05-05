@@ -45,7 +45,7 @@ export default class Free extends Scene {
         let mainMenuBtn = buttonFactory.makeButton(this.add, "Free", new Vec2(size.x, size.y+210), "Back to Main Menu");
 
         mainMenuBtn.onClick = () => {
-            this.sceneManager.changeToScene(MainMenu, {});
+            this.sceneManager.changeToScene(MainMenu, {passedLevels:[1,1,1,1,1,1]});
         }
         
     }
