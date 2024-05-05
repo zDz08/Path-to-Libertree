@@ -12,6 +12,7 @@ import Level1 from "../GameLevels/Level1";
 import Level4 from "../GameLevels/Level4";
 import Level5 from "../GameLevels/Level5";
 import Level2 from "../GameLevels/Level2";
+import Level6 from "../GameLevels/Level6";
 
 export default class Levels extends Scene {
 
@@ -86,6 +87,7 @@ export default class Levels extends Scene {
             this.level2 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y-this.yspacing), "Two");
             this.level4 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y), "Four");
             this.level5 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x-this.xspacing, this.size.y+this.yspacing), "Five");
+            this.level6 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y+this.yspacing), "Six");
         }
         if(!this.level2.frozen) {
             this.level2.onClick = () => {
@@ -136,6 +138,23 @@ export default class Levels extends Scene {
                 }
                 Input.disableInput();
                 this.sceneManager.changeToScene(Level5, {}, sceneOptions);
+            }
+        }
+        if(!this.level6.frozen) {
+            this.level6.onClick = () => {
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player", "platform"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]
+                        ]
+                    }
+                }
+                Input.disableInput();
+                this.sceneManager.changeToScene(Level6, {}, sceneOptions);
             }
         }
     }
