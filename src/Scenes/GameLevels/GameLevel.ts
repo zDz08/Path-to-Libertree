@@ -254,6 +254,7 @@ export default class GameLevel extends Scene {
                     }
                 case PTL_Events.LEVEL_PAUSE:
                     {
+                        this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                         this.isPaused = true;
                         this.pauseUI();
                     }
@@ -302,7 +303,6 @@ export default class GameLevel extends Scene {
                 }
                 if (Input.isKeyJustPressed("p")){
                     this.emitter.fireEvent(PTL_Events.LEVEL_PAUSE);
-                    this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
                 }
             }
             if (Input.isMouseJustPressed(0) && !this.player.onGround && !this.player.onWall) {
