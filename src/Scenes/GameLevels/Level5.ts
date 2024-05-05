@@ -57,14 +57,14 @@ export default class Level5 extends GameLevel {
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addLevelEnd("door", new Vec2(30, 1.5));
+        this.addLevelEnd("door", new Vec2(30, 2));
         for(let pos of [new Vec2 (26, 29)]) {
             this.addPlatform("red", pos, {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
         }
         for(let pos of [new Vec2 (13, 28)]) {
             this.addPlatform("blue", pos, {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
         }
-        for(let pos of [new Vec2 (30, 25), new Vec2 (30, 22.5), new Vec2 (30, 20)]) {
+        for(let pos of [new Vec2 (30.5, 25), new Vec2 (30.5, 22.5), new Vec2 (30.5, 20)]) {
             this.addPlatform("green", pos, {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
         }
         for(let pos of [new Vec2 (9, 28), new Vec2 (22, 26.5), new Vec2 (12, 12), 
@@ -76,12 +76,12 @@ export default class Level5 extends GameLevel {
                         new Vec2(26, 17), new Vec2(24, 17), new Vec2(22, 14.5), new Vec2(23, 3)]) {
             this.addPlatform("h_deadly", pos, {type: PTL_PlatformType.DEADLY});
         }
-        for(let pos of [new Vec2 (11, 27), new Vec2 (16, 29), new Vec2(28, 21), 
+        for(let pos of [new Vec2 (11, 27), new Vec2 (16, 29), new Vec2(28, 21), new Vec2(29, 21), 
                         new Vec2(32, 21), new Vec2(20.5, 20), new Vec2(23.5, 15.5), 
                         new Vec2(17.5, 17), new Vec2(17.5, 15)]) {
             this.addPlatform("v_deadly", pos, {type: PTL_PlatformType.DEADLY});
         }
-        for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30, 26), 
+        for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30.5, 26), 
                         new Vec2(22, 19), new Vec2(21, 13), new Vec2(5.5, 4), 
                         new Vec2(23, 4), new Vec2(23, 1.5)]) {
             this.addKey("key", pos);
