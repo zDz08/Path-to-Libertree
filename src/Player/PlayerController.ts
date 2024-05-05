@@ -53,16 +53,6 @@ export default class PlayerController extends StateMachineAI {
     onDeadly: boolean;
     pos: number;
 
-    // HOMEWORK 5 - TODO
-    /**
-     * Implement a death animation for the player using tweens. The animation rotate the player around itself multiple times
-     * over the tween duration, as well as fading out the alpha value of the player. The tween should also make use of the
-     * onEnd field to send out a PLAYER_KILLED event.
-     * 
-     * Tweens MUST be used to create this new animation, although you can add to the spritesheet if you want to add some more detail.
-     * 
-     * Look at incPlayerLife() in GameLevel to see where this animation would be called.
-     */
     initializeAI(owner: GameNode, options: Record<string, any>){
         this.owner = owner;
 

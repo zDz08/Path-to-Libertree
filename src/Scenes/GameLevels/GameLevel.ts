@@ -233,13 +233,23 @@ export default class GameLevel extends Scene {
                     break;
                 case PTL_Events.PLAYER_KILLED:
                     {
-                        Input.disableInput();
-                        let playerAI = (<PlayerController>this.player.ai);
-                        playerAI.onDeadly = true;
-                        if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
-                            this.delayTimer.start();
-                            this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
+                        if(!this.isInvincible) {
+                            Input.disableInput();
+                            let playerAI = (<PlayerController>this.player.ai);
+                            playerAI.onDeadly = true;
+                            if(!this.delayTimer.hasRun() && this.delayTimer.isStopped()){
+                                this.delayTimer.start();
+                                this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
+                            }
                         }
+                        break;
+                    }
+
+                case PTL_Events.PLAYER_FELL_OUT:
+                    {
+                        Input.disableInput();
+                        this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "death_sound2", loop: false, holdReference: true});
+                        this.respawnPlayer();
                         break;
                     }
                 case PTL_Events.LEVEL_PAUSE:
@@ -252,9 +262,9 @@ export default class GameLevel extends Scene {
         }
         if (!this.isPaused){
         /**
-         * Pressing j switches our suit to RED
-         * Pressing k switches our suit to BLUE
-         * Pressing l switches our suit to GREEN
+         * Pressing 1 switches our suit to RED
+         * Pressing 2 switches our suit to BLUE
+         * Pressing 3 switches our suit to GREEN
          */
             if (this.suitChangeTimer.isStopped()) {
                 if (Input.isKeyJustPressed("1")) {
@@ -361,7 +371,8 @@ export default class GameLevel extends Scene {
             PTL_Events.PLAYER_ON_PLATFORM,
             PTL_Events.SPAWN_PLATFORM,
             PTL_Events.PLAYER_OBTAINED_KEY,
-            PTL_Events.PLAYER_ENTERED_LEVEL_END
+            PTL_Events.PLAYER_ENTERED_LEVEL_END,
+            PTL_Events.PLAYER_FELL_OUT
         ]);
     }
 
