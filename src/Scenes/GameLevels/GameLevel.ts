@@ -26,11 +26,13 @@ import Level1 from "./Level1";
 import Level4 from "./Level4";
 import Dead from "../NavigationScreens/Dead";
 import EnemyController from "../../Enemies/EnemyController";
+import KeyIndicatorController from "../../KeyIndicator/KeyIndicatorController";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
     protected playerSpawn: Vec2;
     protected player: AnimatedSprite;
+    protected indicator: AnimatedSprite;
     protected respawnTimer: Timer;
 
     // Labels for the UI
@@ -95,6 +97,9 @@ export default class GameLevel extends Scene {
     // Cheats
     protected isInvincible: boolean = false;
     protected unlimitedMode: boolean = false;
+
+    //key ids
+    protected keyIDs: number[] = [];
 
     protected passedLevels: number[] = [1];
 
@@ -182,6 +187,13 @@ export default class GameLevel extends Scene {
                 case PTL_Events.PLAYER_OBTAINED_KEY:
                     {
                         let other = this.sceneGraph.getNode(event.data.get("other"));
+                        this.keyIDs = this.keyIDs.filter(num => num !== other.id);
+                        let iController = <KeyIndicatorController>this.indicator.ai;
+                        if(iController.keyPos == other.position && this.keyIDs.length != 0) {
+                            iController.keyPos = this.sceneGraph.getNode(this.keyIDs[0]).position;
+                        }else if (this.keyIDs.length == 0) {
+                            this.indicator.destroy();
+                        }
                         other.destroy();
                         this.keyNum--;
                         this.keyLabel.text = "KEYS LEFT: " + this.keyNum;
@@ -658,6 +670,15 @@ export default class GameLevel extends Scene {
         key.setTrigger("player", PTL_Events.PLAYER_OBTAINED_KEY, null);
         key.setGroup("key");
         key.animation.play("IDLE", true);
+        this.keyIDs.push(key.id);
+    }
+
+    protected addIndicator(spriteKey: string): void {
+        this.indicator = this.add.animatedSprite(spriteKey, "primary");
+        this.indicator.scale.set(0.3, 0.3);
+        this.indicator.setGroup("indicator");
+        let key = this.sceneGraph.getNode(this.keyIDs[0]);
+        this.indicator.addAI(KeyIndicatorController, key.position);
     }
 
     protected addLevelEnd(spriteKey: string, tilePos: Vec2): void {
