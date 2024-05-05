@@ -7,13 +7,23 @@ import Levels from "./Levels";
 import Help from "./Help";
 import Controls from "./Controls";
 import Level1 from "../GameLevels/Level1";
+import GameLevel from "../GameLevels/GameLevel";
 
 export default class MainMenu extends Scene {
 
     animatedSprite: AnimatedSprite;
+    passedLevels: number[];
 
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
+    }
+
+    initScene(init: Record<string, any>): void {
+        if (init.passedLevels != null){
+            this.passedLevels = init.passedLevels;
+        } else {
+            this.passedLevels = [1];
+        }
     }
 
     startScene(): void {
@@ -57,7 +67,8 @@ export default class MainMenu extends Scene {
         }
 
         selectLvlBtn.onClick = () => {
-            this.sceneManager.changeToScene(Levels, {});
+            console.log(this.passedLevels);
+            this.sceneManager.changeToScene(Levels, {passedLevels: this.passedLevels});
         }
 
         helpBtn.onClick = () => {

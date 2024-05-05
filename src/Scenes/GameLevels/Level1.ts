@@ -64,6 +64,8 @@ export default class Level1 extends GameLevel {
         this.addEnemy("enemy", new Vec2(10, 29.5), {tilemap: "Collidable"})
         this.currentLevel = Level1;
         this.nextLevel = Level2;
+
+        this.setPassedLevels([1]);
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
