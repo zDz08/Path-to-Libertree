@@ -15,7 +15,6 @@ export default class Level6 extends GameLevel {
         // Load resources
         this.load.tilemap("Level6", "assets/tilemaps/level6/Level6.json");
         this.load.tilemap("Parallax6", "assets/tilemaps/level6/Parallax6.json");
-        // this.load.tilemap("level5Collidable", "assets/tilemaps/level4-5/level5Collidable.json");
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
@@ -46,48 +45,55 @@ export default class Level6 extends GameLevel {
         // Add the level 6 tilemap
         this.add.tilemap("Level6", new Vec2(2, 2));
         this.add.tilemap("Parallax6", new Vec2(2, 2));
-        // this.add.tilemap("level5Collidable", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 1024, 1024);
-        this.playerSpawn = new Vec2(128, 824);
-        
-        this.totalZs = 2;
-        this.totalXs = 3;
-        this.totalCs = 2;
+        this.playerSpawn = new Vec2(80, 869);
+        this.totalZs = 4;
+        this.totalXs = 6;
+        this.totalCs = 4;
         this.keyNum = 8;
 
         // Do generic setup for a GameLevel
         super.startScene();
 
-        // this.addLevelEnd("door", new Vec2(30, 2));
-        // for(let pos of [new Vec2 (26, 29)]) {
-        //     this.addPlatform("red", pos, {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
-        // }
-        // for(let pos of [new Vec2 (13, 28)]) {
-        //     this.addPlatform("blue", pos, {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
-        // }
-        // for(let pos of [new Vec2 (30.5, 25), new Vec2 (30.5, 22.5), new Vec2 (30.5, 20)]) {
-        //     this.addPlatform("green", pos, {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
-        // }
-        // for(let pos of [new Vec2 (9, 28), new Vec2 (22, 26.5), new Vec2 (12, 12), 
-        //                 new Vec2 (8, 10), new Vec2 (12, 8), new Vec2 (8, 6)]) {
-        //     this.addPlatform("trap", pos, {type: PTL_PlatformType.TRAPDOOR});
-        // }
-        // for(let pos of [new Vec2 (11, 29), new Vec2 (13, 29), 
-        //                 new Vec2(26, 21), new Vec2(24, 21), new Vec2(22, 21), new Vec2(20, 18.5), new Vec2(18, 18.5), 
-        //                 new Vec2(26, 17), new Vec2(24, 17), new Vec2(22, 14.5), new Vec2(23, 3)]) {
-        //     this.addPlatform("h_deadly", pos, {type: PTL_PlatformType.DEADLY});
-        // }
-        // for(let pos of [new Vec2 (11, 27), new Vec2 (16, 29), new Vec2(28, 21), new Vec2(29, 21), 
-        //                 new Vec2(32, 21), new Vec2(20.5, 20), new Vec2(23.5, 15.5), 
-        //                 new Vec2(17.5, 17), new Vec2(17.5, 15)]) {
-        //     this.addPlatform("v_deadly", pos, {type: PTL_PlatformType.DEADLY});
-        // }
-        // for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30.5, 26), 
-        //                 new Vec2(22, 19), new Vec2(21, 13), new Vec2(5.5, 4), 
-        //                 new Vec2(23, 4), new Vec2(23, 1.5)]) {
-        //     this.addKey("key", pos);
-        // }
-        // this.addEnemy("enemy", new Vec2(18, 13), {tilemap: "Collidable"})
+        this.addLevelEnd("door", new Vec2(29, 6));
+        for(let pos of [new Vec2(1.5, 25.25), new Vec2(1.5, 11), new Vec2(11, 28)]) {
+            this.addPlatform("red", pos, {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
+        }
+        for(let pos of [new Vec2(4.5, 21.25), new Vec2(1.5, 13.25)]) {
+            this.addPlatform("blue", pos, {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
+        }
+        for(let pos of [new Vec2(1.5, 17.25), new Vec2(13, 28)]) {
+            this.addPlatform("green", pos, {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
+        }
+        for(let pos of [new Vec2(8, 6), new Vec2(4, 6), new Vec2(30, 22)]) {
+            this.addPlatform("trap", pos, {type: PTL_PlatformType.TRAPDOOR});
+        }
+        for(let pos of [new Vec2 (11, 29), new Vec2 (13, 29), 
+                        new Vec2(26, 21), new Vec2(24, 21), new Vec2(22, 21), new Vec2(20, 18.5), new Vec2(18, 18.5), 
+                        new Vec2(26, 17), new Vec2(24, 17), new Vec2(22, 14.5), 
+                        new Vec2(1.5, 26), new Vec2(4.5, 22), new Vec2(1.5, 18), 
+                        new Vec2(1.5, 14), new Vec2(4.5, 10)]) {
+            this.addPlatform("h_deadly", pos, {type: PTL_PlatformType.DEADLY});
+        }
+        for(let pos of [new Vec2(6, 30), new Vec2(6, 28), new Vec2(6, 26),
+                        new Vec2(6, 24), new Vec2(6, 22), new Vec2(6, 20),
+                        new Vec2(6, 18), new Vec2(6, 16), new Vec2(6, 14),
+                        new Vec2(6, 12), new Vec2(6, 10), new Vec2(6, 8), new Vec2(6, 6),
+                        new Vec2(0, 30), new Vec2(0, 28), new Vec2(0, 26),
+                        new Vec2(0, 24), new Vec2(0, 22), new Vec2(0, 20),
+                        new Vec2(0, 18), new Vec2(0, 16), new Vec2(0, 14),
+                        new Vec2(0, 12), new Vec2(0, 10), new Vec2(0, 8), new Vec2(0, 6)
+                    ]) {
+            this.addPlatform("v_deadly", pos, {type: PTL_PlatformType.DEADLY});
+        }
+        for(let pos of [new Vec2(6, 4), new Vec2(12, 2), new Vec2(12, 27), new Vec2(1.5, 16),
+                        new Vec2(24, 19), new Vec2(19, 17), new Vec2(22, 12), new Vec2(4.5 , 8)]) {
+            this.addKey("key", pos);
+        }
+        for(let pos of [new Vec2(4, 30)]) {
+            this.addEnemy("enemy", pos, {tilemap: "Collidable"});
+        }
+        
         this.currentLevel = Level6;
         this.nextLevel = Level1;
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
