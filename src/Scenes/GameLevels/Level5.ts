@@ -26,6 +26,7 @@ export default class Level5 extends GameLevel {
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
         this.load.spritesheet("key","assets/sprites/key.json");
+        this.load.spritesheet("indicator","assets/sprites/keyIndicator.json");
         this.load.spritesheet("door","assets/sprites/door.json");
         this.load.spritesheet("enemy", "assets/sprites/beholder/beholder.json");
         this.load.audio("level_music", "assets/music/hard_level_music.mp3");
@@ -86,6 +87,7 @@ export default class Level5 extends GameLevel {
                         new Vec2(23, 4), new Vec2(23, 1.5)]) {
             this.addKey("key", pos);
         }
+        this.addIndicator("indicator");
         this.addEnemy("enemy", new Vec2(18, 13), {tilemap: "Collidable"})
         this.currentLevel = Level5;
         this.nextLevel = Level5;
