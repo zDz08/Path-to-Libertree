@@ -13,9 +13,9 @@ export default class Level4 extends GameLevel {
     
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level4", "assets/tilemaps/level4.json");
-        this.load.tilemap("level4Parallax", "assets/tilemaps/level4Parallax.json");
-        this.load.tilemap("level4Collidable", "assets/tilemaps/level4Collidable.json");
+        this.load.tilemap("level4", "assets/tilemaps/level4-5/level4.json");
+        this.load.tilemap("level4Parallax", "assets/tilemaps/level4-5/level4Parallax.json");
+        this.load.tilemap("level4Collidable", "assets/tilemaps/level4-5/level4Collidable.json");
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");

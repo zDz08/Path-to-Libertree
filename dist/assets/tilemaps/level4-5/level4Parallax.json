@@ -98,7 +98,7 @@
         {
          "columns":4,
          "firstgid":1,
-         "image":"medium.png",
+         "image":"../medium.png",
          "imageheight":32,
          "imagewidth":32,
          "margin":0,
@@ -121,7 +121,7 @@
         {
          "columns":4,
          "firstgid":17,
-         "image":"CLOUDS.png",
+         "image":"../CLOUDS.png",
          "imageheight":24,
          "imagewidth":32,
          "margin":0,
@@ -134,7 +134,7 @@
         {
          "columns":4,
          "firstgid":29,
-         "image":"trees.png",
+         "image":"../trees.png",
          "imageheight":8,
          "imagewidth":32,
          "margin":0,

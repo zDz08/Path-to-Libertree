@@ -12,9 +12,9 @@ export default class Level5 extends GameLevel {
     
     loadScene(): void {
         // Load resources
-        this.load.tilemap("level5", "assets/tilemaps/level4.json");
-        this.load.tilemap("level5Parallax", "assets/tilemaps/level4Parallax.json");
-        this.load.tilemap("level5Collidable", "assets/tilemaps/level5Collidable.json");
+        this.load.tilemap("level5", "assets/tilemaps/level4-5/level4.json");
+        this.load.tilemap("level5Parallax", "assets/tilemaps/level4-5/level4Parallax.json");
+        this.load.tilemap("level5Collidable", "assets/tilemaps/level4-5/level5Collidable.json");
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
