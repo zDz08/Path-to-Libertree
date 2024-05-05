@@ -13,6 +13,8 @@ export default class Level4 extends GameLevel {
     loadScene(): void {
         // Load resources
         this.load.tilemap("level4", "assets/tilemaps/level4.json");
+        this.load.tilemap("level4Parallax", "assets/tilemaps/level4Parallax.json");
+        this.load.tilemap("level4Collidable", "assets/tilemaps/level4Collidable.json");
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
         this.load.spritesheet("basic", "assets/sprites/basicPlatform.json");
         this.load.spritesheet("bouncy", "assets/sprites/bouncyPlatform.json");
@@ -42,13 +44,15 @@ export default class Level4 extends GameLevel {
     startScene(): void {
         // Add the level 4 tilemap
         this.add.tilemap("level4", new Vec2(2, 2));
+        this.add.tilemap("level4Parallax", new Vec2(2, 2));
+        this.add.tilemap("level4Collidable", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 1024, 1024);
         this.playerSpawn = new Vec2(128, 824);
         
         this.totalZs = 2;
         this.totalXs = 3;
         this.totalCs = 2;
-        this.keyNum = 7;
+        this.keyNum = 8;
 
         // Do generic setup for a GameLevel
         super.startScene();
@@ -79,7 +83,7 @@ export default class Level4 extends GameLevel {
         }
         for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30, 26), 
                         new Vec2(22, 19), new Vec2(21, 13), new Vec2(5.5, 4), 
-                        new Vec2(23, 1.5)]) {
+                        new Vec2(23, 4), new Vec2(23, 1.5)]) {
             this.addKey("key", pos);
         }
         this.addEnemy("enemy", new Vec2(18, 13), {tilemap: "Collidable"})
