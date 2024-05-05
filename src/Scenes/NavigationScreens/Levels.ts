@@ -10,6 +10,7 @@ import ButtonFactory from "../../UIElements/ButtonFactory";
 import MainMenu from "./MainMenu";
 import Level1 from "../GameLevels/Level1";
 import Level4 from "../GameLevels/Level4";
+import Level5 from "../GameLevels/Level5";
 import Level2 from "../GameLevels/Level2";
 
 export default class Levels extends Scene {
@@ -84,6 +85,7 @@ export default class Levels extends Scene {
         if (Input.isKeyJustPressed("o")) {
             this.level2 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y-this.yspacing), "Two");
             this.level4 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x+this.xspacing, this.size.y), "Four");
+            this.level5 = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x-this.xspacing, this.size.y+this.yspacing), "Five");
         }
         if(!this.level2.frozen) {
             this.level2.onClick = () => {
@@ -117,6 +119,23 @@ export default class Levels extends Scene {
                 }
                 Input.disableInput();
                 this.sceneManager.changeToScene(Level4, {}, sceneOptions);
+            }
+        }
+        if(!this.level5.frozen) {
+            this.level5.onClick = () => {
+                let sceneOptions = {
+                    physics: {
+                        groupNames: ["ground", "player", "platform"],
+                        collisions:
+                        [
+                            [0, 1, 1],
+                            [1, 0, 1],
+                            [1, 1, 0]
+                        ]
+                    }
+                }
+                Input.disableInput();
+                this.sceneManager.changeToScene(Level5, {}, sceneOptions);
             }
         }
     }

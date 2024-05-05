@@ -5,6 +5,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
 import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
+import Level5 from "./Level5";
 
 export default class Level4 extends GameLevel {
     protected levelEndAreaIsSet: boolean = false;
@@ -49,46 +50,45 @@ export default class Level4 extends GameLevel {
         this.viewport.setBounds(0, 0, 1024, 1024);
         this.playerSpawn = new Vec2(128, 824);
         
-        this.totalZs = 2;
-        this.totalXs = 3;
-        this.totalCs = 2;
-        this.keyNum = 8;
+        this.totalZs = 1;
+        this.totalXs = 1;
+        this.totalCs = 5;
+        this.keyNum = 10;
 
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addLevelEnd("door", new Vec2(30, 1.5));
-        for(let pos of [new Vec2 (26, 29)]) {
+        this.addLevelEnd("door", new Vec2 (19.5, 18.5));
+        for(let pos of [new Vec2 (23.5, 26.5), new Vec2 (5, 15)]) {
             this.addPlatform("red", pos, {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
         }
-        for(let pos of [new Vec2 (13, 28)]) {
+        for(let pos of [new Vec2 (29.5, 26.5), new Vec2 (9, 9)]) {
             this.addPlatform("blue", pos, {color: PTL_Color.BLUE, type: PTL_PlatformType.COLORED});
         }
-        for(let pos of [new Vec2 (30, 25), new Vec2 (30, 22.5), new Vec2 (30, 20)]) {
-            this.addPlatform("green", pos, {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
-        }
-        for(let pos of [new Vec2 (9, 28), new Vec2 (22, 26.5), new Vec2 (12, 12), 
-                        new Vec2 (8, 10), new Vec2 (12, 8), new Vec2 (8, 6)]) {
+        for(let pos of [new Vec2 (25.5, 26.5), new Vec2 (27.5, 26.5), new Vec2 (7, 16.5), new Vec2 (3, 13.5), new Vec2 (7, 10.5)]) {
             this.addPlatform("trap", pos, {type: PTL_PlatformType.TRAPDOOR});
         }
-        for(let pos of [new Vec2 (11, 29), new Vec2 (13, 29), 
-                        new Vec2(26, 21), new Vec2(24, 21), new Vec2(22, 21), new Vec2(20, 18.5), new Vec2(18, 18.5), 
-                        new Vec2(26, 17), new Vec2(24, 17), new Vec2(22, 14.5), new Vec2(23, 3)]) {
-            this.addPlatform("h_deadly", pos, {type: PTL_PlatformType.DEADLY});
+        for(let pos of [new Vec2 (9, 18), new Vec2 (5, 12)]) {
+            this.addPlatform("green", pos, {color: PTL_Color.GREEN, type: PTL_PlatformType.COLORED});
         }
-        for(let pos of [new Vec2 (11, 27), new Vec2 (16, 29), new Vec2(28, 21), 
-                        new Vec2(32, 21), new Vec2(20.5, 20), new Vec2(23.5, 15.5), 
-                        new Vec2(17.5, 17), new Vec2(17.5, 15)]) {
+        for(let pos of [new Vec2 (12.5, 29), new Vec2 (16, 29), 
+                        new Vec2 (12.5, 27), new Vec2 (16, 27), 
+                        new Vec2 (12.5, 25), new Vec2 (16, 25), 
+                        new Vec2 (12.5, 23), new Vec2 (16, 23), 
+                        new Vec2 (12.5, 21), new Vec2 (16, 21),
+        ]) {
             this.addPlatform("v_deadly", pos, {type: PTL_PlatformType.DEADLY});
         }
-        for(let pos of [new Vec2(14.5, 29), new Vec2(26, 28), new Vec2(30, 26), 
-                        new Vec2(22, 19), new Vec2(21, 13), new Vec2(5.5, 4), 
-                        new Vec2(23, 4), new Vec2(23, 1.5)]) {
+        for(let pos of [new Vec2 (15, 29), new Vec2 (13.5, 27), new Vec2 (15, 25), new Vec2 (13.5, 23), new Vec2 (15, 21), 
+                        new Vec2 (31.5, 19), new Vec2 (23.5, 25.5), new Vec2 (19.5, 14), new Vec2 (19.5, 8), new Vec2 (19.5, 2)
+        ]) {
             this.addKey("key", pos);
         }
-        this.addEnemy("enemy", new Vec2(18, 13), {tilemap: "Collidable"})
+        for(let pos of [new Vec2(24, 21), new Vec2(23, 24), new Vec2 (7, 19)]) {
+            this.addEnemy("enemy", pos, {tilemap: "Collidable"});
+        }
         this.currentLevel = Level4;
-        this.nextLevel = Level4;
+        this.nextLevel = Level5;
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
