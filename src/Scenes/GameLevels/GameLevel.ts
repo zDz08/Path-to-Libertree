@@ -83,6 +83,8 @@ export default class GameLevel extends Scene {
     protected currentLevel: new (...args: any) => GameLevel;
     protected keyLabel: Label;
     protected balloonLabel: Label;
+    protected invincibleLabel: Label;
+    protected unlimitedMLabel: Label;
 
     // Total switches and amount currently pressed
     protected totalSwitches: number;
@@ -331,10 +333,14 @@ export default class GameLevel extends Scene {
                 this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "jump_sound", loop: false, holdReference: true});
 
             // De/activate cheats
-            if (Input.isKeyJustPressed("i"))
+            if (Input.isKeyJustPressed("i")) {
                 this.isInvincible = !this.isInvincible;
-            if (Input.isKeyJustPressed("u"))
+                this.invincibleLabel.text = "INVINCIBILITY: " + (this.isInvincible ?  "ON" : "OFF");
+            }
+            if (Input.isKeyJustPressed("u")) {
                 this.unlimitedMode = !this.unlimitedMode;
+                this.unlimitedMLabel.text = "UNLIMITED PLATFORMS: " + (this.unlimitedMode ? "ON" : "OFF");
+            }
         }
     }
 
@@ -450,10 +456,23 @@ export default class GameLevel extends Scene {
             }
         }
 
+        // GUI LABELS
         this.keyLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-40, boxHeight/2+20), text: "KEYS LEFT: " + this.keyNum});
         this.keyLabel.font = "Bungee";
         this.keyLabel.fontSize = fontSize;
         this.keyLabel.textColor = Color.BLACK;
+
+        this.invincibleLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-60, boxHeight/2+30), 
+            text: "INVINCIBILITY: OFF"});
+        this.invincibleLabel.font = "Bungee";
+        this.invincibleLabel.fontSize = fontSize;
+        this.invincibleLabel.textColor = Color.BLACK;
+
+        this.unlimitedMLabel = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(halfSize.x*2-81, boxHeight/2+40), 
+            text: "UNLIMITED PLATFORMS: OFF"});
+        this.unlimitedMLabel.font = "Bungee";
+        this.unlimitedMLabel.fontSize = fontSize;
+        this.unlimitedMLabel.textColor = Color.BLACK;
 
         // End of level labels (start off screen)
         this.levelEndLabel1 = <Label>this.add.uiElement(UIElementType.LABEL, "UI", {position: new Vec2(-400, 200), text: "Level"});
