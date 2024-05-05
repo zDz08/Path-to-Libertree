@@ -117,7 +117,7 @@ export default class Levels extends Scene {
         }
         let returnBtn = this.buttonFactory.makeButton(this.add, "Levels", new Vec2(this.size.x, this.size.y+190), "Return");
         returnBtn.onClick = () => {
-            this.sceneManager.changeToScene(MainMenu, {});
+            this.sceneManager.changeToScene(MainMenu, {passedLevels: this.passedLevels});
         }
         Input.enableInput();
     }

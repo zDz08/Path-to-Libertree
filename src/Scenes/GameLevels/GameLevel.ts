@@ -713,7 +713,7 @@ export default class GameLevel extends Scene {
     protected respawnPlayer(): void {
         //GameLevel.livesCount = 3;
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
-        this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
+        this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel, passedLevels: this.passedLevels});
         Input.enableInput();
         this.system.stopSystem();
     }

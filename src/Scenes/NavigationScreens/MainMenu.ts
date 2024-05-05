@@ -19,11 +19,7 @@ export default class MainMenu extends Scene {
     }
 
     initScene(init: Record<string, any>): void {
-        if (init.passedLevels != null){
-            this.passedLevels = init.passedLevels;
-        } else {
-            this.passedLevels = [1];
-        }
+        this.passedLevels = init.passedLevels;
     }
 
     startScene(): void {
