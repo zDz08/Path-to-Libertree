@@ -29,6 +29,7 @@ export default class Level2 extends GameLevel {
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
         this.load.spritesheet("key","assets/sprites/key.json");
+        this.load.spritesheet("indicator","assets/sprites/keyIndicator.json");
         this.load.spritesheet("door","assets/sprites/door.json");
         this.load.spritesheet("enemy", "assets/sprites/beholder/beholder.json");
         this.load.audio("level_music", "assets/music/easy_level_music.wav");
@@ -71,6 +72,7 @@ export default class Level2 extends GameLevel {
         this.addKey("key", new Vec2(9.5, 14.5));
         this.addKey("key", new Vec2(14, 7.5));
         this.addKey("key", new Vec2(31, 31));
+        this.addIndicator("indicator");
         this.addLevelEnd("door", new Vec2(27, 4.5));
         this.currentLevel = Level2;
         this.nextLevel = Level3;
