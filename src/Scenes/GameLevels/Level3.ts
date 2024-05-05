@@ -30,6 +30,7 @@ export default class Level3 extends GameLevel {
         this.load.spritesheet("h_deadly", "assets/sprites/horizontalDeadlyPlatform.json");
         this.load.spritesheet("v_deadly", "assets/sprites/verticalDeadlyPlatform.json");
         this.load.spritesheet("key","assets/sprites/key.json");
+        this.load.spritesheet("indicator","assets/sprites/keyIndicator.json");
         this.load.spritesheet("door","assets/sprites/door.json");
         this.load.spritesheet("enemy", "assets/sprites/beholder/beholder.json");
         this.load.audio("level_music", "assets/music/easy_level_music.wav");
@@ -75,6 +76,7 @@ export default class Level3 extends GameLevel {
         this.addKey("key", new Vec2(4.75, 9));
         this.addKey("key", new Vec2(4.75, 18.5));
         this.addLevelEnd("door", new Vec2(27.25, 17.5));
+        this.addIndicator("indicator");
         this.currentLevel = Level3;
         this.nextLevel = Level4;
         this.setPassedLevels([1, 1, 1]);
