@@ -14,7 +14,9 @@ export default class Level3 extends GameLevel {
     loadScene(): void {
         // Load resources
         this.load.tilemap("level3", "assets/tilemaps/level3/level3.json");
-        this.load.tilemap("level3parallax", "assets/tilemaps/level3/level3parallax.json");
+        this.load.tilemap("level3parallaxtrees", "assets/tilemaps/level3/level3parallaxtrees.json");
+        this.load.tilemap("level3parallaxanimals", "assets/tilemaps/level3/level3parallaxanimals.json");
+
         this.load.tilemap("level3collidable", "assets/tilemaps/level3/level3collidable.json");
 
         this.load.spritesheet("player", "assets/sprites/stanfordTree.json");
@@ -49,28 +51,30 @@ export default class Level3 extends GameLevel {
     startScene(): void {
         // Add the level 1 tilemap
         this.add.tilemap("level3", new Vec2(2, 2));
-        this.add.tilemap("level3parallax", new Vec2(2, 2));
+        this.add.tilemap("level3parallaxtrees", new Vec2(2, 2));
+        this.add.tilemap("level3parallaxanimals", new Vec2(2, 2));
         this.add.tilemap("level3collidable", new Vec2(2, 2));
         this.viewport.setBounds(0, 0, 1024, 1024);
-        this.playerSpawn = new Vec2(128, 824);
+        this.playerSpawn = new Vec2(90, 824);
 
-        this.totalZs = 3;
-        this.totalXs = 2;
-        this.totalCs = 2;
-        this.keyNum = 3;
+        this.totalZs = 1;
+        this.totalXs = 1;
+        this.totalCs = 5;
+        this.keyNum = 4;
 
         // Do generic setup for a GameLevel
         super.startScene();
 
-        this.addEnemy("enemy", new Vec2(6, 27), {tilemap: "Collidable"})
-        this.addEnemy("enemy", new Vec2(15, 24), {tilemap: "Collidable"})
-        this.addPlatform("trap", new Vec2 (12, 26.5), {type: PTL_PlatformType.TRAPDOOR});
-        this.addPlatform("trap", new Vec2 (21, 23.5), {type: PTL_PlatformType.TRAPDOOR});
-        this.addPlatform("v_deadly", new Vec2 (24, 4.5), {type: PTL_PlatformType.DEADLY});
-        this.addKey("key", new Vec2(9.5, 14.5));
-        this.addKey("key", new Vec2(14, 7.5));
-        this.addKey("key", new Vec2(31, 31));
-        this.addLevelEnd("door", new Vec2(27, 4.5));
+        this.addPlatform("v_deadly", new Vec2 (7.5, 29), {type: PTL_PlatformType.DEADLY});
+        this.addPlatform("v_deadly", new Vec2 (18, 25.25), {type: PTL_PlatformType.DEADLY});
+        this.addPlatform("red", new Vec2 (21, 22), {color: PTL_Color.RED, type: PTL_PlatformType.COLORED});
+        this.addPlatform("v_deadly", new Vec2 (10, 20), {type: PTL_PlatformType.DEADLY});
+
+        this.addKey("key", new Vec2(23.25, 23));
+        this.addKey("key", new Vec2(27.25, 8.5));
+        this.addKey("key", new Vec2(4.75, 9));
+        this.addKey("key", new Vec2(4.75, 18.5));
+        this.addLevelEnd("door", new Vec2(27.25, 17.5));
         this.currentLevel = Level3;
         this.nextLevel = Level4;
         this.setPassedLevels([1, 1, 1]);
