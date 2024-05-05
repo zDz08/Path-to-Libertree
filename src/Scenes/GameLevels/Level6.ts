@@ -96,6 +96,7 @@ export default class Level6 extends GameLevel {
         
         this.currentLevel = Level6;
         this.nextLevel = Level1;
+        this.setPassedLevels([1, 1, 1, 1, 1, 1]);
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
