@@ -10,6 +10,7 @@ export default class Dead extends Scene {
 
     animatedSprite: AnimatedSprite;
     protected failedLevel: new (...args: any) => GameLevel;
+    passedLevels:number[] = [];
     
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
@@ -18,7 +19,9 @@ export default class Dead extends Scene {
     }
 
     initScene(init: Record<string, any>): void {
+        console.log(init.passedLevels);
         this.failedLevel = init.failedLevel;
+        this.passedLevels = init.passedLevels;
     }
 
     startScene(): void {
@@ -52,7 +55,7 @@ export default class Dead extends Scene {
         let mainMenuBtn = buttonFactory.makeButton(this.add, "Dead", new Vec2(size.x, size.y+160), "Back to Main Menu");
 
         mainMenuBtn.onClick = () => {
-            this.sceneManager.changeToScene(MainMenu, {});
+            this.sceneManager.changeToScene(MainMenu, {passedLevels: this.passedLevels});
         }
         
         restartBtn.onClick = () => {

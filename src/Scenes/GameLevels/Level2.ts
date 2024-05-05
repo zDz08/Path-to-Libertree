@@ -5,6 +5,7 @@ import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
 import { PTL_Events, PTL_PlatformType } from "../../ptl_enums";
 import GameLevel from "./GameLevel";
+import Level3 from "./Level3";
 import Level4 from "./Level4";
 
 export default class Level2 extends GameLevel {
@@ -72,7 +73,9 @@ export default class Level2 extends GameLevel {
         this.addKey("key", new Vec2(31, 31));
         this.addLevelEnd("door", new Vec2(27, 4.5));
         this.currentLevel = Level2;
-        this.nextLevel = Level4;
+        this.nextLevel = Level3;
+        this.setPassedLevels([1, 1]);
+
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 

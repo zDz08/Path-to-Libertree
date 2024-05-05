@@ -96,6 +96,8 @@ export default class GameLevel extends Scene {
     protected isInvincible: boolean = false;
     protected unlimitedMode: boolean = false;
 
+    protected passedLevels: number[] = [1];
+
     loadScene(): void {
         this.load.image("basic_icon", "assets/sprites/basicPlatform.png");
         this.load.image("bouncy_icon", "assets/sprites/bouncyPlatform.png");
@@ -605,7 +607,7 @@ export default class GameLevel extends Scene {
         }
         main.onEnter = () => {
             if(Input.isMouseJustPressed(0)) {
-                this.sceneManager.changeToScene(MainMenu, {});
+                this.sceneManager.changeToScene(MainMenu, {passedLevels: this.passedLevels});
             }
         }
     }
@@ -711,7 +713,7 @@ export default class GameLevel extends Scene {
     protected respawnPlayer(): void {
         //GameLevel.livesCount = 3;
         this.emitter.fireEvent(GameEventType.STOP_SOUND, {key: "level_music"});
-        this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel});
+        this.sceneManager.changeToScene(Dead, {failedLevel: this.currentLevel, passedLevels: this.passedLevels});
         Input.enableInput();
         this.system.stopSystem();
     }
@@ -723,5 +725,9 @@ export default class GameLevel extends Scene {
         enemy.addPhysics();
         enemy.addAI(EnemyController, aiOptions);
         enemy.setGroup("balloon");
+    }
+
+    public setPassedLevels(passedLevels: number[]){
+        this.passedLevels = passedLevels;
     }
 }
