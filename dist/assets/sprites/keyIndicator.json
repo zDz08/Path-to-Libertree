@@ -1,6 +1,6 @@
 {
     "name": "KeyIndicator",
-    "spriteSheetImage": "KeyIndicator.png",
+    "spriteSheetImage": "keyIndicator.png",
     "spriteWidth": 64,
     "spriteHeight": 64,
     "columns": 1,
