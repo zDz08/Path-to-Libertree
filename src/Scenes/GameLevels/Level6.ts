@@ -52,7 +52,7 @@ export default class Level6 extends GameLevel {
         this.keyNum = 8;
 
         this.setPassedLevels([1, 1, 1, 1, 1, 1]);
-
+        this.isFinalLvl();
         // Do generic setup for a GameLevel
         super.startScene();
 

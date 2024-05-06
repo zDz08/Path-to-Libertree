@@ -26,6 +26,7 @@ import Level4 from "./Level4";
 import Dead from "../NavigationScreens/Dead";
 import EnemyController from "../../Enemies/EnemyController";
 import KeyIndicatorController from "../../KeyIndicator/KeyIndicatorController";
+import Free from "../NavigationScreens/Free";
 
 export default class GameLevel extends Scene {
     // Every level will have a player, which will be an animated sprite
@@ -101,6 +102,7 @@ export default class GameLevel extends Scene {
     protected keyIDs: number[] = [];
 
     protected passedLevels: number[] = [1];
+    protected finalLvl : boolean = false;
 
     loadScene(): void {
         this.load.image("basic_icon", "assets/sprites/basicPlatform.png");
@@ -230,6 +232,10 @@ export default class GameLevel extends Scene {
                 case PTL_Events.LEVEL_END:
                     {
                         // Go to the next level
+                        if (this.finalLvl){
+                            this.sceneManager.changeToScene(Free, {});
+                            break;
+                        }
                         if(this.nextLevel){
                             let sceneOptions = {
                                 physics: {
@@ -749,5 +755,9 @@ export default class GameLevel extends Scene {
 
     public setPassedLevels(passedLevels: number[]){
         this.passedLevels = passedLevels;
+    }
+
+    public isFinalLvl(){
+        this.finalLvl = true;
     }
 }
