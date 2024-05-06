@@ -189,7 +189,7 @@ export default class GameLevel extends Scene {
                     {
                         let other = this.sceneGraph.getNode(event.data.get("other"));
                         this.keyIDs = this.keyIDs.filter(num => num !== other.id);
-                        let iController = <KeyIndicatorController>this.indicator.ai;
+                        let iController = <KeyIndicatorController>this.indicator?.ai;
                         if(iController.keyPos == other.position && this.keyIDs.length != 0) {
                             iController.keyPos = this.sceneGraph.getNode(this.keyIDs[0]).position;
                         }else if (this.keyIDs.length == 0) {

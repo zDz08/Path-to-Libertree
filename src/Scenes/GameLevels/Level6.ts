@@ -33,6 +33,7 @@ export default class Level6 extends GameLevel {
         this.load.audio("key_collect_sound", "assets/sounds/key_collect_sound.wav");
         this.load.audio("death_sound2", "assets/sounds/death_sound2.wav");
         this.load.audio("level_complete", "assets/sounds/level_complete.wav");
+        this.load.spritesheet("indicator","assets/sprites/keyIndicator.json");
         super.loadScene();
     }
 
@@ -94,7 +95,7 @@ export default class Level6 extends GameLevel {
         for(let pos of [new Vec2(4, 30)]) {
             this.addEnemy("enemy", pos, {tilemap: "Collidable"});
         }
-        
+        this.addIndicator("indicator");
         this.currentLevel = Level6;
         this.nextLevel = Level1;
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
