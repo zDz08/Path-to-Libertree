@@ -52,6 +52,8 @@ export default class Level1 extends GameLevel {
         this.totalCs = 3;
         this.keyNum = 4;
 
+        this.setPassedLevels([1]);
+
         // Do generic setup for a GameLevel
         super.startScene();
         this.addLevelEnd("door", new Vec2(30, 27.5));
@@ -67,7 +69,6 @@ export default class Level1 extends GameLevel {
         this.currentLevel = Level1;
         this.nextLevel = Level2;
 
-        this.setPassedLevels([1]);
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 

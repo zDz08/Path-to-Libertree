@@ -1,5 +1,4 @@
 import Vec2 from "../../Wolfie2D/DataTypes/Vec2";
-import Debug from "../../Wolfie2D/Debug/Debug";
 import { GameEventType } from "../../Wolfie2D/Events/GameEventType";
 import Timer from "../../Wolfie2D/Timing/Timer";
 import { PTL_Color } from "../../ptl_color";
@@ -52,6 +51,8 @@ export default class Level6 extends GameLevel {
         this.totalCs = 4;
         this.keyNum = 8;
 
+        this.setPassedLevels([1, 1, 1, 1, 1, 1]);
+
         // Do generic setup for a GameLevel
         super.startScene();
 
@@ -96,7 +97,6 @@ export default class Level6 extends GameLevel {
         
         this.currentLevel = Level6;
         this.nextLevel = Level1;
-        this.setPassedLevels([1, 1, 1, 1, 1, 1]);
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "level_music", loop: true, holdReference: true});
     }
 
