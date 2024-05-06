@@ -68,11 +68,11 @@ export default class MainMenu extends Scene {
         }
 
         helpBtn.onClick = () => {
-            this.sceneManager.changeToScene(Help, {});
+            this.sceneManager.changeToScene(Help, {passedLevels: this.passedLevels});
         }
         
         controlsBtn.onClick = () => {
-            this.sceneManager.changeToScene(Controls, {});
+            this.sceneManager.changeToScene(Controls, {passedLevels: this.passedLevels});
         }
         // Scene has started, so start playing music
         this.emitter.fireEvent(GameEventType.PLAY_SOUND, {key: "menu", loop: true, holdReference: true});

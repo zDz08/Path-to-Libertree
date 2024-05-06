@@ -9,9 +9,14 @@ import LabelFactory from "../../UIElements/LabelFactory";
 export default class Controls extends Scene {
 
     animatedSprite: AnimatedSprite;
+    passedLevels: number[]; 
 
     loadScene(): void {
         this.load.image("screenBg", "assets/sprites/screenBackground.png");
+    }
+
+    initScene(init: Record<string, any>): void {
+        this.passedLevels = init.passedLevels;
     }
 
     startScene(): void {
@@ -59,7 +64,7 @@ export default class Controls extends Scene {
         // Create main buttons
         let returnBtn = buttonFactory.makeButton(this.add, "Help", new Vec2(size.x, size.y+270), "Return");
         returnBtn.onClick = () => {
-            this.sceneManager.changeToScene(MainMenu, {});
+            this.sceneManager.changeToScene(MainMenu, {passedLevels: this.passedLevels});
         }
 
         // Scene has started, so start playing music
