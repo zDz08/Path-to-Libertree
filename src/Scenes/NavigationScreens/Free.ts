@@ -36,7 +36,7 @@ export default class Free extends Scene {
 
         let free_tree = this.add.sprite("free_tree", "Icon");
         free_tree.scale.set(1,1);
-        free_tree.position.copy(new Vec2(size.x, size.y));
+        free_tree.position = this.viewport.getCenter();
 
         const buttonWidth = 320;
         const buttonHeight = 50;
